@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 const dotenv = require('dotenv');
 
 const DIST_DIR = path.join(__dirname, '../dist');
@@ -28,11 +29,16 @@ module.exports = {
       inject: 'body',
     }),
     new webpack.DefinePlugin(envKeys),
+    new CheckerPlugin(),
   ],
   module: {
     rules: [
       { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
     ],
+  },
+  externals: {
+    "react": "React",
+    "react-dom": "ReactDOM",
   },
 };
