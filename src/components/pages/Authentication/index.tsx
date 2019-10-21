@@ -3,21 +3,42 @@ import styled from '@emotion/styled';
 
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
-import { GRAY, BLACK } from 'settings/__color';
+import { GRAY, BLACK, GAINS_BORO } from 'settings/__color';
+import Login from './Login';
+import SignUp from './SignUp';
 
 const { useState } = React;
 
 export default function Authentication() {
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState(1);
+
+  function handleTabChange(tabNumber: number) {
+    setDisplay(tabNumber);
+  }
 
   return (
     <Authentication.Wrapper>
       <Authentication.Header>
-        <button>Sign Up</button>
+        <button
+          className={display === 0 ? '__active' : ''}
+          onClick={() => handleTabChange(0)}
+        >
+          Login
+        </button>
         <span className="divider" />
-        <button>Login</button>
+        <button
+          className={display === 1 ? '__active' : ''}
+          onClick={() => handleTabChange(1)}
+        >
+          Sign Up
+        </button>
       </Authentication.Header>
       <Authentication.Content>
+        {
+          !display
+            ? <Login />
+            : <SignUp />
+        }
       </Authentication.Content>
     </Authentication.Wrapper>
   );
@@ -38,27 +59,34 @@ Authentication.Header = styled.header`
 
   .divider {
     width: 1px;
-    background: ${GRAY};;
+    background: ${GAINS_BORO};
   }
 
   button {
     border: none;
-    border-bottom: 1px solid ${GRAY};;
+    border-bottom: 1px solid ${GAINS_BORO};
     width: calc(50% - 1px);
     padding: ${__spacing.normal} 0;
     font-size: ${fontSizes.small};
     color: ${GRAY};
+    background: transparent;
 
-    :hover {
+    &.__active {
+      color: ${BLACK};
+    }
+
+    &:hover {
       cursor: pointer;
       color: ${BLACK};
       background: rgba(0, 0, 0, .05);
     }
 
-    :focus {
+    &:focus {
       outline: none;
     }
   }
 `;
 
-Authentication.Content = styled.main``;
+Authentication.Content = styled.main`
+  width: 100%;
+`;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 
 import { BRAND_PRIMARY, GRAY } from 'settings/__color';
-import { fontWeights } from 'settings/__fonts';
+import { fontWeights, fontSizes } from 'settings/__fonts';
 
 interface FooterProps {
   title: string;
@@ -20,6 +20,7 @@ export default function Footer(props: FooterProps) {
 
 Footer.Wrapper = styled.footer`
   color: ${GRAY};
+  font-size: ${fontSizes.small};
 
   a {
     color: ${BRAND_PRIMARY};

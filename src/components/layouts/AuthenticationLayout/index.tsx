@@ -15,7 +15,7 @@ export default function AuthenticationLayout({ children }) {
     <AuthenticationLayout.Wrapper>
       <AuthenticationLayout.Content>
         <Logo />
-        <main>{children}</main>
+        <main className="main-content">{children}</main>
         <Footer title="Sign Up" />
       </AuthenticationLayout.Content>
       <AuthenticationLayout.Overlay>
@@ -39,7 +39,7 @@ AuthenticationLayout.Wrapper = styled.div`
 `;
 
 AuthenticationLayout.Overlay = styled.section`
-  width: 65vw;
+  width: 70vw;
   height: 100vh;
   background: url(${backGroundURL});
   background-size: cover;
@@ -74,12 +74,12 @@ AuthenticationLayout.Overlay = styled.section`
 `;
 
 AuthenticationLayout.Content = styled.section`
-  width: 35vw;
+  width: 30vw;
   height: 100vh;
   padding: ${__spacing.large};
   box-shadow: rgba(153, 153, 153, 0.1) 0px 0.32em 2em;
 
-  main {
+  main.main-content {
     height: calc(100vh - 135px);
     overflow-y: auto;
   }

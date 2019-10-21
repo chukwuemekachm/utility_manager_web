@@ -250,6 +250,11 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/validatorjs@^3.15.0":
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/@types/validatorjs/-/validatorjs-3.15.0.tgz#2d7d00c5da82d53bf367d6674abc66eaee11ed7d"
+  integrity sha512-tqozguXICRdPQVGho1A+lYH4IzU3ggP82OmfFrmb6N6pxmWuXegpw4Th20hy5KtMfuyP+jXB466ABFMO9vma4Q==
+
 "@types/zen-observable@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.0.tgz#8b63ab7f1aa5321248aad5ac890a485656dcea4d"
@@ -1560,6 +1565,11 @@ d@1, d@^1.0.1:
   dependencies:
     es5-ext "^0.10.50"
     type "^1.0.1"
+
+date-fns@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.0.1.tgz#c5f30e31d3294918e6b6a82753a4e719120e203d"
+  integrity sha512-C14oTzTZy8DH1Eq8N78owrCWvf3+cnJw88BTK/N3DYWVxDJuJzPaNdplzYxDYuuXXGvqBcO4Vy5SOrwAooXSWw==
 
 date-now@^0.1.4:
   version "0.1.4"
@@ -5506,6 +5516,13 @@ v8-compile-cache@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.3.tgz#00f7494d2ae2b688cfe2899df6ed2c54bef91dbe"
   integrity sha512-CNmdbwQMBjwr9Gsmohvm0pbL954tJrNzf6gWL3K+QMQf00PF7ERGrEiLgjuU3mKreLC2MeGhUsNV9ybTbLgd3w==
+
+validatorjs@^3.17.1:
+  version "3.17.1"
+  resolved "https://registry.yarnpkg.com/validatorjs/-/validatorjs-3.17.1.tgz#164308585eafbcd78d3eb56bb5b0493237aa602b"
+  integrity sha512-i/aOdu1FPW48Y2NRt/BmHxcpoKcl7vvGtxUkPoacUVNU8jtPlb68QYcYqt7Fls9wqO5YpfLEoUHCrpk3pkIqsQ==
+  dependencies:
+    date-fns "2.0.1"
 
 value-equal@^1.0.1:
   version "1.0.1"
