@@ -1,17 +1,19 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
+import { connect } from 'react-redux';
 
 import Input from 'components/ui/Input';
-import withAuthenticationContainer from 'components/HOCs/AuthenticationContainer';
+import withAuthenticationContainer, { AuthenticationProps } from 'components/containers/AuthenticationContainer';
 import __spacing from 'settings/__spacing';
 import { fontSizes, fontWeights } from 'settings/__fonts';
 import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER } from 'settings/__color';
+import { signUp } from 'store/actions/auth';
 
-function SignUp(props) {
+function SignUp(props: AuthenticationProps) {
   const { handleChange, handleSubmit, handleBlur, values, values: { errors } } = props;
 
   return (
-    <SignUp.Wrapper onSubmit={handleSubmit}>
+    <SignUp.Wrapper onSubmit={handleSubmit('SIGN_UP')}>
       <Input
         name="firstName"
         handleChange={handleChange}
@@ -82,4 +84,10 @@ SignUp.Wrapper = styled.form`
   }
 `;
 
-export default withAuthenticationContainer(SignUp);
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = dispatch => ({
+  signUp: payload => dispatch(signUp(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticationContainer(SignUp));

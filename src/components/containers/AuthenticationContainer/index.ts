@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { validatePayload } from 'lib/validator';
 
 type AuthenticationFormValues = {
@@ -14,7 +15,7 @@ export interface AuthenticationProps {
   values: AuthenticationFormValues,
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (trigger: string) => (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const initialState = {
@@ -49,12 +50,21 @@ export default function withAuthenticationContainer(WrappedComponent) {
       }
     }
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-      event.preventDefault();
-      return handleSignUp();
+    function handleSubmit(trigger: string) {
+      return function (event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        
+        switch (trigger) {
+          case 'SIGN_UP':
+            return handleSignUp();
+          default:
+            return handleSignUp();
+        }
+      }
     }
 
     async function handleSignUp() {
+      const { signUp } = props;
       const errors = await validatePayload(values, 'signUp');
       if (errors) {
         return setValues({
@@ -62,6 +72,8 @@ export default function withAuthenticationContainer(WrappedComponent) {
           errors,
         });
       }
+
+      return signUp(values);
     }
 
     function composeProps() {

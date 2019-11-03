@@ -6,7 +6,7 @@
   "author": "chukwuemekachm <chukwuemekachm@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build:dev": "rm -rf dist && webpack-dev-server --open --env.mode development",
+    "build:dev": "rm -rf dist && webpack-dev-server --env.mode development",
     "build:prod": "rm -rf dist && webpack --env.mode production",
     "prestart": "yarn build:prod",
     "start": "node server.js",
@@ -16,7 +16,10 @@
     "@types/node": "^12.7.2",
     "@types/react": "^16.9.1",
     "@types/react-dom": "^16.8.5",
+    "@types/react-redux": "^7.1.5",
     "@types/react-router-dom": "^4.3.4",
+    "@types/redux": "^3.6.0",
+    "@types/redux-saga": "^0.10.5",
     "@types/validatorjs": "^3.15.0",
     "awesome-typescript-loader": "^5.2.1",
     "dotenv": "^8.0.0",
@@ -34,10 +37,17 @@
     "@emotion/styled": "^10.0.17",
     "@sentry/browser": "^5.6.1",
     "apollo-boost": "^0.4.3",
+    "axios": "^0.19.0",
+    "connected-react-router": "^6.5.2",
     "graphql": "^14.4.2",
+    "history": "^4.10.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-redux": "^7.1.0",
+    "react-router": "^5.0.0",
     "react-router-dom": "^5.0.1",
+    "redux": "^4.0.4",
+    "redux-saga": "^1.1.1",
     "validatorjs": "^3.17.1"
   }
 }
