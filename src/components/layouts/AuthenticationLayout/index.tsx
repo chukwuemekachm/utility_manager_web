@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
+import {__wrapper, __content, } from '../__authPage.css';
 
 import Logo from '../Logo';
 import Footer from '../Footer';
@@ -33,9 +34,7 @@ export default function AuthenticationLayout({ children }) {
 }
 
 AuthenticationLayout.Wrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
-  display: flex;
+ ${__wrapper}
 `;
 
 AuthenticationLayout.Overlay = styled.section`
@@ -74,21 +73,6 @@ AuthenticationLayout.Overlay = styled.section`
 `;
 
 AuthenticationLayout.Content = styled.section`
-  width: 30vw;
-  height: 100vh;
-  padding: ${__spacing.large};
-  box-shadow: rgba(153, 153, 153, 0.1) 0px 0.32em 2em;
-
-  main.main-content {
-    height: calc(100vh - 135px);
-    overflow-y: auto;
-  }
-
-  @media (max-width: ${__layouts.xLg}) {
-    width: 100vw;
-
-    main {
-      height: auto;
-    }
-  }
+  ${__content}
+  width:30vw;
 `;

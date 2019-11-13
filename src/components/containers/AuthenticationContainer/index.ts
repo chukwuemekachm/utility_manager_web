@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { validatePayload } from 'lib/validator';
 
 type AuthenticationFormValues = {
@@ -59,10 +58,14 @@ export default function withAuthenticationContainer(WrappedComponent) {
     function handleSubmit(trigger: string) {
       return function (event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        
+
         switch (trigger) {
           case 'SIGN_UP':
             return handleSignUp();
+          case 'NEW_PASSWORD':
+            return handleAuthOperation(
+                'changeUserPassword',
+                'changePassword');
           default:
             return handleSignUp();
         }
@@ -80,6 +83,17 @@ export default function withAuthenticationContainer(WrappedComponent) {
       }
 
       return signUp({ ...values, redirectURL: SIGN_UP_REDIRECT_URL });
+    }
+
+    async function handleAuthOperation(schemaKey, validFuncName) {
+      const errors = await validatePayload(values, schemaKey);
+      if (errors) {
+        return setValues({
+          ...values,
+          errors,
+        });
+      }
+        return props[validFuncName](values);
     }
 
     function composeProps() {

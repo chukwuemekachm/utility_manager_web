@@ -1,49 +1,20 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
+import { connect } from 'react-redux';
 
 import Input from 'components/ui/Input';
-import { AuthenticationProps } from 'components/containers/AuthenticationContainer';
+import withAuthenticationContainer, { AuthenticationProps } from 'components/containers/AuthenticationContainer';
 import __spacing from 'settings/__spacing';
 import { fontSizes, fontWeights } from 'settings/__fonts';
 import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER } from 'settings/__color';
+import { changeUserPassword } from 'store/actions/auth';
 
-function SignUpForm(props: AuthenticationProps) {
+
+function NewPassword(props: AuthenticationProps) {
   const { handleChange, handleSubmit, handleBlur, values, values: { errors } } = props;
 
   return (
-    <SignUpForm.Wrapper onSubmit={handleSubmit('SIGN_UP')}>
-      <Input
-        name="firstName"
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        title="First Name"
-        value={values.firstName}
-        errorFeedback={errors.firstName}
-      />
-      <Input
-        name="lastName"
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        title="Last Name"
-        value={values.lastName}
-        errorFeedback={errors.lastName}
-      />
-      <Input
-        name="email"
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        title="Email"
-        value={values.email}
-        errorFeedback={errors.email}
-      />
-      <Input
-        name="username"
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        title="Username"
-        value={values.username}
-        errorFeedback={errors.username}
-      />
+    <NewPassword.Wrapper onSubmit={handleSubmit('NEW_PASSWORD')}>
       <Input
         name="password"
         type="password"
@@ -62,14 +33,13 @@ function SignUpForm(props: AuthenticationProps) {
         value={values.confirmPassword}
         errorFeedback={errors.confirmPassword}
       />
-      <button type="submit">Sign Up</button>
-    </SignUpForm.Wrapper>
+      <button type="submit">Confirm New Password</button>
+    </NewPassword.Wrapper>
   );
 }
 
-SignUpForm.Wrapper = styled.form`
+NewPassword.Wrapper = styled.form`
   width: 100%;
-
   button {
     width: 100%;
     padding: ${__spacing.normal};
@@ -92,4 +62,10 @@ SignUpForm.Wrapper = styled.form`
   }
 `;
 
-export default SignUpForm;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = dispatch => ({
+  changePassword: payload => dispatch(changeUserPassword(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticationContainer(NewPassword));

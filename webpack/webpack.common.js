@@ -20,6 +20,7 @@ module.exports = {
     path: DIST_DIR,
     filename: '[name].chunk.js',
     chunkFilename: '[name].bundle.js',
+        publicPath: "/",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
