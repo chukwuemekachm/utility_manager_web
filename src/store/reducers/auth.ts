@@ -1,4 +1,4 @@
-import { authConstants } from 'store/actions/auth';
+import { authConstants } from "store/actions/auth";
 
 interface AuthState {
   status: {
@@ -16,11 +16,11 @@ const initialState = {
   status: {
     isAuthenticated: false,
     isLoading: false,
-    hasError: false,
+    hasError: false
   },
   error: {
-    message: '',
-    errors: [],
+    message: "",
+    errors: []
   },
   data: {},
   message: '',
@@ -33,8 +33,44 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         ...state,
         status: {
           ...state.status,
-          isLoading: true,
+          isLoading: true
+        }
+      };
+    case authConstants.LOGIN_REQUEST:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: true
+        }
+      };
+    case authConstants.LOGIN_SUCCESS:
+      return {
+        ...state,
+        status: {
+          isAuthenticated: true,
+          isLoading: false,
+          hasError: false
         },
+        error: {
+          message: "",
+          errors: []
+        },
+        data: payload
+      };
+    case authConstants.LOGIN_ERROR:
+      return {
+        ...state,
+        status: {
+          isAuthenticated: false,
+          isLoading: false,
+          hasError: true
+        },
+        error: {
+          message: payload.message,
+          errors: state.error.errors.concat(payload.status)
+        },
+        data: {}
       };
     case authConstants.SIGN_UP_SUCCESS:
       return {

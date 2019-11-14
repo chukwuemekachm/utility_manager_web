@@ -32,8 +32,11 @@ function Authentication({ isLoading }: AuthenticationFormProps): React.ReactElem
           <button className={display === 0 ? '__active' : ''} onClick={handleTabChange(0)}>
             Login
           </button>
-          <span className="divider" />
-          <button className={display === 1 ? '__active' : ''} onClick={handleTabChange(1)}>
+          <span className='divider' />
+          <button
+            className={display === 1 ? '__active' : ''}
+            onClick={() => handleTabChange(1)}
+          >
             Sign Up
           </button>
         </Authentication.Header>
@@ -48,7 +51,7 @@ Authentication.Wrapper = styled.div`
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  height: 100%;
+  height: auto;
 `;
 
 Authentication.Header = styled.header`
