@@ -8,10 +8,10 @@ import __spacing from 'settings/__spacing';
 import { fontSizes, fontWeights } from 'settings/__fonts';
 import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER } from 'settings/__color';
 import { changeUserPassword } from 'store/actions/auth';
-
+import Button from 'components/ui/Button';
 
 function NewPassword(props: AuthenticationProps) {
-  const { handleChange, handleSubmit, handleBlur, values, values: { errors } } = props;
+  const { isLoading, handleChange, handleSubmit, handleBlur, values, values: { errors } } = props;
 
   return (
     <NewPassword.Wrapper onSubmit={handleSubmit('NEW_PASSWORD')}>
@@ -33,7 +33,7 @@ function NewPassword(props: AuthenticationProps) {
         value={values.confirmPassword}
         errorFeedback={errors.confirmPassword}
       />
-      <button type="submit">Confirm New Password</button>
+      <Button type="submit" isLoading={isLoading} value='Confirm New Password' ></Button>
     </NewPassword.Wrapper>
   );
 }
@@ -62,7 +62,9 @@ NewPassword.Wrapper = styled.form`
   }
 `;
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    isLoading: state.auth.status.isLoading
+});
 
 const mapDispatchToProps = dispatch => ({
   changePassword: payload => dispatch(changeUserPassword(payload)),

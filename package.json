@@ -29,7 +29,6 @@
     "typescript": "^3.5.3",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.8.0",
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
@@ -48,6 +47,7 @@
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.4",
     "redux-saga": "^1.1.1",
-    "validatorjs": "^3.17.1"
+    "validatorjs": "^3.17.1",
+    "webpack-dev-server": "^3.10.1"
   }
 }

@@ -7,6 +7,12 @@ import createRootReducer from './reducers';
 import { logger, crashReporter } from './custom_middlewares';
 import rootSaga from './sagas';
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleWare = createSagaMiddleware();
 export const history = createBrowserHistory();

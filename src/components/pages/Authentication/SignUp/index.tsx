@@ -7,7 +7,8 @@ import __spacing from 'settings/__spacing';
 import { signUp } from 'store/actions/auth';
 
 function SignUp(props: AuthenticationProps) {
-  return (<SignUpForm {...props} />);
+ 
+   return (<SignUpForm {...props} />);
 }
 
 const mapStateToProps = ({}) => ({});
