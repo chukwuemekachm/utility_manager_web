@@ -6,6 +6,7 @@ type AuthenticationFormValues = {
   firstName: string,
   lastName: string,
   email: string,
+  username: string,
   password: string,
   confirmPassword: string,
   errors: Record<string, string[]>,
@@ -22,10 +23,15 @@ const initialState = {
   firstName: '',
   lastName: '',
   email: '',
+  username: '',
   password: '',
   confirmPassword: '',
   errors: {},
 };
+
+const {
+  SIGN_UP_REDIRECT_URL = 'http://localhost:8080/signup/redirect'
+} = process.env;
 
 export default function withAuthenticationContainer(WrappedComponent) {
   return function AuthenticationContainer(props: Record<string, any>) {
@@ -73,7 +79,7 @@ export default function withAuthenticationContainer(WrappedComponent) {
         });
       }
 
-      return signUp(values);
+      return signUp({ ...values, redirectURL: SIGN_UP_REDIRECT_URL });
     }
 
     function composeProps() {

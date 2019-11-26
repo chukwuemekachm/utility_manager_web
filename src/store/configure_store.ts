@@ -8,8 +8,8 @@ import { logger, crashReporter } from './custom_middlewares';
 import rootSaga from './sagas';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const history = createBrowserHistory();
 const sagaMiddleWare = createSagaMiddleware();
+export const history = createBrowserHistory();
 
 export default function configureStore() {
   const store = createStore(

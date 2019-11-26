@@ -10,7 +10,8 @@ const initialState = {
     message: '',
     errors: [],
   },
-  data: {}
+  data: {},
+  message: '',
 };
 
 export default function authReducer(state = initialState, { type, payload }) {
@@ -22,6 +23,29 @@ export default function authReducer(state = initialState, { type, payload }) {
           ...state.status,
           isLoading: true,
         },
+      };
+    case authConstants.SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false,
+        },
+        data: {
+          ...state.data,
+          ...payload.data,
+        },
+        message: payload.message,
+      };
+    case authConstants.SIGN_UP_ERROR:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false,
+          hasError: true,
+        },
+        message: payload.message,
       };
     default:
       return state;

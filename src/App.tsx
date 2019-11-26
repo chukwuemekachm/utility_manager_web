@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { Global } from '@emotion/core';
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 
-import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
 import __globalCss from 'settings/__global.css';
-import Authentication from 'components/pages/Authentication';
-import store from 'store';
+import store, { history } from 'store';
+import Pages from 'components/pages';
 
 export default function App() {
   return (
     <Provider store={store}>
-      <AuthenticationLayout>
+      <ConnectedRouter history={history}>
         <Global styles={__globalCss} />
-        <Authentication />
-      </AuthenticationLayout>
+        <Pages />
+      </ConnectedRouter>
     </Provider>
   );
 }

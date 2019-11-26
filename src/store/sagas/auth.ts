@@ -1,15 +1,16 @@
-import { takeLatest, all, fork, call } from 'redux-saga/effects';
+import { takeLatest, all, fork, call, put } from 'redux-saga/effects';
 
-import { authConstants } from 'store/actions/auth';
+import { authConstants, signUpSuccess, signUpError } from 'store/actions/auth';
+import { showNotification } from 'store/actions/notification';
+import { errorHandler } from 'store/helpers';
 import api, { authRequest } from 'services/api';
 
 function* signUpUser(action) {
   try {
-    console.log(action, 'signup data ---------')
-    const data = yield call([api, 'post'], authRequest.SIGN_UP, action.payload);
-    console.log(data, 'signup data ---------')
+    const { data } = yield call([api, 'post'], authRequest.SIGN_UP, action.payload);
+    yield put(signUpSuccess(data));
   } catch (error) {
-    console.log(error, 'signup error ---------')
+    yield fork(errorHandler, error, signUpError);
   }
 }
 

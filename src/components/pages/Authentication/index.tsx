@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 
+import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
 import { GRAY, BLACK, GAINS_BORO } from 'settings/__color';
@@ -17,30 +18,32 @@ export default function Authentication() {
   }
 
   return (
-    <Authentication.Wrapper>
-      <Authentication.Header>
-        <button
-          className={display === 0 ? '__active' : ''}
-          onClick={() => handleTabChange(0)}
-        >
-          Login
+    <AuthenticationLayout>
+      <Authentication.Wrapper>
+        <Authentication.Header>
+          <button
+            className={display === 0 ? '__active' : ''}
+            onClick={() => handleTabChange(0)}
+          >
+            Login
         </button>
-        <span className="divider" />
-        <button
-          className={display === 1 ? '__active' : ''}
-          onClick={() => handleTabChange(1)}
-        >
-          Sign Up
+          <span className="divider" />
+          <button
+            className={display === 1 ? '__active' : ''}
+            onClick={() => handleTabChange(1)}
+          >
+            Sign Up
         </button>
-      </Authentication.Header>
-      <Authentication.Content>
-        {
-          !display
-            ? <Login />
-            : <SignUp />
-        }
-      </Authentication.Content>
-    </Authentication.Wrapper>
+        </Authentication.Header>
+        <Authentication.Content>
+          {
+            !display
+              ? <Login />
+              : <SignUp />
+          }
+        </Authentication.Content>
+      </Authentication.Wrapper>
+    </AuthenticationLayout>
   );
 }
 

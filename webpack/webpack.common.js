@@ -13,10 +13,13 @@ const envKeys = Object.keys(env).reduce((accumulator, current) => {
 }, {});
 
 module.exports = {
-  entry: `${SRC_DIR}/index.ts`,
+  entry: {
+    index: `${SRC_DIR}/index.ts`,
+  },
   output: {
     path: DIST_DIR,
     filename: '[name].chunk.js',
+    chunkFilename: '[name].bundle.js',
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],

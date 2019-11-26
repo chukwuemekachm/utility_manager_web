@@ -88,7 +88,7 @@ AuthenticationLayout.Content = styled.section`
     width: 100vw;
 
     main {
-      /* height: auto; */
+      height: auto;
     }
   }
 `;
