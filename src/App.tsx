@@ -1,5 +1,19 @@
 import * as React from 'react';
+import { Global } from '@emotion/core';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+
+import __globalCss from 'settings/__global.css';
+import store, { history } from 'store';
+import Pages from 'components/pages';
 
 export default function App() {
-  return (<h1>Utility Manager Web</h1>);
+  return (
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Global styles={__globalCss} />
+        <Pages />
+      </ConnectedRouter>
+    </Provider>
+  );
 }

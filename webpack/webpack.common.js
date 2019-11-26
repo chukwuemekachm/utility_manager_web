@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 const dotenv = require('dotenv');
 
 const DIST_DIR = path.join(__dirname, '../dist');
@@ -12,10 +13,13 @@ const envKeys = Object.keys(env).reduce((accumulator, current) => {
 }, {});
 
 module.exports = {
-  entry: `${SRC_DIR}/index.ts`,
+  entry: {
+    index: `${SRC_DIR}/index.ts`,
+  },
   output: {
     path: DIST_DIR,
     filename: '[name].chunk.js',
+    chunkFilename: '[name].bundle.js',
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
@@ -28,11 +32,17 @@ module.exports = {
       inject: 'body',
     }),
     new webpack.DefinePlugin(envKeys),
+    new CheckerPlugin(),
   ],
   module: {
     rules: [
       { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
     ],
+  },
+  externals: {
+    "react": "React",
+    "react-dom": "ReactDOM",
+    "redux-saga": "ReduxSaga",
   },
 };
