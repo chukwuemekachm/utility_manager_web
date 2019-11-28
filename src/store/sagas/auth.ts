@@ -2,6 +2,7 @@ import { takeLatest, all, fork, call, put } from 'redux-saga/effects';
 
 import { authConstants, signUpSuccess, signUpError,
   changeUserPasswordFailure, changeUserPasswordSuccess } from 'store/actions/auth';
+import {  moveToNextPage } from 'store/actions/navigation';
 import { showNotification } from 'store/actions/notification';
 import { errorHandler } from 'store/helpers';
 import api, { authRequest } from 'services/api';
@@ -10,6 +11,16 @@ function* signUpUser(action) {
   try {
     const { data } = yield call([api, 'post'], authRequest.SIGN_UP, action.payload);
     yield put(signUpSuccess(data));
+    const payload = {
+      nextPageRoute:'/success-feedback',
+      data: {
+        userData: {
+           ...data.data,
+        },
+        authSuccessType:'SIGN_UP',
+      },
+    };
+    yield put(moveToNextPage(payload));
   } catch (error) {
     yield fork(errorHandler, error, signUpError);
   }

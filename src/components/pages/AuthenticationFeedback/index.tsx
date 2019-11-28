@@ -1,10 +1,13 @@
 import * as React from 'react';
-import styled from '@emotion/styled';
 
 import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
+import EmailSentSuccess from 'components/layouts/EmailSentSuccess';
+
 
 export default function AuthenticationFeedback() {
   return (
-  <AuthenticationLayout>Done</AuthenticationLayout>
+  <AuthenticationLayout>
+      <EmailSentSuccess/>
+  </AuthenticationLayout>
   );
 }
