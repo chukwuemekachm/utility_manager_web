@@ -1,29 +1,19 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
-import {connect} from 'react-redux'
 import __spacing from 'settings/__spacing';
 import __layouts from 'settings/__layouts';
-import { fontSizes} from 'settings/__fonts';
+import { fontSizes, fontWeights} from 'settings/__fonts';
+import { GRAY, BRAND_PRIMARY } from 'settings/__color';
 
 const EMAIL_IMAGE = "https://trello-attachments.s3.amazonaws.com/5db1b02b5b9a3e413fb742f2/5ddd0139b88cae26568ed400/ac49" +
     "dbf3c29bc291362a3ca14c393b77/undraw_Mail_sent_qwwx.svg";
 
-function EmailSentSuccess({navigationData}) {
-    const name = navigationData.userData? navigationData.userData.firstName: 'there!'
-    const SIGNUP_MESSAGE =  `Hi ${name} your signup was  successful and a verification
-        mail was sent to your email. Please confirm your email to continue`;
-     const RESET_PASSWORD_MESSAGE =
-         `Hi there! Instructions to reset your password has been sent to your email.
-         Please check it out to reset your password thanks!`;
+function EmailSentSuccess({ message }) {
   return (
     <EmailSentSuccess.Wrapper>
         <EmailSentSuccess.Image />
         <p>
-            {
-                navigationData.authSuccessType == 'SIGN_UP'?
-                    SIGNUP_MESSAGE: RESET_PASSWORD_MESSAGE
-            }
-
+            {  message }
         </p>
 
     </EmailSentSuccess.Wrapper>
@@ -59,7 +49,10 @@ EmailSentSuccess.Wrapper = styled.div`
     p{
         text-align:center;
         margin-top:0;
-        font-family: sans-serif;
+        color: ${BRAND_PRIMARY};
+        font-size: ${fontSizes.normal};
+         font-weight: ${fontWeights.bold};
+        
     }
     
     
@@ -78,11 +71,4 @@ EmailSentSuccess.Wrapper = styled.div`
      
 `;
 
-const mapStateToProps = state =>({
-    navigationData: state.navigation.data,
-});
-
-const mapDispatchToProps = dispatch => ({
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(EmailSentSuccess);
+export default EmailSentSuccess;
