@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 import {connect} from 'react-redux'
 import __spacing from 'settings/__spacing';
 import __layouts from 'settings/__layouts';
-import { BRAND_PRIMARY, BRAND_WHITE } from 'settings/__color';
-import { fontWeights , fontSizes} from 'settings/__fonts';
+import { fontSizes} from 'settings/__fonts';
 
 const EMAIL_IMAGE = "https://trello-attachments.s3.amazonaws.com/5db1b02b5b9a3e413fb742f2/5ddd0139b88cae26568ed400/ac49" +
     "dbf3c29bc291362a3ca14c393b77/undraw_Mail_sent_qwwx.svg";
 
 function EmailSentSuccess({navigationData}) {
-    const SIGNUP_MESSAGE =  `Hi ${navigationData.userData.firstName} your signup was  successful and a verification
+    const name = navigationData.userData? navigationData.userData.firstName: 'there!'
+    const SIGNUP_MESSAGE =  `Hi ${name} your signup was  successful and a verification
         mail was sent to your email. Please confirm your email to continue`;
      const RESET_PASSWORD_MESSAGE =
          `Hi there! Instructions to reset your password has been sent to your email.
