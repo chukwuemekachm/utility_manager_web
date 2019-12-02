@@ -7,4 +7,8 @@ export default {
     password: 'required|alpha_dash|min:8|max:20',
     confirmPassword: 'required|alpha_dash|min:8|max:20|same:password'
   },
+  changeUserPassword: {
+    password: 'required|min:8',
+    confirmPassword: 'required|min:8|same:password'
+  },
 };

@@ -21,6 +21,11 @@ const pageRoutes = [
     exact: true,
   },
   {
+    path: '/reset-password/:reset_id',
+    component: withSuspense('ConfirmResetPassword'),
+    exact: true,
+  },
+  {
     path: '/success-feedback',
     component: withSuspense('AuthenticationFeedback'),
     exact: true,

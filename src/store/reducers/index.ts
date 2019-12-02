@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 
-import auth from './auth';
 import notification from './notification';
+
+import auth from './auth';
 
 export default function createRootReducer(history) {
   return combineReducers({
