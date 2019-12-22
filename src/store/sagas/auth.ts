@@ -48,6 +48,7 @@ function* changeUserPassword(action) {
     yield put(changeUserPasswordSuccess(data));
   } catch (errors) {
     yield put(
+<<<<<<< HEAD
       changeUserPasswordFailure(errors.response.data.message)
     );
     function* LoginUser(action) {
@@ -70,6 +71,35 @@ function* changeUserPassword(action) {
         });
       }
     }
+=======
+        changeUserPasswordFailure(errors.response.data.message)
+    );
+function* loginUser(action) {
+  try {
+    const { data } = yield call(
+      [api, 'post'],
+      authRequest.LOGIN,
+      action.payload
+    );
+    yield put({
+      type: authConstants.LOGIN_SUCCESS,
+      payload: data.data
+    });
+  } catch (error) {
+    yield put({
+      type: authConstants.LOGIN_ERROR,
+      payload: error.response.data
+    });
+  }
+}
+
+export function* watchSignUpUser() {
+  yield takeLatest(authConstants.SIGN_UP_REQUEST, signUpUser);
+}
+export function* watchLoginUser() {
+  yield takeLatest(authConstants.LOGIN_REQUEST, loginUser);
+}
+>>>>>>> minor changes from PR comment
 
     export function* watchSignUpUser() {
       yield takeLatest(authConstants.SIGN_UP_REQUEST, signUpUser);

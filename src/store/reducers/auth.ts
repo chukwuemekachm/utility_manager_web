@@ -1,4 +1,4 @@
-import { authConstants } from "store/actions/auth";
+import { authConstants } from 'store/actions/auth';
 
 interface AuthState {
   status: {
@@ -19,14 +19,21 @@ const initialState = {
     hasError: false
   },
   error: {
-    message: "",
+    message: '',
     errors: []
   },
   data: {},
-  message: '',
+  message: ''
 };
 
+<<<<<<< HEAD
 export default function authReducer(state: AuthState = initialState, { type, payload }) {
+=======
+export default function authReducer(
+  state: AuthState = initialState,
+  { type, payload }
+) {
+>>>>>>> minor changes from PR comment
   switch (type) {
     case authConstants.SIGN_UP_REQUEST:
       return {
@@ -35,6 +42,30 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           ...state.status,
           isLoading: true
         }
+      };
+
+    case authConstants.SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false
+        },
+        data: {
+          ...state.data,
+          ...payload.data
+        },
+        message: payload.message
+      };
+    case authConstants.SIGN_UP_ERROR:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false,
+          hasError: true
+        },
+        message: payload.message
       };
     case authConstants.LOGIN_REQUEST:
       return {
@@ -53,7 +84,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           hasError: false
         },
         error: {
-          message: "",
+          message: '',
           errors: []
         },
         data: payload
@@ -72,37 +103,14 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         },
         data: {}
       };
-    case authConstants.SIGN_UP_SUCCESS:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          isLoading: false,
-        },
-        data: {
-          ...state.data,
-          ...payload.data,
-        },
-        message: payload.message,
-      };
-    case authConstants.SIGN_UP_ERROR:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          isLoading: false,
-          hasError: true,
-        },
-        message: payload.message,
-      };
 
     case authConstants.CHANGE_USER_PASSWORD_REQUEST:
       return {
         ...state,
         status: {
           ...state.status,
-          isLoading: true,
-        },
+          isLoading: true
+        }
       };
     case authConstants.CHANGE_USER_PASSWORD_SUCCESS:
       return {
@@ -112,8 +120,13 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           isLoading: false,
           hasError: false,
           data: payload,
+<<<<<<< HEAD
           errors: {},
         },
+=======
+          errors: {}
+        }
+>>>>>>> minor changes from PR comment
       };
     case authConstants.CHANGE_USER_PASSWORD_FAILURE:
       return {
@@ -123,8 +136,13 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           isLoading: false,
           hasError: true,
           errors: payload,
+<<<<<<< HEAD
           data: {},
         },
+=======
+          data: {}
+        }
+>>>>>>> minor changes from PR comment
       };
     default:
       return state;

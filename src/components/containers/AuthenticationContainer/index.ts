@@ -116,22 +116,23 @@ export default function withAuthenticationContainer(WrappedComponent) {
         console.log(values, "from auth container");
         return makeLoginRequest(values);
       }
+    }
 
-      function composeProps() {
-        return {
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          ...props
-        };
-      }
+    function composeProps() {
+      return {
+        values,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        ...props
+      };
+    }
 
-      // TypeScript doesn't recognize WrappedComponent in JSX here
-      // So I defaulted to using React.createElement
-      return React.createElement(WrappedComponent, composeProps());
-    };
-  }
+    // TypeScript doesn't recognize WrappedComponent in JSX here
+    // So I defaulted to using React.createElement
+    return React.createElement(WrappedComponent, composeProps());
+  };
+}
 
 
 
