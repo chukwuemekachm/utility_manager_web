@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
-
+import PageWrapper from '../HOC/PageWrapper'
 function withSuspense(page: string, data?: Record<string, any>) {
   return function (props: Record<string, any>) {
     const LazyComponent = React.lazy(() => import(`components/pages/${page}`));
@@ -8,7 +8,10 @@ function withSuspense(page: string, data?: Record<string, any>) {
     // TODO: implement fallback loader/spinner for lazy loading
     return (
       <React.Suspense fallback={<div>Loading...</div>}>
-        <LazyComponent {...props} {...data} />
+        <PageWrapper>
+           <LazyComponent {...props} {...data} />
+        </PageWrapper>
+
       </React.Suspense>
     );
   }
