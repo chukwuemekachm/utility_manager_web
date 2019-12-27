@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
-
+import { connect } from 'react-redux';
 import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
@@ -11,7 +11,7 @@ import SignUp from './SignUp';
 
 const { useState } = React;
 
-export default function Authentication() {
+function Authentication({isLoading}) {
   const [display, setDisplay] = useState(1);
 
   function handleTabChange(tabNumber: number) {
@@ -40,7 +40,7 @@ export default function Authentication() {
           {
             !display
               ? <Login />
-              : <SignUp />
+              : <SignUp isLoading={isLoading}/>
           }
         </Authentication.Content>
       </Authentication.Wrapper>
@@ -94,3 +94,10 @@ Authentication.Header = styled.header`
 Authentication.Content = styled.main`
   width: 100%;
 `;
+
+const mapStateToProps = state => {
+  return{
+    isLoading: state.auth.status.isLoading
+  }
+}
+export default connect(mapStateToProps)(Authentication)

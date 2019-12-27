@@ -9,6 +9,7 @@ type AuthenticationFormValues = {
   password: string,
   confirmPassword: string,
   errors: Record<string, string[]>,
+
 }
 
 export interface AuthenticationProps {
@@ -16,6 +17,7 @@ export interface AuthenticationProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
   handleSubmit: (trigger: string) => (event: React.FormEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
 }
 
 const initialState = {
@@ -111,3 +113,6 @@ export default function withAuthenticationContainer(WrappedComponent) {
     return React.createElement(WrappedComponent, composeProps());
   }
 }
+
+
+
