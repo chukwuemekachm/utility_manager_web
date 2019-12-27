@@ -6,6 +6,4 @@ export default {
   title: 'components/layouts/AuthenticationLayout',
 };
 
-export const authenticationLayout = () => (
-<AuthenticationLayout>{' '}</AuthenticationLayout>
-);
+export const authenticationLayout = () => <AuthenticationLayout> </AuthenticationLayout>;

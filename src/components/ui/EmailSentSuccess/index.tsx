@@ -16,40 +16,35 @@ const EMAIL_IMAGE =
 function EmailSentSuccess({ message }: EmailSentSuccessProps): React.ReactElement<EmailSentSuccessProps> {
   return (
     <EmailSentSuccess.Wrapper>
-        <EmailSentSuccess.Image src={EMAIL_IMAGE} alt="Mail Sent Image" />
-        <p>
-            {  message }
-        </p>
-
+      <EmailSentSuccess.Image src={EMAIL_IMAGE} alt="Mail Sent Image" />
+      <p>{message}</p>
     </EmailSentSuccess.Wrapper>
   );
 }
 
 EmailSentSuccess.Image = styled.img`
-    height: 15.5em;
-    width: 14.25em;
-    margin: 0;
-    
-     @media (max-width: ${__layouts.xSm}) and  (max-height: ${__layouts.xSm}){
-           width: 100%;
-      }
-    
+  height: 15.5em;
+  width: 14.25em;
+  margin: 0;
+
+  @media (max-width: ${__layouts.xSm}) and (max-height: ${__layouts.xSm}) {
+    width: 100%;
+  }
 `;
 
 EmailSentSuccess.Wrapper = styled.div`
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-    p {
-        text-align:center;
-        margin-top: ${__spacing.normal};
-        color: ${GRAY};
-        font-size: ${fontSizes.small};
-        
-    }
+  p {
+    text-align: center;
+    margin-top: ${__spacing.normal};
+    color: ${GRAY};
+    font-size: ${fontSizes.small};
+  }
 `;
 
 export default EmailSentSuccess;

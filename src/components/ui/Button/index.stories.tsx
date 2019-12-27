@@ -1,6 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean, select, text } from "@storybook/addon-knobs";
+import { boolean, select, text } from '@storybook/addon-knobs';
 import Button, { ButtonType } from '.';
 
 export default {
@@ -28,8 +28,6 @@ export const button = () => (
     type={select(typeLabel, typeOptions, sizeDefaultValue) as ButtonType}
     handleClick={action('clicked')}
   >
-    {
-      text(childrenLabel, childrenDefaultValue)
-    }
+    {text(childrenLabel, childrenDefaultValue)}
   </Button>
 );

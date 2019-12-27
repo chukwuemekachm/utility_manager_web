@@ -31,9 +31,7 @@ const initialState = {
   errors: {},
 };
 
-const {
-  SIGN_UP_REDIRECT_URL = 'http://localhost:8080/signup/redirect'
-} = process.env;
+const { SIGN_UP_REDIRECT_URL = `${location.origin}/signup/redirect` } = process.env;
 
 export default function withAuthenticationContainer(WrappedComponent) {
   return function AuthenticationContainer(props: Record<string, any>) {
@@ -61,37 +59,29 @@ export default function withAuthenticationContainer(WrappedComponent) {
     function handleSubmit(trigger: string) {
       return function (event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-
+        let values= {};
         switch (trigger) {
+          case 'FORGOT_PASSWORD':
+            return handleAuthOperation(
+                'forgotPassword',
+                'forgotPassword');
           case 'SIGN_UP':
             return handleSignUp();
-          case 'LOGIN':
-            return handleLogin();
           case 'NEW_PASSWORD':
             return handleAuthOperation(
-              'changeUserPassword',
-              'changePassword');
+                'changeUserPassword',
+                'changePassword');
           case "LOGIN":
-            return handleLogin();
+            return handleAuthOperation(
+                'validateLoginValues',
+                'makeLoginRequest');
           default:
             return handleSignUp();
         }
       }
     }
 
-    async function handleLogin() {
-      const { makeLoginRequest } = props;
-      const errors = await validatePayload(values, 'validateLoginValues');
-      if (errors) {
-        return setValues({
-          ...values,
-          errors,
-        });
-      }
-
-      return makeLoginRequest({ ...values });
-    }
-    async function handleSignUp() {
+    async function handleSignUp(): Promise<void> {
       const { signUp } = props;
       const errors = await validatePayload(values, 'signUp');
       if (errors) {
@@ -116,7 +106,7 @@ export default function withAuthenticationContainer(WrappedComponent) {
     }
 
 
-    function composeProps() {
+    function composeProps(): AuthenticationProps {
       return {
         values,
         handleChange,

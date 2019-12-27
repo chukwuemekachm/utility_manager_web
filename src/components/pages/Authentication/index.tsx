@@ -9,6 +9,7 @@ import { GRAY, BLACK, GAINS_BORO } from 'settings/__color';
 import Login from './Login';
 import SignUp from './SignUp';
 import { AuthenticationProps } from 'components/containers/AuthenticationContainer';
+import ForgotPassword from './ForgotPassword';
 
 export interface AuthenticationFormProps extends AuthenticationProps {
   isLoading: boolean;
@@ -17,7 +18,7 @@ export interface AuthenticationFormProps extends AuthenticationProps {
 const { useState } = React;
 
 function Authentication({ isLoading }: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
-  const [display, setDisplay] = useState(1);
+  const [display, setDisplay] = useState(2);
 
   function handleTabChange(tabNumber: number): () => void {
     return function(): void {
@@ -35,12 +36,21 @@ function Authentication({ isLoading }: AuthenticationFormProps): React.ReactElem
           <span className='divider' />
           <button
             className={display === 1 ? '__active' : ''}
-            onClick={() => handleTabChange(1)}
+            onClick={handleTabChange(1)}
           >
             Sign Up
           </button>
         </Authentication.Header>
-        <Authentication.Content>{!display ? <Login /> : <SignUp isLoading={isLoading} />}</Authentication.Content>
+
+        <Authentication.Content>
+          {display == 2 ? (
+            <ForgotPassword isLoading={isLoading} />
+          ) : !display ? (
+            <Login />
+          ) : (
+            <SignUp isLoading={isLoading} />
+          )}
+        </Authentication.Content>
       </Authentication.Wrapper>
     </AuthenticationLayout>
   );
@@ -48,17 +58,19 @@ function Authentication({ isLoading }: AuthenticationFormProps): React.ReactElem
 
 Authentication.Wrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
   width: 100%;
-  height: auto;
+
+  height: 100%;
+  align-content: flex-start;
 `;
 
 Authentication.Header = styled.header`
   width: 100%;
   display: flex;
   justify-content: center;
-
+  margin-top: 10%;
   .divider {
     width: 1px;
     background: ${GAINS_BORO};
@@ -91,6 +103,8 @@ Authentication.Header = styled.header`
 
 Authentication.Content = styled.main`
   width: 100%;
+  align-self: flex-start;
+  margin-top: 5%;
 `;
 
 const mapStateToProps = (state): Pick<AuthenticationFormProps, 'isLoading'> => {

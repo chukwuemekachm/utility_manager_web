@@ -31,6 +31,38 @@ export default function authReducer(
   { type, payload }
 ) {
   switch (type) {
+    case authConstants.FORGOT_PASSWORD_REQUEST:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: true,
+        },
+      };
+    case authConstants.FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false,
+        },
+        data: {
+          ...state.data,
+          ...payload.data,
+        },
+        message: payload.message,
+      };
+
+    case authConstants.FORGOT_PASSWORD_ERROR:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false,
+          hasError: true,
+        },
+        message: payload.message,
+      };
     case authConstants.SIGN_UP_REQUEST:
       return {
         ...state,
