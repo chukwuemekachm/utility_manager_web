@@ -1,17 +1,30 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 
 import Input from 'components/ui/Input';
+import Button from 'components/ui/Button';
 import withAuthenticationContainer, { AuthenticationProps } from 'components/containers/AuthenticationContainer';
 import __spacing from 'settings/__spacing';
 import { fontSizes, fontWeights } from 'settings/__fonts';
 import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER } from 'settings/__color';
 import { changeUserPassword } from 'store/actions/auth';
-import Button from 'components/ui/Button';
 
-function NewPassword(props: AuthenticationProps) {
-  const { isLoading, handleChange, handleSubmit, handleBlur, values, values: { errors } } = props;
+interface NewPasswordProps extends AuthenticationProps {
+  isLoading: boolean;
+  changePassword: (payload: any) => void;
+}
+
+function NewPassword(props: NewPasswordProps): React.ReactElement<NewPasswordProps> {
+  const {
+    isLoading,
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    values,
+    values: { errors },
+  } = props;
 
   return (
     <NewPassword.Wrapper onSubmit={handleSubmit('NEW_PASSWORD')}>
@@ -40,6 +53,7 @@ function NewPassword(props: AuthenticationProps) {
 
 NewPassword.Wrapper = styled.form`
   width: 100%;
+
   button {
     width: 100%;
     padding: ${__spacing.normal};
@@ -62,12 +76,12 @@ NewPassword.Wrapper = styled.form`
   }
 `;
 
-const mapStateToProps = (state) => ({
-    isLoading: state.auth.status.isLoading
+const mapStateToProps = (state): Pick<NewPasswordProps, 'isLoading'> => ({
+  isLoading: state.auth.status.isLoading,
 });
 
-const mapDispatchToProps = dispatch => ({
-  changePassword: payload => dispatch(changeUserPassword(payload)),
+const mapDispatchToProps = (dispatch): Pick<NewPasswordProps, 'changePassword'> => ({
+  changePassword: (payload): void => dispatch(changeUserPassword(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticationContainer(NewPassword));

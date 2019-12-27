@@ -1,23 +1,22 @@
 import * as React from 'react';
+
 import { validatePayload } from 'lib/validator';
 
 type AuthenticationFormValues = {
-  firstName: string,
-  lastName: string,
-  email: string,
-  username: string,
-  password: string,
-  confirmPassword: string,
-  errors: Record<string, string[]>,
-
-}
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+  errors: Record<string, string[]>;
+};
 
 export interface AuthenticationProps {
-  values: AuthenticationFormValues,
+  values: AuthenticationFormValues;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
   handleSubmit: (trigger: string) => (event: React.FormEvent<HTMLFormElement>) => void;
-  isLoading: boolean;
 }
 
 const initialState = {
@@ -30,51 +29,34 @@ const initialState = {
   errors: {},
 };
 
-const {
-  SIGN_UP_REDIRECT_URL = 'http://localhost:8080/signup/redirect'
-} = process.env;
+const { SIGN_UP_REDIRECT_URL = 'http://localhost:8080/signup/redirect' } = process.env;
 
 export default function withAuthenticationContainer(WrappedComponent) {
-  return function AuthenticationContainer(props: Record<string, any>) {
+  return function AuthenticationContainer(
+    props: Record<string, any>,
+  ): React.FunctionComponentElement<AuthenticationProps> {
     const [values, setValues] = React.useState(initialState);
 
-    function handleChange({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>) {
+    function handleChange({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>): void {
       setValues({
         ...values,
         [name]: value,
       });
     }
 
-    function handleBlur({ target: { value, name } }: React.FocusEvent<HTMLInputElement>) {
+    function handleBlur({ target: { value, name } }: React.FocusEvent<HTMLInputElement>): void {
       if (value) {
         setValues({
           ...values,
           errors: {
             ...values.errors,
             [name]: [],
-          }
+          },
         });
       }
     }
 
-    function handleSubmit(trigger: string) {
-      return function (event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        switch (trigger) {
-          case 'SIGN_UP':
-            return handleSignUp();
-          case 'NEW_PASSWORD':
-            return handleAuthOperation(
-                'changeUserPassword',
-                'changePassword');
-          default:
-            return handleSignUp();
-        }
-      }
-    }
-
-    async function handleSignUp() {
+    async function handleSignUp(): Promise<void> {
       const { signUp } = props;
       const errors = await validatePayload(values, 'signUp');
       if (errors) {
@@ -87,7 +69,7 @@ export default function withAuthenticationContainer(WrappedComponent) {
       return signUp({ ...values, redirectURL: SIGN_UP_REDIRECT_URL });
     }
 
-    async function handleAuthOperation(schemaKey, validFuncName) {
+    async function handleAuthOperation(schemaKey: string, validFuncName: string): Promise<void> {
       const errors = await validatePayload(values, schemaKey);
       if (errors) {
         return setValues({
@@ -95,24 +77,36 @@ export default function withAuthenticationContainer(WrappedComponent) {
           errors,
         });
       }
-        return props[validFuncName](values);
+      return props[validFuncName](values);
     }
 
-    function composeProps() {
+    function handleSubmit(trigger: string): (event: React.FormEvent<HTMLFormElement>) => Promise<void> {
+      return function(event: React.FormEvent<HTMLFormElement>): Promise<void> {
+        event.preventDefault();
+
+        switch (trigger) {
+          case 'SIGN_UP':
+            return handleSignUp();
+          case 'NEW_PASSWORD':
+            return handleAuthOperation('changeUserPassword', 'changePassword');
+          default:
+            return handleSignUp();
+        }
+      };
+    }
+
+    function composeProps(): AuthenticationProps {
       return {
         values,
         handleChange,
         handleBlur,
         handleSubmit,
         ...props,
-      }
+      };
     }
 
     // TypeScript doesn't recognize WrappedComponent in JSX here
     // So I defaulted to using React.createElement
     return React.createElement(WrappedComponent, composeProps());
-  }
+  };
 }
-
-
-

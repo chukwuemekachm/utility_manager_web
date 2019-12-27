@@ -2,13 +2,18 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import __spacing from 'settings/__spacing';
 import __layouts from 'settings/__layouts';
-import { fontSizes, fontWeights} from 'settings/__fonts';
-import { GRAY, BRAND_PRIMARY } from 'settings/__color';
+import { fontSizes } from 'settings/__fonts';
+import { GRAY } from 'settings/__color';
 
-const EMAIL_IMAGE = "https://trello-attachments.s3.amazonaws.com/5db1b02b5b9a3e413fb742f2/5ddd0139b88cae26568ed400/ac49" +
-    "dbf3c29bc291362a3ca14c393b77/undraw_Mail_sent_qwwx.svg";
+interface EmailSentSuccessProps {
+  message: string;
+}
 
-function EmailSentSuccess({ message }) {
+const EMAIL_IMAGE =
+  'https://trello-attachments.s3.amazonaws.com/5db1b02b5b9a3e413fb742f2/5ddd0139b88cae26568ed400/ac49' +
+  'dbf3c29bc291362a3ca14c393b77/undraw_Mail_sent_qwwx.svg';
+
+function EmailSentSuccess({ message }: EmailSentSuccessProps): React.ReactElement<EmailSentSuccessProps> {
   return (
     <EmailSentSuccess.Wrapper>
         <EmailSentSuccess.Image src={EMAIL_IMAGE} alt="Mail Sent Image" />
@@ -30,7 +35,6 @@ EmailSentSuccess.Image = styled.img`
       }
     
 `;
-
 
 EmailSentSuccess.Wrapper = styled.div`
     height: 100%;

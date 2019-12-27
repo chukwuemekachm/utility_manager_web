@@ -3,12 +3,17 @@ import styled from '@emotion/styled';
 
 import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
-import { AuthenticationProps } from 'components/containers/AuthenticationContainer';
-import __spacing from 'settings/__spacing';
+import { SignUpProps } from 'components/pages/Authentication/SignUp';
 
-
-function SignUpForm(props: AuthenticationProps) {
-  const { handleChange, handleSubmit, handleBlur, values, values: { errors }, isLoading } = props;
+function SignUpForm(props: SignUpProps): React.ReactElement<SignUpProps> {
+  const {
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    values,
+    values: { errors },
+    isLoading,
+  } = props;
 
   return (
     <SignUpForm.Wrapper onSubmit={handleSubmit('SIGN_UP')}>

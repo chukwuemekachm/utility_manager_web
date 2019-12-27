@@ -2,15 +2,15 @@ import { authConstants } from 'store/actions/auth';
 
 interface AuthState {
   status: {
-    isAuthenticated: boolean,
-    isLoading: boolean,
-    hasError: boolean,
-  },
+    isAuthenticated: boolean;
+    isLoading: boolean;
+    hasError: boolean;
+  };
   error: {
-    message: string,
-    errors: Array<any>,
-  },
-  data: Record<string, any>
+    message: string;
+    errors: Array<any>;
+  };
+  data: Record<string, any>;
 }
 const initialState = {
   status: {
@@ -26,7 +26,7 @@ const initialState = {
   message: '',
 };
 
-export default function authReducer(state:AuthState = initialState, { type, payload }) {
+export default function authReducer(state: AuthState = initialState, { type, payload }) {
   switch (type) {
     case authConstants.SIGN_UP_REQUEST:
       return {
@@ -60,7 +60,7 @@ export default function authReducer(state:AuthState = initialState, { type, payl
         message: payload.message,
       };
 
-  case authConstants.CHANGE_USER_PASSWORD_REQUEST:
+    case authConstants.CHANGE_USER_PASSWORD_REQUEST:
       return {
         ...state,
         status: {
@@ -75,7 +75,7 @@ export default function authReducer(state:AuthState = initialState, { type, payl
           ...state.status,
           isLoading: false,
           hasError: false,
-          data:payload,
+          data: payload,
           errors: {},
         },
       };
@@ -86,7 +86,7 @@ export default function authReducer(state:AuthState = initialState, { type, payl
           ...state.status,
           isLoading: false,
           hasError: true,
-          errors:payload,
+          errors: payload,
           data: {},
         },
       };

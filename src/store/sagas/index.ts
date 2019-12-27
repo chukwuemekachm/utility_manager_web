@@ -5,9 +5,5 @@ import notificationSaga from './notification';
 import navigationSaga from './navigation';
 
 export default function* rootSaga() {
-  yield all([
-    fork(authSaga),
-    fork(notificationSaga),
-    fork(navigationSaga),
-  ]);
+  yield all([fork(authSaga), fork(notificationSaga), fork(navigationSaga)]);
 }
