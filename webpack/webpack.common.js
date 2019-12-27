@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
-const TerserPlugin = require('terser-webpack-plugin');
 const dotenv = require('dotenv');
 
 const DIST_DIR = path.join(__dirname, '../dist');
@@ -26,22 +25,6 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     modules: [SRC_DIR, 'node_modules'],
-  },
-  optimization: {
-    runtimeChunk: {
-      name: 'runtime',
-    },
-    noEmitOnErrors: true,
-    namedModules: true,
-    namedChunks: true,
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        parallel: 4,
-        sourceMap: true,
-        extractComments: 'all',
-      }),
-    ],
   },
   plugins: [
     new webpack.ProgressPlugin(),
