@@ -11,7 +11,7 @@ const EMAIL_IMAGE = "https://trello-attachments.s3.amazonaws.com/5db1b02b5b9a3e4
 function EmailSentSuccess({ message }) {
   return (
     <EmailSentSuccess.Wrapper>
-        <EmailSentSuccess.Image />
+        <EmailSentSuccess.Image src={EMAIL_IMAGE} alt="Mail Sent Image" />
         <p>
             {  message }
         </p>
@@ -20,19 +20,13 @@ function EmailSentSuccess({ message }) {
   );
 }
 
-EmailSentSuccess.Image = styled.div`
-    height: 50%;
-    width: 60%;
+EmailSentSuccess.Image = styled.img`
+    height: 15.5em;
+    width: 14.25em;
     margin: 0;
-    margin-top: 25%;
-    background-image: url(${EMAIL_IMAGE});
-    background-position: center center;
-    background-size: contain;
-    background-repeat: no-repeat;
+    
      @media (max-width: ${__layouts.xSm}) and  (max-height: ${__layouts.xSm}){
            width: 100%;
-           background-size: fill;
-           margin-top: ${__spacing.small};
       }
     
 `;
@@ -40,35 +34,18 @@ EmailSentSuccess.Image = styled.div`
 
 EmailSentSuccess.Wrapper = styled.div`
     height: 100%;
-   
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    font-weight:light;
-    p{
+    justify-content: center;
+
+    p {
         text-align:center;
-        margin-top:0;
-        color: ${BRAND_PRIMARY};
-        font-size: ${fontSizes.normal};
-         font-weight: ${fontWeights.bold};
+        margin-top: ${__spacing.normal};
+        color: ${GRAY};
+        font-size: ${fontSizes.small};
         
     }
-    
-    
-      @media (min-width: ${__layouts.md}) and (max-width: ${__layouts.xLg}) {
-            p{
-                font-size: ${fontSizes.large};
-                width: 70%;
-            }
-      }
-      
-      @media (max-width: ${__layouts.xSm}) {
-           
-           font-size: ${fontSizes.small};
-      }
-      
-     
 `;
 
 export default EmailSentSuccess;
