@@ -8,9 +8,10 @@ import {
   forgotPasswordError,
   forgotPasswordSuccess,
 } from 'store/actions/auth';
-import { moveToNextPage } from 'store/actions/navigation';
+import { showNotification } from 'store/actions/notification';
 import { errorHandler } from 'store/helpers';
 import api, { authRequest } from 'services/api';
+import { moveToNextPage } from '../actions/navigation/index';
 
 function* signUpUser(action) {
   try {
@@ -86,7 +87,7 @@ function* loginUser(action) {
     const response = yield error.response;
     yield put({
       type: authConstants.LOGIN_ERROR,
-      payload: response.data,
+      payload: error.response.data,
     });
   }
 }
@@ -107,5 +108,5 @@ export function* watchChangeUserPassword() {
 }
 
 export default function* authSaga() {
-  yield all([fork(watchSignUpUser), fork(watchChangeUserPassword), fork(watchLoginUser), fork(watchForgotPassword)]);
+  yield all([fork(watchSignUpUser), fork(watchChangeUserPassword), fork(watchLoginUser)]);
 }
