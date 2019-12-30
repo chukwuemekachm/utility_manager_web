@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import __spacing from 'settings/__spacing';
 import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER } from 'settings/__color';
-type LoaderSize = 'small' | 'large'
+export type LoaderSize = 'small' | 'large';
 
 interface LoaderProps {
     size: LoaderSize,

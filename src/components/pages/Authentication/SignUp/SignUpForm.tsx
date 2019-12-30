@@ -62,7 +62,7 @@ function SignUpForm(props: AuthenticationProps) {
         value={values.confirmPassword}
         errorFeedback={errors.confirmPassword}
       />
-    <Button type="submit" value='Sign Up'  isLoading={isLoading} />
+    <Button type="submit" isLoading={isLoading}>Sign Up</Button>
     </SignUpForm.Wrapper>
   );
 }

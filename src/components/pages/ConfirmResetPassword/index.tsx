@@ -12,7 +12,7 @@ export default function ResetPasswordLayout() {
      <ResetPasswordLayout.Wrapper>
       <ResetPasswordLayout.Content>
 
-        <Logo center/>
+        <Logo/>
 
         <main className="main-content">
             <NewPassword/>
