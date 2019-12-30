@@ -18,10 +18,7 @@ const mapDispatchToProps = dispatch => ({
   signUp: payload => {
     console.log(payload);
     dispatch(signUp(payload));
-  }
+  },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withAuthenticationContainer(SignUp));
+export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticationContainer(SignUp));

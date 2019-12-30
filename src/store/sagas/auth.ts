@@ -15,11 +15,7 @@ import api, { authRequest } from 'services/api';
 
 function* signUpUser(action) {
   try {
-    const { data } = yield call(
-      [api, 'post'],
-      authRequest.SIGN_UP,
-      action.payload
-    );
+    const { data } = yield call([api, 'post'], authRequest.SIGN_UP, action.payload);
     yield put(signUpSuccess(data));
     const payload = {
       nextPageRoute: '/success-feedback',
@@ -59,34 +55,30 @@ function* forgotPasswordHandler(action) {
 function* changeUserPassword(action) {
   try {
     const url = location.href;
-    const [resetId] = url.split('?')[0].split('/').splice(-1);
+    const [resetId] = url
+      .split('?')[0]
+      .split('/')
+      .splice(-1);
     const { password } = action.payload;
 
     const data = yield call([api, 'patch'], authRequest.CHANGE_PASSWORD, { password, resetId });
-    yield put(changeUserPasswordSuccess(data))
-
+    yield put(changeUserPasswordSuccess(data));
   } catch (errors) {
-    yield put(
-      changeUserPasswordFailure(errors.response.data.message)
-    )
+    yield put(changeUserPasswordFailure(errors.response.data.message));
   }
 }
 function* loginUser(action) {
   try {
-    const { data } = yield call(
-      [api, 'post'],
-      authRequest.LOGIN,
-      action.payload
-    );
+    const { data } = yield call([api, 'post'], authRequest.LOGIN, action.payload);
     yield put({
       type: authConstants.LOGIN_SUCCESS,
-      payload: data.data
+      payload: data.data,
     });
   } catch (error) {
-    let response = yield error.response;
+    const response = yield error.response;
     yield put({
       type: authConstants.LOGIN_ERROR,
-      payload: response.data
+      payload: response.data,
     });
   }
 }
@@ -107,12 +99,5 @@ export function* watchChangeUserPassword() {
 }
 
 export default function* authSaga() {
-
-
-  yield all([
-    fork(watchSignUpUser),
-    fork(watchChangeUserPassword),
-    fork(watchLoginUser),
-    fork(watchForgotPassword),
-  ]);
+  yield all([fork(watchSignUpUser), fork(watchChangeUserPassword), fork(watchLoginUser), fork(watchForgotPassword)]);
 }
