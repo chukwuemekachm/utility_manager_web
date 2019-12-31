@@ -72,8 +72,13 @@ export default function withAuthenticationContainer(WrappedComponent) {
             return handleSignUp();
           case 'NEW_PASSWORD':
             return handleAuthOperation(
+<<<<<<< HEAD
               'changeUserPassword',
               'changePassword');
+=======
+                'changeUserPassword',
+                'changePassword');
+>>>>>>> Minor changes
           case "LOGIN":
             return handleLogin();
           default:
@@ -103,6 +108,7 @@ export default function withAuthenticationContainer(WrappedComponent) {
           errors,
         });
       }
+<<<<<<< HEAD
       return props[validFuncName](values);
       async function handleLogin() {
         const { makeLoginRequest } = props;
@@ -116,6 +122,20 @@ export default function withAuthenticationContainer(WrappedComponent) {
         console.log(values, "from auth container");
         return makeLoginRequest(values);
       }
+=======
+        return props[validFuncName](values);
+    async function handleLogin() {
+      const { makeLoginRequest } = props;
+      const errors = await validatePayload(values, "validateLoginValues");
+      if (errors) {
+        return setValues({
+          ...values,
+          errors
+        });
+      }
+      console.log(values, "from auth container");
+      return makeLoginRequest(values);
+>>>>>>> Minor changes
     }
 
     function composeProps() {

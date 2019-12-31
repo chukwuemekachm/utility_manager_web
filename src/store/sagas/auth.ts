@@ -1,4 +1,5 @@
 import { takeLatest, all, fork, call, put } from 'redux-saga/effects';
+<<<<<<< HEAD
 
 import {
   authConstants,
@@ -8,6 +9,12 @@ import {
   changeUserPasswordSuccess,
 } from 'store/actions/auth';
 import { moveToNextPage } from 'store/actions/navigation';
+=======
+import {
+  authConstants, signUpSuccess, signUpError,
+  changeUserPasswordFailure, changeUserPasswordSuccess
+} from 'store/actions/auth';
+>>>>>>> Minor changes
 import { showNotification } from 'store/actions/notification';
 import { errorHandler } from 'store/helpers';
 import api, { authRequest } from 'services/api';
@@ -38,16 +45,25 @@ function* signUpUser(action) {
 function* changeUserPassword(action) {
   try {
     const url = location.href;
+<<<<<<< HEAD
     const [resetId] = url
       .split('?')[0]
       .split('/')
       .splice(-1);
     const { password } = action.payload;
+=======
+    const [resetId] = url.split('?')[0].split('/').splice(-1);
+    const { password } = action.payload;
+
+    const data = yield call([api, 'patch'], authRequest.CHANGE_PASSWORD, { password, resetId });
+    yield put(changeUserPasswordSuccess(data))
+>>>>>>> Minor changes
 
     const data = yield call([api, 'patch'], authRequest.CHANGE_PASSWORD, { password, resetId });
     yield put(changeUserPasswordSuccess(data));
   } catch (errors) {
     yield put(
+<<<<<<< HEAD
 <<<<<<< HEAD
       changeUserPasswordFailure(errors.response.data.message)
     );
@@ -74,6 +90,12 @@ function* changeUserPassword(action) {
 =======
         changeUserPasswordFailure(errors.response.data.message)
     );
+=======
+      changeUserPasswordFailure(errors.response.data.message)
+    )
+  }
+}
+>>>>>>> Minor changes
 function* loginUser(action) {
   try {
     const { data } = yield call(
@@ -112,9 +134,23 @@ export function* watchLoginUser() {
       yield takeLatest(authConstants.CHANGE_USER_PASSWORD_REQUEST, changeUserPassword);
     }
 
+<<<<<<< HEAD
     export default function* authSaga() {
       yield all([
         fork(watchSignUpUser),
         fork(watchChangeUserPassword), fork(watchLoginUser)
       ]);
     }
+=======
+export function* watchChangeUserPassword() {
+  yield takeLatest(authConstants.CHANGE_USER_PASSWORD_REQUEST, changeUserPassword);
+}
+
+export default function* authSaga() {
+  yield all([
+    fork(watchSignUpUser),
+    fork(watchChangeUserPassword),
+    fork(watchLoginUser)
+  ]);
+}   
+>>>>>>> Minor changes
