@@ -108,6 +108,9 @@ function* loginUser(action) {
       payload: data.data
     });
   } catch (error) {
+
+    console.log(error, error.response.data);
+
     yield put({
       type: authConstants.LOGIN_ERROR,
       payload: error.response.data

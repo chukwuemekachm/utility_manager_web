@@ -7,7 +7,7 @@ type AuthenticationFormValues = {
   lastName: string,
   email: string,
   username: string,
-  usernameOrEmail: string;
+  usernameOrEmail: string,
   password: string,
   confirmPassword: string,
   errors: Record<string, string[]>,
@@ -15,10 +15,17 @@ type AuthenticationFormValues = {
 }
 
 export interface AuthenticationProps {
-  values: AuthenticationFormValues;
+  values: AuthenticationFormValues,
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
   handleSubmit: (trigger: string) => (event: React.FormEvent<HTMLFormElement>) => void;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  isLoading: boolean;
+=======
+>>>>>>> Login working
+>>>>>>> Login working
 }
 
 const initialState = {
@@ -40,25 +47,25 @@ export default function withAuthenticationContainer(WrappedComponent) {
   ): React.FunctionComponentElement<AuthenticationProps> {
     const [values, setValues] = React.useState(initialState);
 
-    function handleChange({
-      target: { value, name }
-    }: React.ChangeEvent<HTMLInputElement>) {
+    function handleChange({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>) {
       setValues({
         ...values,
-        [name]: value
+        [name]: value,
       });
     }
 
-    function handleBlur({
-      target: { value, name }
-    }: React.FocusEvent<HTMLInputElement>) {
+    function handleBlur({ target: { value, name } }: React.FocusEvent<HTMLInputElement>) {
       if (value) {
         setValues({
           ...values,
           errors: {
             ...values.errors,
             [name]: [],
+<<<<<<< HEAD
           },
+=======
+          }
+>>>>>>> Login working
         });
       }
     }
@@ -68,10 +75,13 @@ export default function withAuthenticationContainer(WrappedComponent) {
         event.preventDefault();
 
         switch (trigger) {
-          case "SIGN_UP":
+          case 'SIGN_UP':
             return handleSignUp();
+          case 'LOGIN':
+            return handleLogin();
           case 'NEW_PASSWORD':
             return handleAuthOperation(
+<<<<<<< HEAD
 <<<<<<< HEAD
               'changeUserPassword',
               'changePassword');
@@ -81,19 +91,35 @@ export default function withAuthenticationContainer(WrappedComponent) {
 >>>>>>> Minor changes
           case "LOGIN":
             return handleLogin();
+=======
+              'changeUserPassword',
+              'changePassword');
+>>>>>>> Login working
           default:
             return handleSignUp();
         }
-      };
+      }
     }
 
-    async function handleSignUp() {
-      const { signUp } = props;
-      const errors = await validatePayload(values, "signUp");
+    async function handleLogin() {
+      const { makeLoginRequest } = props;
+      const errors = await validatePayload(values, 'validateLoginValues');
       if (errors) {
         return setValues({
           ...values,
-          errors
+          errors,
+        });
+      }
+
+      return makeLoginRequest({ ...values });
+    }
+    async function handleSignUp() {
+      const { signUp } = props;
+      const errors = await validatePayload(values, 'signUp');
+      if (errors) {
+        return setValues({
+          ...values,
+          errors,
         });
       }
 
@@ -108,6 +134,7 @@ export default function withAuthenticationContainer(WrappedComponent) {
           errors,
         });
       }
+<<<<<<< HEAD
 <<<<<<< HEAD
       return props[validFuncName](values);
       async function handleLogin() {
@@ -136,6 +163,9 @@ export default function withAuthenticationContainer(WrappedComponent) {
       console.log(values, "from auth container");
       return makeLoginRequest(values);
 >>>>>>> Minor changes
+=======
+      return props[validFuncName](values);
+>>>>>>> Login working
     }
 
     function composeProps() {
@@ -144,14 +174,14 @@ export default function withAuthenticationContainer(WrappedComponent) {
         handleChange,
         handleBlur,
         handleSubmit,
-        ...props
-      };
+        ...props,
+      }
     }
 
     // TypeScript doesn't recognize WrappedComponent in JSX here
     // So I defaulted to using React.createElement
     return React.createElement(WrappedComponent, composeProps());
-  };
+  }
 }
 
 
