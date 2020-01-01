@@ -3,14 +3,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import SignUpForm from './SignUpForm';
-import withAuthenticationContainer, { AuthenticationProps } from 'components/containers/AuthenticationContainer';
+import withAuthenticationContainer from 'components/containers/AuthenticationContainer';
+import { AuthenticationFormProps } from 'components/pages/Authentication';
 import { signUp } from 'store/actions/auth';
 
-export interface SignUpProps extends AuthenticationProps {
-  isLoading: boolean;
-}
-
-function SignUp(props: SignUpProps): React.ReactElement<SignUpProps> {
+function SignUp(props: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
   return <SignUpForm {...props} />;
 }
 

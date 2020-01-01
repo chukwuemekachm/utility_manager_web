@@ -8,14 +8,15 @@ import { fontSizes } from 'settings/__fonts';
 import { GRAY, BLACK, GAINS_BORO } from 'settings/__color';
 import Login from './Login';
 import SignUp from './SignUp';
+import { AuthenticationProps } from 'components/containers/AuthenticationContainer';
 
-interface AuthenticationProps {
+export interface AuthenticationFormProps extends AuthenticationProps {
   isLoading: boolean;
 }
 
 const { useState } = React;
 
-function Authentication({ isLoading }: AuthenticationProps): React.ReactElement<AuthenticationProps> {
+function Authentication({ isLoading }: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
   const [display, setDisplay] = useState(1);
 
   function handleTabChange(tabNumber: number): () => void {
@@ -89,7 +90,7 @@ Authentication.Content = styled.main`
   width: 100%;
 `;
 
-const mapStateToProps = (state): Pick<AuthenticationProps, 'isLoading'> => {
+const mapStateToProps = (state): Pick<AuthenticationFormProps, 'isLoading'> => {
   return {
     isLoading: state.auth.status.isLoading,
   };

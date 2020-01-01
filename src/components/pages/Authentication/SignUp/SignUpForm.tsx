@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 
 import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
-import { SignUpProps } from 'components/pages/Authentication/SignUp';
+import { AuthenticationFormProps } from 'components/pages/Authentication';
 
-function SignUpForm(props: SignUpProps): React.ReactElement<SignUpProps> {
+function SignUpForm(props: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
   const {
     handleChange,
     handleSubmit,
