@@ -8,12 +8,13 @@ interface FooterProps {
   title: string;
 }
 
-export default function Footer(props: FooterProps) {
+export default function Footer(props: FooterProps): React.ReactElement<FooterProps> {
   const { title = 'Sign Up' } = props;
 
   return (
     <Footer.Wrapper>
-      By clicking '{title}' you agree to the <a href="#">Terms &amp; Condition</a> of Utility Manager.
+      {`By clicking ${title} you agree to the `}
+      <a href="#">Terms &amp; Condition</a> of Utility Manager.
     </Footer.Wrapper>
   );
 }

@@ -1,6 +1,6 @@
 export const logger = store => next => action => {
   console.log('%cDISPATCHING', 'color: #2c96f3;font: 1em "Fira Sans", sans-serif;', action);
-  let result = next(action);
+  const result = next(action);
   console.log('%cNEXT STATE', 'color: #42c88a; font: 1em "Fira Sans", sans-serif;', store.getState());
   return result;
 };

@@ -1,17 +1,24 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
-import {__wrapper, __content, } from '../__authPage.css';
 
-import Logo from '../Logo';
-import Footer from '../Footer';
 import __spacing from 'settings/__spacing';
 import __layouts from 'settings/__layouts';
 import { fontSizes } from 'settings/__fonts';
 import { BRAND_WHITE } from 'settings/__color';
+import Logo from '../Logo';
+import Footer from '../Footer';
+import { __wrapper, __content } from '../__authPage.css';
 
-const backGroundURL = 'https://images.pexels.com/photos/65623/vehicle-chrome-technology-automobile-65623.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500';
+const backGroundURL =
+  'https://images.pexels.com/photos/65623/vehicle-chrome-technology-automobile-65623.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500';
 
-export default function AuthenticationLayout({ children }) {
+interface AuthenticationLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function AuthenticationLayout({
+  children,
+}: AuthenticationLayoutProps): React.ReactElement<AuthenticationLayoutProps> {
   return (
     <AuthenticationLayout.Wrapper>
       <AuthenticationLayout.Content>
@@ -24,8 +31,10 @@ export default function AuthenticationLayout({ children }) {
           <div className="overlay-content">
             <h3>Utility Manager Lorem Ipsum Dolet</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
-          </p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat
+            </p>
           </div>
         </div>
       </AuthenticationLayout.Overlay>
@@ -34,7 +43,7 @@ export default function AuthenticationLayout({ children }) {
 }
 
 AuthenticationLayout.Wrapper = styled.div`
- ${__wrapper}
+  ${__wrapper}
 `;
 
 AuthenticationLayout.Overlay = styled.section`
@@ -49,7 +58,7 @@ AuthenticationLayout.Overlay = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, 0.5);
   }
 
   .overlay-content {

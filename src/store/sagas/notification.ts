@@ -13,7 +13,5 @@ export function* watchDisplayNotification() {
 }
 
 export default function* notificationSaga() {
-  yield all([
-    fork(watchDisplayNotification),
-  ]);
+  yield all([fork(watchDisplayNotification)]);
 }

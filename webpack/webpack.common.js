@@ -18,12 +18,12 @@ module.exports = {
   },
   output: {
     path: DIST_DIR,
-    filename: '[name].chunk.js',
-    chunkFilename: '[name].bundle.js',
-        publicPath: "/",
+    filename: '[name].[hash].bundle.js',
+    chunkFilename: '[name].[hash].bundle.js',
+    publicPath: '/',
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"],
+    extensions: ['.ts', '.tsx', '.js', '.json'],
     modules: [SRC_DIR, 'node_modules'],
   },
   plugins: [
@@ -37,13 +37,13 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+      { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+      { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
     ],
   },
   externals: {
-    "react": "React",
-    "react-dom": "ReactDOM",
-    "redux-saga": "ReduxSaga",
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    'redux-saga': 'ReduxSaga',
   },
 };

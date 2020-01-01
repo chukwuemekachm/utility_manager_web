@@ -7,7 +7,7 @@ export async function validatePayload(payload: Record<string, any>, schemaKey: s
   const fails = await validator.fails();
   if (fails) {
     const errors = validator.errors.all();
-    return errors
+    return errors;
   }
   return null;
-};
+}

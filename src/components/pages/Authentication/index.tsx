@@ -1,48 +1,43 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
+
 import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
 import { GRAY, BLACK, GAINS_BORO } from 'settings/__color';
 import Login from './Login';
 import SignUp from './SignUp';
+import { AuthenticationProps } from 'components/containers/AuthenticationContainer';
 
+export interface AuthenticationFormProps extends AuthenticationProps {
+  isLoading: boolean;
+}
 
 const { useState } = React;
 
-function Authentication({isLoading}) {
+function Authentication({ isLoading }: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
   const [display, setDisplay] = useState(1);
 
-  function handleTabChange(tabNumber: number) {
-    setDisplay(tabNumber);
+  function handleTabChange(tabNumber: number): () => void {
+    return function(): void {
+      setDisplay(tabNumber);
+    };
   }
 
   return (
     <AuthenticationLayout>
       <Authentication.Wrapper>
         <Authentication.Header>
-          <button
-            className={display === 0 ? '__active' : ''}
-            onClick={() => handleTabChange(0)}
-          >
+          <button className={display === 0 ? '__active' : ''} onClick={handleTabChange(0)}>
             Login
-        </button>
+          </button>
           <span className="divider" />
-          <button
-            className={display === 1 ? '__active' : ''}
-            onClick={() => handleTabChange(1)}
-          >
+          <button className={display === 1 ? '__active' : ''} onClick={handleTabChange(1)}>
             Sign Up
-        </button>
+          </button>
         </Authentication.Header>
-        <Authentication.Content>
-          {
-            !display
-              ? <Login />
-              : <SignUp isLoading={isLoading}/>
-          }
-        </Authentication.Content>
+        <Authentication.Content>{!display ? <Login /> : <SignUp isLoading={isLoading} />}</Authentication.Content>
       </Authentication.Wrapper>
     </AuthenticationLayout>
   );
@@ -82,7 +77,7 @@ Authentication.Header = styled.header`
     &:hover {
       cursor: pointer;
       color: ${BLACK};
-      background: rgba(0, 0, 0, .05);
+      background: rgba(0, 0, 0, 0.05);
     }
 
     &:focus {
@@ -95,9 +90,10 @@ Authentication.Content = styled.main`
   width: 100%;
 `;
 
-const mapStateToProps = state => {
-  return{
-    isLoading: state.auth.status.isLoading
-  }
-}
-export default connect(mapStateToProps)(Authentication)
+const mapStateToProps = (state): Pick<AuthenticationFormProps, 'isLoading'> => {
+  return {
+    isLoading: state.auth.status.isLoading,
+  };
+};
+
+export default connect(mapStateToProps)(Authentication);

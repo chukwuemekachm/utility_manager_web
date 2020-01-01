@@ -10,11 +10,13 @@ export function* errorHandler(error, errorCb) {
     }
     yield put(errorCb(error.response.data));
     if (error.response.data && error.response.data.message) {
-      yield put(showNotification({
-        message: error.response.data.message,
-        type: NOTIFICATION_TYPES.ERROR,
-        delay: 4000,
-      }));
+      yield put(
+        showNotification({
+          message: error.response.data.message,
+          type: NOTIFICATION_TYPES.ERROR,
+          delay: 4000,
+        }),
+      );
     }
     return null;
   } else if (error.request) {

@@ -9,6 +9,4 @@ export const hideNotification = () => ({
   type: notificationConstants.HIDE_NOTIFICATION,
 });
 
-export {
-  notificationConstants,
-};
+export { notificationConstants };

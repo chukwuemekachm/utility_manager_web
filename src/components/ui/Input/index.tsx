@@ -9,8 +9,8 @@ type InputType = 'text' | 'number' | 'email' | 'password';
 
 interface InputProps {
   type?: InputType;
-  name: string,
-  title: string,
+  name: string;
+  title: string;
   value: string;
   errorFeedback?: string[];
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -18,32 +18,26 @@ interface InputProps {
 }
 
 export default function Input(props: InputProps) {
-  const {
-    type = 'text', name, title,
-    handleChange, handleBlur = () => true,
-    value, errorFeedback = [],
-  } = props;
+  const { type = 'text', name, title, handleChange, handleBlur = () => true, value, errorFeedback = [] } = props;
   return (
     <Input.Wrapper>
       <label>{title}</label>
       <span className="input-wrapper">
-        <input
-          value={value}
-          name={name}
-          type={type}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+        <input value={value} name={name} type={type} onChange={handleChange} onBlur={handleBlur} />
       </span>
-      {errorFeedback && errorFeedback.map(message => <span key={message} className="input-error-feedback">{message}</span>)}
+      {errorFeedback &&
+        errorFeedback.map(message => (
+          <span key={message} className="input-error-feedback">
+            {message}
+          </span>
+        ))}
     </Input.Wrapper>
   );
 }
 
 Input.Wrapper = styled.div`
-
   @media (max-width: ${__layouts.lg}) {
-    &:first-child{
+    &:first-child {
       margin-top: 10%;
     }
   }
