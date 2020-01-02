@@ -26,14 +26,10 @@ const initialState = {
   message: ''
 };
 
-<<<<<<< HEAD
-export default function authReducer(state: AuthState = initialState, { type, payload }) {
-=======
 export default function authReducer(
   state: AuthState = initialState,
   { type, payload }
 ) {
->>>>>>> minor changes from PR comment
   switch (type) {
     case authConstants.SIGN_UP_REQUEST:
       return {
@@ -120,13 +116,8 @@ export default function authReducer(
           isLoading: false,
           hasError: false,
           data: payload,
-<<<<<<< HEAD
-          errors: {},
-        },
-=======
           errors: {}
         }
->>>>>>> minor changes from PR comment
       };
     case authConstants.CHANGE_USER_PASSWORD_FAILURE:
       return {
@@ -136,13 +127,8 @@ export default function authReducer(
           isLoading: false,
           hasError: true,
           errors: payload,
-<<<<<<< HEAD
-          data: {},
-        },
-=======
           data: {}
         }
->>>>>>> minor changes from PR comment
       };
     default:
       return state;

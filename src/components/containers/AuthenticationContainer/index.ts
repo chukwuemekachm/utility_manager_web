@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { validatePayload } from 'lib/validator';
 
 type AuthenticationFormValues = {
@@ -19,13 +18,6 @@ export interface AuthenticationProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
   handleSubmit: (trigger: string) => (event: React.FormEvent<HTMLFormElement>) => void;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-  isLoading: boolean;
-=======
->>>>>>> Login working
->>>>>>> Login working
 }
 
 const initialState = {
@@ -39,12 +31,12 @@ const initialState = {
   errors: {},
 };
 
-const { SIGN_UP_REDIRECT_URL = 'http://localhost:8080/signup/redirect' } = process.env;
+const {
+  SIGN_UP_REDIRECT_URL = 'http://localhost:8080/signup/redirect'
+} = process.env;
 
 export default function withAuthenticationContainer(WrappedComponent) {
-  return function AuthenticationContainer(
-    props: Record<string, any>,
-  ): React.FunctionComponentElement<AuthenticationProps> {
+  return function AuthenticationContainer(props: Record<string, any>) {
     const [values, setValues] = React.useState(initialState);
 
     function handleChange({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>) {
@@ -61,11 +53,7 @@ export default function withAuthenticationContainer(WrappedComponent) {
           errors: {
             ...values.errors,
             [name]: [],
-<<<<<<< HEAD
-          },
-=======
           }
->>>>>>> Login working
         });
       }
     }
@@ -81,20 +69,10 @@ export default function withAuthenticationContainer(WrappedComponent) {
             return handleLogin();
           case 'NEW_PASSWORD':
             return handleAuthOperation(
-<<<<<<< HEAD
-<<<<<<< HEAD
               'changeUserPassword',
               'changePassword');
-=======
-                'changeUserPassword',
-                'changePassword');
->>>>>>> Minor changes
           case "LOGIN":
             return handleLogin();
-=======
-              'changeUserPassword',
-              'changePassword');
->>>>>>> Login working
           default:
             return handleSignUp();
         }
@@ -126,7 +104,7 @@ export default function withAuthenticationContainer(WrappedComponent) {
       return signUp({ ...values, redirectURL: SIGN_UP_REDIRECT_URL });
     }
 
-    async function handleAuthOperation(schemaKey: string, validFuncName: string): Promise<void> {
+    async function handleAuthOperation(schemaKey, validFuncName) {
       const errors = await validatePayload(values, schemaKey);
       if (errors) {
         return setValues({
@@ -134,39 +112,9 @@ export default function withAuthenticationContainer(WrappedComponent) {
           errors,
         });
       }
-<<<<<<< HEAD
-<<<<<<< HEAD
       return props[validFuncName](values);
-      async function handleLogin() {
-        const { makeLoginRequest } = props;
-        const errors = await validatePayload(values, "validateLoginValues");
-        if (errors) {
-          return setValues({
-            ...values,
-            errors
-          });
-        }
-        console.log(values, "from auth container");
-        return makeLoginRequest(values);
-      }
-=======
-        return props[validFuncName](values);
-    async function handleLogin() {
-      const { makeLoginRequest } = props;
-      const errors = await validatePayload(values, "validateLoginValues");
-      if (errors) {
-        return setValues({
-          ...values,
-          errors
-        });
-      }
-      console.log(values, "from auth container");
-      return makeLoginRequest(values);
->>>>>>> Minor changes
-=======
-      return props[validFuncName](values);
->>>>>>> Login working
     }
+
 
     function composeProps() {
       return {
@@ -183,6 +131,3 @@ export default function withAuthenticationContainer(WrappedComponent) {
     return React.createElement(WrappedComponent, composeProps());
   }
 }
-
-
-
