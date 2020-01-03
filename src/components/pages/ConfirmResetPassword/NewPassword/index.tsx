@@ -46,7 +46,9 @@ function NewPassword(props: NewPasswordProps): React.ReactElement<NewPasswordPro
         value={values.confirmPassword}
         errorFeedback={errors.confirmPassword}
       />
-      <Button type="submit" isLoading={isLoading}>Confirm New Password</Button>
+      <Button type="submit" isLoading={isLoading}>
+        Confirm New Password
+      </Button>
     </NewPassword.Wrapper>
   );
 }

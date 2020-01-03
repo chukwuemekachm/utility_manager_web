@@ -7,15 +7,14 @@ import { fontWeights, fontSizes } from 'settings/__fonts';
 import __layouts from 'settings/__layouts';
 
 interface LogoProps {
-  hasText?: boolean,
+  hasText?: boolean;
 }
-
 
 export default function Logo({ hasText = true }: LogoProps) {
   return (
     <Logo.Wrapper>
       <i className="icon ion-md-construct" />
-      { hasText && 'Utility Manager' }
+      {hasText && 'Utility Manager'}
     </Logo.Wrapper>
   );
 }
@@ -26,7 +25,7 @@ Logo.Wrapper = styled.h2<LogoProps>`
   font-weight: ${fontWeights.normal};
   margin: 0;
 
-  i { 
+  i {
     width: ${fontSizes.xLarge};
     height: ${fontSizes.xLarge};
     display: flex;

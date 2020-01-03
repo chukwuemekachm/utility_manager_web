@@ -1,5 +1,5 @@
 import React from 'react';
-import { text } from "@storybook/addon-knobs";
+import { text } from '@storybook/addon-knobs';
 import Footer from '.';
 
 export default {
@@ -10,8 +10,4 @@ export default {
 const label = 'title';
 const defaultValue = 'Sign Up';
 
-export const footer = () => (
-  <Footer
-    title={text(label, defaultValue)}
-  />
-);
+export const footer = () => <Footer title={text(label, defaultValue)} />;

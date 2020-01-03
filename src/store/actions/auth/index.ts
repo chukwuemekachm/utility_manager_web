@@ -35,11 +35,22 @@ export const changeUserPasswordSuccess = payload => ({
   payload,
 });
 
-//
-// export const changeUserPassword = payload => ({
-//   type: authConstants.CHANGE_USER_PASSWORD_REQUEST,
-//   payload,
-// });
+export const forgotPassword = payload => {
+  return {
+    type: authConstants.FORGOT_PASSWORD_REQUEST,
+    payload,
+  };
+};
+
+export const forgotPasswordSuccess = payload => ({
+  type: authConstants.FORGOT_PASSWORD_SUCCESS,
+  payload,
+});
+
+export const forgotPasswordError = payload => ({
+  type: authConstants.FORGOT_PASSWORD_ERROR,
+  payload,
+});
 
 export {
   authConstants // Can't aggregate and use the values from the aggregated export at the same time

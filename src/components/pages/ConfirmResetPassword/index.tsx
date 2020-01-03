@@ -8,15 +8,19 @@ import { __content, __wrapper } from '../../layouts/__authPage.css';
 import NewPassword from './NewPassword';
 
 export default function ResetPasswordLayout() {
+  const args = location.search.split('?')[1];
+  const splittedArgs = args.split('&');
+  let expiresAt = splittedArgs.find(element => element.startsWith('expiresAt='));
+  expiresAt = expiresAt.split('=')[1].replace('+', ' ');
+  const dateObj = new Date(expiresAt);
+
+  const linkHasExpired = dateObj > new Date();
   return (
     <ResetPasswordLayout.Wrapper>
       <ResetPasswordLayout.Content>
+        <Logo />
 
-        <Logo/>
-
-        <main className="main-content">
-          <NewPassword />
-        </main>
+        <main className="main-content">{linkHasExpired ? <div>Link Expired</div> : <NewPassword />}</main>
       </ResetPasswordLayout.Content>
     </ResetPasswordLayout.Wrapper>
   );

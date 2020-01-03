@@ -6,7 +6,7 @@ import __spacing from 'settings/__spacing';
 import { fontSizes, fontWeights } from 'settings/__fonts';
 import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER } from 'settings/__color';
 
-export type ButtonType = "submit" | 'button' | 'reset';
+export type ButtonType = 'submit' | 'button' | 'reset';
 
 interface ButtonProps {
   type?: ButtonType;
@@ -16,17 +16,19 @@ interface ButtonProps {
 }
 
 function Button(props: ButtonProps) {
-  const { type = "submit", children, isLoading, handleClick } = props;
+  const { type = 'submit', children, isLoading, handleClick } = props;
 
   return (
     <Button.Wrapper>
-      {
-        !isLoading
-          ? <button type={type} onClick={handleClick}>{children}</button>
-          : <Loader size='small' />
-      }
+      {!isLoading ? (
+        <button type={type} onClick={handleClick}>
+          {children}
+        </button>
+      ) : (
+        <Loader size="small" />
+      )}
     </Button.Wrapper>
-  )
+  );
 }
 
 Button.Wrapper = styled.div`
@@ -34,10 +36,10 @@ Button.Wrapper = styled.div`
   padding: 0;
   display: flex;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   height: 2.5em;
   width: 100%;
-  
+
   button {
     height: 100%;
     width: 100%;

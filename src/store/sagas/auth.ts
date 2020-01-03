@@ -1,9 +1,15 @@
 import { takeLatest, all, fork, call, put } from 'redux-saga/effects';
-import {
-  authConstants, signUpSuccess, signUpError,
-  changeUserPasswordFailure, changeUserPasswordSuccess
-} from 'store/actions/auth';
 import { showNotification } from 'store/actions/notification';
+import {
+  authConstants,
+  signUpSuccess,
+  signUpError,
+  changeUserPasswordFailure,
+  changeUserPasswordSuccess,
+  forgotPasswordError,
+  forgotPasswordSuccess,
+} from 'store/actions/auth';
+import { moveToNextPage } from 'store/actions/navigation';
 import { errorHandler } from 'store/helpers';
 import api, { authRequest } from 'services/api';
 
@@ -27,6 +33,26 @@ function* signUpUser(action) {
     yield put(moveToNextPage(payload));
   } catch (error) {
     yield fork(errorHandler, error, signUpError);
+  }
+}
+
+function* forgotPasswordHandler(action) {
+  try {
+    const requestData = {
+      email: action.payload.email,
+      redirectURL: `${location.origin}/reset-password`,
+    };
+    const { data } = yield call([api, 'patch'], authRequest.FORGOT_PASSWORD, requestData);
+    yield put(forgotPasswordSuccess(data));
+    const payload = {
+      nextPageRoute: '/success-feedback',
+      data: {
+        authSuccessType: 'RESET_PASSWORD',
+      },
+    };
+    yield put(moveToNextPage(payload));
+  } catch (error) {
+    yield fork(errorHandler, error, forgotPasswordError);
   }
 }
 
@@ -57,9 +83,10 @@ function* loginUser(action) {
       payload: data.data
     });
   } catch (error) {
+    let response = yield error.response;
     yield put({
       type: authConstants.LOGIN_ERROR,
-      payload: error.response.data
+      payload: response.data
     });
   }
 }
@@ -71,14 +98,21 @@ export function* watchLoginUser() {
   yield takeLatest(authConstants.LOGIN_REQUEST, loginUser);
 }
 
+export function* watchForgotPassword() {
+  yield takeLatest(authConstants.FORGOT_PASSWORD_REQUEST, forgotPasswordHandler);
+}
+
 export function* watchChangeUserPassword() {
   yield takeLatest(authConstants.CHANGE_USER_PASSWORD_REQUEST, changeUserPassword);
 }
 
 export default function* authSaga() {
+
+
   yield all([
     fork(watchSignUpUser),
     fork(watchChangeUserPassword),
-    fork(watchLoginUser)
+    fork(watchLoginUser),
+    fork(watchForgotPassword),
   ]);
-}   
+}

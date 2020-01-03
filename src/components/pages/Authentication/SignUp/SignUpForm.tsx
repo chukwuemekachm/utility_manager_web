@@ -67,7 +67,9 @@ function SignUpForm(props: AuthenticationFormProps): React.ReactElement<Authenti
         value={values.confirmPassword}
         errorFeedback={errors.confirmPassword}
       />
-    <Button type="submit" isLoading={isLoading}>Sign Up</Button>
+      <Button type="submit" isLoading={isLoading}>
+        Sign Up
+      </Button>
     </SignUpForm.Wrapper>
   );
 }
