@@ -14,9 +14,11 @@ const backGroundURL =
 
 interface AuthenticationLayoutProps {
   children: React.ReactNode;
+  showTerms?: boolean;
 }
 
 export default function AuthenticationLayout({
+  showTerms,
   children,
 }: AuthenticationLayoutProps): React.ReactElement<AuthenticationLayoutProps> {
   return (
@@ -24,7 +26,7 @@ export default function AuthenticationLayout({
       <AuthenticationLayout.Content>
         <Logo />
         <main className="main-content">{children}</main>
-        <Footer title="Sign Up" />
+        {showTerms ? <Footer title="Sign Up" /> : ''}
       </AuthenticationLayout.Content>
       <AuthenticationLayout.Overlay>
         <div className="overlay">

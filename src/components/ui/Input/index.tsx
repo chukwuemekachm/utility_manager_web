@@ -5,9 +5,9 @@ import { fontSizes } from 'settings/__fonts';
 import __spacing from 'settings/__spacing';
 import { GAINS_BORO, GRAY, CRIMSON } from 'settings/__color';
 
-type InputType = 'text' | 'number' | 'email' | 'password';
+export type InputType = 'text' | 'number' | 'email' | 'password';
 
-interface InputProps {
+export interface InputProps {
   type?: InputType;
   name: string;
   title: string;

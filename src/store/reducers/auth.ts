@@ -16,20 +16,17 @@ const initialState = {
   status: {
     isAuthenticated: false,
     isLoading: false,
-    hasError: false
+    hasError: false,
   },
   error: {
     message: '',
-    errors: []
+    errors: [],
   },
   data: {},
-  message: ''
+  message: '',
 };
 
-export default function authReducer(
-  state: AuthState = initialState,
-  { type, payload }
-) {
+export default function authReducer(state: AuthState = initialState, { type, payload }) {
   switch (type) {
     case authConstants.FORGOT_PASSWORD_REQUEST:
       return {
@@ -68,8 +65,8 @@ export default function authReducer(
         ...state,
         status: {
           ...state.status,
-          isLoading: true
-        }
+          isLoading: true,
+        },
       };
 
     case authConstants.SIGN_UP_SUCCESS:
@@ -77,13 +74,13 @@ export default function authReducer(
         ...state,
         status: {
           ...state.status,
-          isLoading: false
+          isLoading: false,
         },
         data: {
           ...state.data,
-          ...payload.data
+          ...payload.data,
         },
-        message: payload.message
+        message: payload.message,
       };
     case authConstants.SIGN_UP_ERROR:
       return {
@@ -91,17 +88,17 @@ export default function authReducer(
         status: {
           ...state.status,
           isLoading: false,
-          hasError: true
+          hasError: true,
         },
-        message: payload.message
+        message: payload.message,
       };
     case authConstants.LOGIN_REQUEST:
       return {
         ...state,
         status: {
           ...state.status,
-          isLoading: true
-        }
+          isLoading: true,
+        },
       };
     case authConstants.LOGIN_SUCCESS:
       return {
@@ -109,13 +106,13 @@ export default function authReducer(
         status: {
           isAuthenticated: true,
           isLoading: false,
-          hasError: false
+          hasError: false,
         },
         error: {
           message: '',
-          errors: []
+          errors: [],
         },
-        data: payload
+        data: payload,
       };
     case authConstants.LOGIN_ERROR:
       return {
@@ -123,13 +120,13 @@ export default function authReducer(
         status: {
           isAuthenticated: false,
           isLoading: false,
-          hasError: true
+          hasError: true,
         },
         error: {
           message: payload.message,
-          errors: state.error.errors.concat(payload.status)
+          errors: state.error.errors.concat(payload.status),
         },
-        data: {}
+        data: {},
       };
 
     case authConstants.CHANGE_USER_PASSWORD_REQUEST:
@@ -137,8 +134,8 @@ export default function authReducer(
         ...state,
         status: {
           ...state.status,
-          isLoading: true
-        }
+          isLoading: true,
+        },
       };
     case authConstants.CHANGE_USER_PASSWORD_SUCCESS:
       return {
@@ -148,8 +145,8 @@ export default function authReducer(
           isLoading: false,
           hasError: false,
           data: payload,
-          errors: {}
-        }
+          errors: {},
+        },
       };
     case authConstants.CHANGE_USER_PASSWORD_FAILURE:
       return {
@@ -159,8 +156,8 @@ export default function authReducer(
           isLoading: false,
           hasError: true,
           errors: payload,
-          data: {}
-        }
+          data: {},
+        },
       };
     default:
       return state;

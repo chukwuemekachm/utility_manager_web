@@ -4,6 +4,8 @@ import styled from '@emotion/styled';
 import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
 import { AuthenticationFormProps } from 'components/pages/Authentication';
+import Checkbox from '../../../ui/Checkbox';
+import Link from '../../../ui/Link';
 
 function SignUpForm(props: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
   const {
@@ -51,7 +53,7 @@ function SignUpForm(props: AuthenticationFormProps): React.ReactElement<Authenti
       />
       <Input
         name="password"
-        type="password"
+        type={values.showPassword ? 'text' : 'password'}
         handleChange={handleChange}
         handleBlur={handleBlur}
         title="Password"
@@ -60,16 +62,28 @@ function SignUpForm(props: AuthenticationFormProps): React.ReactElement<Authenti
       />
       <Input
         name="confirmPassword"
-        type="password"
+        type={values.showPassword ? 'text' : 'password'}
         handleChange={handleChange}
         handleBlur={handleBlur}
         title="Confirm Password"
         value={values.confirmPassword}
         errorFeedback={errors.confirmPassword}
       />
+
+      <Checkbox
+        name="showPassword"
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+        value="checkShowPassword"
+        errorFeedback={errors.confirmPassword}
+        checked={values.showPassword}
+      >
+        Show Passwords
+      </Checkbox>
       <Button type="submit" isLoading={isLoading}>
         Sign Up
       </Button>
+      <div className="forgot-link"></div>
     </SignUpForm.Wrapper>
   );
 }
