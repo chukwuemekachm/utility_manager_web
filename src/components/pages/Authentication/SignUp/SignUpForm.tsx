@@ -5,7 +5,6 @@ import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
 import { AuthenticationFormProps } from 'components/pages/Authentication';
 import Checkbox from '../../../ui/Checkbox';
-import Link from '../../../ui/Link';
 
 function SignUpForm(props: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
   const {
@@ -50,6 +49,7 @@ function SignUpForm(props: AuthenticationFormProps): React.ReactElement<Authenti
         title="Username"
         value={values.username}
         errorFeedback={errors.username}
+        autoComplete="username"
       />
       <Input
         name="password"
@@ -59,6 +59,7 @@ function SignUpForm(props: AuthenticationFormProps): React.ReactElement<Authenti
         title="Password"
         value={values.password}
         errorFeedback={errors.password}
+        autoComplete="new-password"
       />
       <Input
         name="confirmPassword"
@@ -68,6 +69,7 @@ function SignUpForm(props: AuthenticationFormProps): React.ReactElement<Authenti
         title="Confirm Password"
         value={values.confirmPassword}
         errorFeedback={errors.confirmPassword}
+        autoComplete="new-password"
       />
 
       <Checkbox

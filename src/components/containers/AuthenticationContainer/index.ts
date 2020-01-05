@@ -9,7 +9,7 @@ type AuthenticationFormValues = {
   usernameOrEmail: string;
   password: string;
   confirmPassword: string;
-  showPassword: boolean;
+  showPassword?: boolean;
   errors: Record<string, string[]>;
 };
 
@@ -32,7 +32,7 @@ const initialState = {
   errors: {},
 };
 
-const { SIGN_UP_REDIRECT_URL = `${location.origin}/signup/redirect` } = process.env;
+const { SIGN_UP_REDIRECT_URL = `${location.origin}/dashboard` } = process.env;
 
 export default function withAuthenticationContainer(WrappedComponent) {
   return function AuthenticationContainer(props: Record<string, any>) {

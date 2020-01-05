@@ -5,6 +5,10 @@ export const authRequest = {
   FORGOT_PASSWORD: '/auth/reset',
 };
 
+export const dashboardRequest = {
+  PROFILE: '/user/profile',
+};
 export default {
   auth: authRequest,
+  dashboard: dashboardRequest,
 };

@@ -6,7 +6,7 @@ import { GAINS_BORO, GRAY, CRIMSON, BRAND_PRIMARY } from 'settings/__color';
 import { InputProps } from '../Input';
 export type InputType = 'text' | 'number' | 'email' | 'password';
 
-export interface CheckboxProps extends Omit<InputProps, 'title' | 'type'> {
+export interface CheckboxProps extends Omit<InputProps, 'title' | 'autoComplete' | 'type'> {
   checked: boolean;
   disabled?: boolean;
   children: React.ReactNode;

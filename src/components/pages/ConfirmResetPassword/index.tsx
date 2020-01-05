@@ -7,13 +7,18 @@ import { changeUserPassword } from '../../../store/actions/auth';
 import withAuthenticationContainer from 'components/containers/AuthenticationContainer';
 
 function ResetPasswordLayout(props: NewPasswordProps) {
-  const args = location.search.split('?')[1];
-  const splittedArgs = args.split('&');
-  let expiresAt = splittedArgs.find(element => element.startsWith('expiresAt='));
-  expiresAt = expiresAt.split('=')[1].replace('+', ' ');
-  const dateObj = new Date(expiresAt);
+  const args = location.search && location.search.split('?')[1];
+  const splittedArgs = args && args.split('&');
 
-  const linkHasExpired = dateObj < new Date();
+  let expiresAt = splittedArgs && splittedArgs.find(element => element.startsWith('expiresAt='));
+  let linkHasExpired = true;
+  if (expiresAt) {
+    expiresAt = expiresAt.split('=')[1].replace('+', ' ');
+    const dateObj = new Date(expiresAt);
+    const dateIsInvalid = Number.isNaN(dateObj.getDay());
+    linkHasExpired = dateIsInvalid || !dateObj || dateObj < new Date();
+  }
+
   return (
     <AuthenticationForm showHeader={false} showTerms={false}>
       {linkHasExpired ? <div>Link Expired</div> : <NewPassword {...props} />}
