@@ -32,6 +32,7 @@ export default function Login(props: LoginFormProps) {
         title="Username Or Email"
         value={values.usernameOrEmail}
         errorFeedback={errors.usernameOrEmail}
+        autoComplete="username"
       />
       <Input
         name="password"
@@ -41,6 +42,7 @@ export default function Login(props: LoginFormProps) {
         title="Password"
         value={values.password}
         errorFeedback={errors.password}
+        autoComplete="current-password"
       />
       <Checkbox
         name="showPassword"

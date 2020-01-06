@@ -12,18 +12,35 @@ export interface InputProps {
   name: string;
   title: string;
   value: string;
+  autoComplete?: string;
   errorFeedback?: string[];
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 export default function Input(props: InputProps) {
-  const { type = 'text', name, title, handleChange, handleBlur = () => true, value, errorFeedback = [] } = props;
+  const {
+    type = 'text',
+    name,
+    autoComplete,
+    title,
+    handleChange,
+    handleBlur = () => true,
+    value,
+    errorFeedback = [],
+  } = props;
   return (
     <Input.Wrapper>
       <label>{title}</label>
       <span className="input-wrapper">
-        <input value={value} name={name} type={type} onChange={handleChange} onBlur={handleBlur} />
+        <input
+          autoComplete={autoComplete}
+          value={value}
+          name={name}
+          type={type}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
       </span>
       {errorFeedback &&
         errorFeedback.map(message => (

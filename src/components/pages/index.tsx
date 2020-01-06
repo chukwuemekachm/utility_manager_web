@@ -36,6 +36,11 @@ const pageRoutes = [
     component: withSuspense('AuthenticationFeedback'),
     exact: true,
   },
+  {
+    path: '/dashboard',
+    component: withSuspense('Dashboard'),
+    exact: true,
+  },
 ];
 
 export default function Pages(): React.ReactElement<{}> {

@@ -1,5 +1,4 @@
 import { takeLatest, all, fork, call, put } from 'redux-saga/effects';
-import { showNotification } from 'store/actions/notification';
 import {
   authConstants,
   signUpSuccess,
@@ -74,6 +73,15 @@ function* loginUser(action) {
       type: authConstants.LOGIN_SUCCESS,
       payload: data.data,
     });
+    const payload = {
+      nextPageRoute: '/dashboard',
+      data: {
+        userData: {
+          ...data.data,
+        },
+      },
+    };
+    yield put(moveToNextPage(payload));
   } catch (error) {
     const response = yield error.response;
     yield put({
