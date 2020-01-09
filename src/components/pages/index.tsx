@@ -2,8 +2,8 @@
 /* eslint-disable react/display-name */
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
-
 import PageWrapper from 'components/HOC/PageWrapper';
+import SuspenseLoader from '../ui/SuspenseLoader';
 
 function withSuspense(page: string, data?: Record<string, any>): React.FC<null> {
   return function(props: Record<string, any>): React.ReactElement<Record<string, any>> {
@@ -11,7 +11,7 @@ function withSuspense(page: string, data?: Record<string, any>): React.FC<null> 
 
     // TODO: implement fallback loader/spinner for lazy loading
     return (
-      <React.Suspense fallback={<div>Loading...</div>}>
+      <React.Suspense fallback={<SuspenseLoader />}>
         <PageWrapper>
           <LazyComponent {...props} {...data} />
         </PageWrapper>
