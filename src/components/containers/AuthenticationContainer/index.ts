@@ -9,7 +9,7 @@ type AuthenticationFormValues = {
   usernameOrEmail: string;
   password: string;
   confirmPassword: string;
-  showPassword?: boolean;
+  showPassword: boolean;
   errors: Record<string, string[]>;
 };
 

@@ -9,17 +9,21 @@ import { SyntheticEvent } from 'react';
 
 interface AuthenticationFormLayoutProps {
   showTerms?: boolean;
+
   display?: number;
   showHeader?: boolean;
+
   children: React.ReactNode;
-  handleTabChange?: (tabNumber: number) => React.EventHandler<SyntheticEvent>;
+  handleTabChange?: (tabNumber?: number) => React.EventHandler<SyntheticEvent>;
 }
 export function AuthenticationFormLayout({
   showTerms = true,
   display,
   showHeader = true,
   children,
-  handleTabChange,
+  handleTabChange = tabNumber => {
+    return (() => null) as React.EventHandler<SyntheticEvent>;
+  },
 }: AuthenticationFormLayoutProps) {
   return (
     <AuthenticationLayout showTerms={showTerms}>

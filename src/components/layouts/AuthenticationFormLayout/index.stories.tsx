@@ -12,10 +12,6 @@ export const authenticationFormLayout = () => (
     display={number('display', 0)}
     showHeader={boolean('showHeader', false)}
     showTerms={boolean('showTerms', true)}
-    handleTabChange={(): React.EventHandler<SyntheticEvent> => {
-      action('Tab Clicked!');
-      return null;
-    }}
   >
     {''}
   </AuthenticationFormLayout>
