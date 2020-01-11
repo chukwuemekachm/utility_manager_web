@@ -10,3 +10,9 @@ export function sleep(milliseconds): void {
     }
   }
 }
+
+export function convertFromPixelsToRem(size: number): string {
+  return `${(size / 16).toFixed(4)}rem`;
+}
+
+export default convertFromPixelsToRem;
