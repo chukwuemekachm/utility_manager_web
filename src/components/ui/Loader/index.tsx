@@ -20,7 +20,7 @@ export default function Loader({ size }: LoaderProps) {
   );
 }
 
-Loader.Wrapper = styled.div`
+Loader.Wrapper = styled.div<LoaderWrapperProps>`
   padding: ${__spacing.small};
   .loader {
     border: 3px solid ${BRAND_WHITE};

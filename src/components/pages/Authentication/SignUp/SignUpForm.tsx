@@ -85,7 +85,6 @@ function SignUpForm(props: AuthenticationFormProps): React.ReactElement<Authenti
       <Button type="submit" isLoading={isLoading}>
         Sign Up
       </Button>
-      <div className="forgot-link"></div>
     </SignUpForm.Wrapper>
   );
 }

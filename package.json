@@ -12,6 +12,9 @@
     "start": "node server.js",
     "dev": "yarn build:dev && rm -rf dist && webpack-dev-server --env.mode development --open --hot",
     "storybook": "start-storybook",
+    "ts-test": "tsc --noEmit --strict",
+    "lint-test": "rm -rf dist && tsc --noEmit && eslint '*/**/*.{js,ts,tsx}'",
+    "test": "exit 0",
     "lint": "rm -rf dist && tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "husky": {
