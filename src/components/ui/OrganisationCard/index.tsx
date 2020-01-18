@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 
-import { DARK_GRAY } from 'settings/__color';
+import { DARK_GRAY, BRAND_WHITE } from 'settings/__color';
 import { fontSizes } from 'settings/__fonts';
 import __layouts from 'settings/__layouts';
 
@@ -21,7 +21,7 @@ export default function OrganisationCard(props: OrganisationCardProps): React.Re
           <img src={img} alt="organisation image" />
         </div>
         <div className="organisation-name">
-          <h2>{name}</h2>
+          <h3>{name}</h3>
           <div className="organisation-role">
             <div>
               <div className="role">
@@ -42,12 +42,15 @@ export default function OrganisationCard(props: OrganisationCardProps): React.Re
   );
 }
 
-OrganisationCard.Wrapper = styled.div`
+OrganisationCard.Wrapper = styled.article`
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
+  margin: 5% auto;
+  width: 98%;
+  background-color: ${BRAND_WHITE};
 `;
 
-OrganisationCard.Content = styled.section`
+OrganisationCard.Content = styled.div`
   width: 95vw;
   display: flex;
   height: 33vh;
@@ -63,11 +66,18 @@ OrganisationCard.Content = styled.section`
     }
   }
   .organisation-name {
-    padding: 0 10px;
-    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .organisation-name-sub {
+    height: 100%;
+    padding: 0;
   }
 
   .organisation-role {
+    height: 70%;
     line-height: 12px;
   }
 
@@ -79,8 +89,8 @@ OrganisationCard.Content = styled.section`
   }
 
   @media (max-width: ${__layouts.sm}) {
-    width: 100vw;
-    height: 16vh;
+    width: 100%;
+    height: 19vh;
     p {
       font-size: ${fontSizes.small};
     }
@@ -107,7 +117,7 @@ OrganisationCard.Content = styled.section`
     }
 
     .organisation-name {
-      margin: 2% 0;
+      margin: 0;
     }
   }
 

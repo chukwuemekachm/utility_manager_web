@@ -38,7 +38,6 @@ export default function DashBoardLayout(props: DashBoardLayoutProps): React.Reac
 
 DashBoardLayout.Wrapper = styled.div`
   background-color: ${WHITE_SMOKE};
-  height: 100vh;
 `;
 
 DashBoardLayout.ProfileWrapper = styled.section``;

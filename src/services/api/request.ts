@@ -7,6 +7,7 @@ export const authRequest = {
 
 export const dashboardRequest = {
   PROFILE: '/user/profile',
+  ORGANISATION: '/user/orgs?sort_by=role.name',
 };
 export default {
   auth: authRequest,
