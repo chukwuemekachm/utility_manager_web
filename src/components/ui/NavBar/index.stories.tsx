@@ -6,4 +6,4 @@ export default {
   title: 'components/ui/NavBar',
 };
 
-export const logo = (): React.ReactElement<{}> => <NavBar />;
+export const navBar = (): React.ReactElement<{}> => <NavBar />;

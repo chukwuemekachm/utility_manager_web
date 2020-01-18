@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 
 import __spacing from 'settings/__spacing';
 import { BRAND_PRIMARY, BRAND_WHITE } from 'settings/__color';
-import { fontWeights, fontSizes } from 'settings/__fonts';
+import { fontWeights } from 'settings/__fonts';
 import Icon from 'components/ui/Icon';
 
-interface LogoProps {
+export interface LogoProps {
   hasText?: boolean;
 }
 

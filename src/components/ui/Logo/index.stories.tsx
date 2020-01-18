@@ -4,7 +4,7 @@ import Logo from '.';
 
 export default {
   component: Logo,
-  title: 'components/layouts/Logo',
+  title: 'components/ui/Logo',
 };
 
 const label = 'hasText';

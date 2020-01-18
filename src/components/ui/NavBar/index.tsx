@@ -15,7 +15,7 @@ export default function NavBar(): React.ReactElement<{}> {
 }
 
 NavBar.Wrapper = styled.nav`
-  padding: ${__spacing.small};
+  padding: ${__spacing.normal};
   display: flex;
   justify-content: space-between;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
