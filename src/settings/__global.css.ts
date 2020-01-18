@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
 
-import { BRAND_WHITE, BLACK } from 'settings/__color';
+import { BRAND_WHITE } from 'settings/__color';
 
 export default css`
   body {

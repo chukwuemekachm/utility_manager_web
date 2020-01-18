@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { BRAND_PRIMARY } from '../../../settings/__color';
-import Logo from '../../layouts/Logo';
+import Logo from '../Logo';
 
 const SuspenseLoader = () => {
   return (

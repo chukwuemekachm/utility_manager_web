@@ -15,7 +15,7 @@ interface ButtonProps {
   handleClick?: () => void;
 }
 
-function Button(props: ButtonProps) {
+function Button(props: ButtonProps): React.ReactElement<ButtonProps> {
   const { type = 'submit', children, isLoading, handleClick } = props;
 
   return (
