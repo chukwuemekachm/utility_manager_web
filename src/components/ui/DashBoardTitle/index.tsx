@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 import { fontSizes, fontWeights } from 'settings/__fonts';
 import __spacing from 'settings/__spacing';
+import { BRAND_WHITE } from 'settings/__color';
 
 export interface DashBoardTitleProps {
   children: React.ReactNode;
@@ -19,5 +20,6 @@ DashBoardTitle.Wrapper = styled.h2`
   text-align: center;
   margin: 0;
   padding: ${__spacing.small};
+  background-color: ${BRAND_WHITE};
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
 `;

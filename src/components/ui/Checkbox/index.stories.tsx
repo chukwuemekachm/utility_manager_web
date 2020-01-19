@@ -1,15 +1,15 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
-import Checkbox, { CheckboxProps } from '.';
+import CheckBox, { CheckBoxProps } from '.';
 
 export default {
-  component: Checkbox,
-  title: 'components/ui/Checkbox',
+  component: CheckBox,
+  title: 'components/ui/CheckBox',
 };
 
-export const checkbox = (): React.ReactElement<CheckboxProps> => (
-  <Checkbox
+export const checkbox = (): React.ReactElement<CheckBoxProps> => (
+  <CheckBox
     handleChange={action('Changed!!')}
     handleBlur={action('Blurred!!')}
     value={text('value', 'showPassword')}
@@ -18,5 +18,5 @@ export const checkbox = (): React.ReactElement<CheckboxProps> => (
     name={text('name', 'showPassword')}
   >
     {text('children', 'Show Passwords')}
-  </Checkbox>
+  </CheckBox>
 );

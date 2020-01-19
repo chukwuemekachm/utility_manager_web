@@ -8,7 +8,7 @@ import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER } from 'settings/__colo
 
 export type ButtonType = 'submit' | 'button' | 'reset';
 
-interface ButtonProps {
+export interface ButtonProps {
   type?: ButtonType;
   children: React.ReactNode;
   isLoading: boolean;
@@ -21,11 +21,11 @@ function Button(props: ButtonProps): React.ReactElement<ButtonProps> {
   return (
     <Button.Wrapper>
       {!isLoading ? (
-        <button type={type} onClick={handleClick}>
+        <Button.Component type={type} onClick={handleClick}>
           {children}
-        </button>
+        </Button.Component>
       ) : (
-        <Loader size="small" />
+        <Loader size="SMALL" />
       )}
     </Button.Wrapper>
   );
@@ -39,29 +39,29 @@ Button.Wrapper = styled.div`
   justify-content: center;
   height: 2.5em;
   width: 100%;
+`;
 
-  button {
-    height: 100%;
-    width: 100%;
-    padding: 0 50%;
-    text-align: center;
-    padding: ${__spacing.normal};
-    font-size: ${fontSizes.small};
-    font-weight: ${fontWeights.bold};
-    border: none;
-    background: ${BRAND_PRIMARY};
-    color: ${BRAND_WHITE};
-    border-radius: 3px;
-    box-shadow: rgba(153, 153, 153, 0.1) 0px 0.32em 2em;
+Button.Component = styled.button`
+  height: 100%;
+  width: 100%;
+  padding: 0 50%;
+  text-align: center;
+  padding: ${__spacing.normal};
+  font-size: ${fontSizes.small};
+  font-weight: ${fontWeights.bold};
+  border: none;
+  background: ${BRAND_PRIMARY};
+  color: ${BRAND_WHITE};
+  border-radius: 3px;
+  box-shadow: rgba(153, 153, 153, 0.1) 0px 0.32em 2em;
 
-    &:focus {
-      outline: none;
-    }
+  &:focus {
+    outline: none;
+  }
 
-    &:hover {
-      cursor: pointer;
-      background: ${BRAND_PRIMARY_HOVER};
-    }
+  &:hover {
+    cursor: pointer;
+    background: ${BRAND_PRIMARY_HOVER};
   }
 `;
 

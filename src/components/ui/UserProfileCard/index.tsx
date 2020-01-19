@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import Avatar from 'components/ui/Avatar';
 import Icon from 'components/ui/Icon';
 import __spacing from 'settings/__spacing';
-import { fontSizes } from 'settings/__fonts';
-import { DARK_GRAY } from 'settings/__color';
+import { fontSizes, fontWeights } from 'settings/__fonts';
+import { DARK_GRAY, BRAND_WHITE } from 'settings/__color';
 
 export interface UserProfileCardProps {
   imgUrl: string;
@@ -37,6 +37,7 @@ export default function UserProfileCard(props: UserProfileCardProps): React.Reac
 UserProfileCard.Wrapper = styled.header`
   display: flex;
   padding: ${__spacing.normal};
+  background-color: ${BRAND_WHITE};
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
 `;
 
@@ -62,6 +63,7 @@ UserProfileCard.IconWrapper = styled.span`
 UserProfileCard.FullName = styled.h1`
   margin: 0;
   font-size: ${fontSizes.medium};
+  font-weight: ${fontWeights.bold};
 `;
 
 UserProfileCard.Email = styled.span`

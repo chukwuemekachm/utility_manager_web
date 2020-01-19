@@ -1,18 +1,20 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
+
 import { fontSizes } from 'settings/__fonts';
 import __spacing from 'settings/__spacing';
-import { GAINS_BORO, GRAY, CRIMSON, BRAND_PRIMARY } from 'settings/__color';
-import { InputProps } from '../Input';
+import { GRAY, BRAND_PRIMARY } from 'settings/__color';
+import { InputProps } from 'components/ui/Input';
+
 export type InputType = 'text' | 'number' | 'email' | 'password';
 
-export interface CheckboxProps extends Omit<InputProps, 'title' | 'autoComplete' | 'type'> {
+export interface CheckBoxProps extends Omit<InputProps, 'title' | 'autoComplete' | 'type'> {
   checked: boolean;
   disabled?: boolean;
   children: React.ReactNode;
 }
 
-export default function Checkbox(props: CheckboxProps) {
+export default function CheckBox(props: CheckBoxProps): React.ReactElement<CheckBoxProps> {
   const {
     name,
     children,
@@ -24,9 +26,9 @@ export default function Checkbox(props: CheckboxProps) {
     checked,
   } = props;
   return (
-    <Checkbox.Wrapper>
-      <label>
-        <input
+    <CheckBox.Wrapper>
+      <CheckBox.LabelWrapper>
+        <CheckBox.Input
           type="checkbox"
           onChange={handleChange}
           onBlur={handleBlur}
@@ -35,13 +37,13 @@ export default function Checkbox(props: CheckboxProps) {
           checked={checked}
           disabled={disabled}
         />{' '}
-        <span className="label-text">{children}</span>
-      </label>
-    </Checkbox.Wrapper>
+        <CheckBox.Label className="label-text">{children}</CheckBox.Label>
+      </CheckBox.LabelWrapper>
+    </CheckBox.Wrapper>
   );
 }
 
-Checkbox.Wrapper = styled.div`
+CheckBox.Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -52,8 +54,10 @@ Checkbox.Wrapper = styled.div`
     .label-text {
       font-size: ${fontSizes.normal};
     }
+
     input[type='checkbox'] {
       display: none;
+
       + .label-text:before {
         speak: none;
         font-family: 'Ionicons';
@@ -70,6 +74,7 @@ Checkbox.Wrapper = styled.div`
         border-radius: 5px;
         color: ${GRAY};
       }
+
       + .label-text:before {
         content: '\f15c';
       }
@@ -78,10 +83,12 @@ Checkbox.Wrapper = styled.div`
         content: '\f381';
         color: #aaa;
       }
+
       &:checked:disabled + .label-text:before {
         content: '\f148';
         color: #aaa;
       }
+
       &:checked + .label-text:before {
         content: '\f148';
         -webkit-animation: checkbox-animate 1s; /* Safari 4.0 - 8.0 */
@@ -104,3 +111,9 @@ Checkbox.Wrapper = styled.div`
     }
   }
 `;
+
+CheckBox.Label = styled.span``;
+
+CheckBox.LabelWrapper = styled.label``;
+
+CheckBox.Input = styled.input``;
