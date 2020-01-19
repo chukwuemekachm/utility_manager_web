@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
-import EmailSentSuccess from 'components/ui/EmailSentSuccess';
+import AuthMessage from 'components/ui/AuthMessage';
 
 type UserData = {
   firstName: string;
@@ -28,9 +28,7 @@ function AuthenticationFeedback({
 
   return (
     <AuthenticationLayout>
-      <EmailSentSuccess
-        message={navigationData.authSuccessType == 'SIGN_UP' ? SIGNUP_MESSAGE : RESET_PASSWORD_MESSAGE}
-      />
+      <AuthMessage>{navigationData.authSuccessType == 'SIGN_UP' ? SIGNUP_MESSAGE : RESET_PASSWORD_MESSAGE}</AuthMessage>
     </AuthenticationLayout>
   );
 }
