@@ -3,16 +3,15 @@ import styled from '@emotion/styled';
 
 import __spacing from 'settings/__spacing';
 import { AuthenticationFormProps } from 'components/pages/Authentication';
-
 import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
 import Link from 'components/ui/Link';
-import Checkbox from '../../../ui/Checkbox';
+import Checkbox from 'components/ui/Checkbox';
 
 export interface LoginFormProps extends AuthenticationFormProps {
   forgotLinkClicked: React.EventHandler<React.SyntheticEvent>;
 }
-export default function Login(props: LoginFormProps) {
+export default function Login(props: LoginFormProps): React.ReactElement<LoginFormProps> {
   const {
     handleChange,
     handleSubmit,

@@ -1,8 +1,9 @@
 import * as React from 'react';
+import styled from '@emotion/styled';
+
 import { DARK_GRAY } from 'settings/__color';
 import { fontSizes } from 'settings/__fonts';
 import __layouts from 'settings/__layouts';
-import styled from '@emotion/styled';
 
 export interface OrganisationCardProps {
   img: string;

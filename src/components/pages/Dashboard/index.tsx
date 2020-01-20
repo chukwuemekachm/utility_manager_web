@@ -47,51 +47,47 @@ function getDashBoardRoutes(path: string): RouteProps[] {
   ];
 }
 
-class Dashboard extends React.Component<DashboardProps, {}> {
-  componentDidMount(): void {
-    const { retrieveProfile } = this.props;
-    retrieveProfile();
+function getPageTitle(pathname: string): string {
+  switch (pathname) {
+    case '/dashboard/profile':
+    case '/dashboard/profile/':
+      return 'Update Profile';
+    case '/dashboard/organisation':
+    case '/dashboard/organisation/':
+      return 'Create New Organisation';
+    case '/dashboard/password':
+    case '/dashboard/password/':
+      return 'Update Password';
+    default:
+      return 'My Organisations';
   }
+}
 
-  getPageTitle = (): string => {
-    const {
-      location: { pathname },
-    } = this.props;
+function Dashboard(props: DashboardProps): React.ReactElement<DashboardProps> {
+  const {
+    retrieveProfile,
+    profile,
+    match: { path },
+    location: { pathname },
+  } = props;
 
-    switch (pathname) {
-      case '/dashboard/profile':
-      case '/dashboard/profile/':
-        return 'Update Profile';
-      case '/dashboard/organisation':
-      case '/dashboard/organisation/':
-        return 'Create New Organisation';
-      case '/dashboard/password':
-      case '/dashboard/password/':
-        return 'Update Password';
-      default:
-        return 'My Organisations';
-    }
-  };
+  React.useEffect(function(): void {
+    return retrieveProfile();
+  }, []);
 
-  render(): React.ReactElement<DashboardProps> {
-    const {
-      profile,
-      match: { path },
-    } = this.props;
-    const pageTitle = this.getPageTitle();
+  const pageTitle = getPageTitle(pathname);
 
-    return (
-      <DashBoardLayout pageTitle={pageTitle} {...profile}>
-        {
-          <Switch>
-            {getDashBoardRoutes(path).map((route, index) => (
-              <Route key={index} {...route} />
-            ))}
-          </Switch>
-        }
-      </DashBoardLayout>
-    );
-  }
+  return (
+    <DashBoardLayout pageTitle={pageTitle} {...profile}>
+      {
+        <Switch>
+          {getDashBoardRoutes(path).map((route, index) => (
+            <Route key={index} {...route} />
+          ))}
+        </Switch>
+      }
+    </DashBoardLayout>
+  );
 }
 
 const mapStateToProps = (state): Pick<DashboardProps, 'profile'> => ({

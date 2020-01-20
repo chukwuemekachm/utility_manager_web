@@ -1,6 +1,6 @@
 import React from 'react';
 import { select } from '@storybook/addon-knobs';
-import Loader, { LoaderSize } from '.';
+import Loader, { LoaderSize, LoaderProps } from '.';
 
 export default {
   component: Loader,
@@ -14,4 +14,6 @@ const options = {
 };
 const defaultValue = 'small';
 
-export const loader = () => <Loader size={select(label, options, defaultValue) as LoaderSize} />;
+export const loader = (): React.ReactElement<LoaderProps> => (
+  <Loader size={select(label, options, defaultValue) as LoaderSize} />
+);

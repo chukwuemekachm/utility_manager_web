@@ -1,7 +1,8 @@
 import React from 'react';
-import Input, { InputType } from '.';
+import Input, { InputType, InputProps } from '.';
 import { action } from '@storybook/addon-actions';
 import { select, text, array } from '@storybook/addon-knobs';
+
 export default {
   component: Input,
   title: 'components/ui/Input',
@@ -13,7 +14,8 @@ const typeOptions = {
   email: 'email',
   password: 'password',
 };
-export const input = () => {
+
+export const input = (): React.ReactElement<InputProps> => {
   const currentValue = 'First Name';
   return (
     <Input

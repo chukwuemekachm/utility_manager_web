@@ -6,7 +6,7 @@ import { BRAND_PRIMARY, BRAND_WHITE } from 'settings/__color';
 
 export type LoaderSize = 'SMALL' | 'LARGE';
 
-interface LoaderProps {
+export interface LoaderProps {
   size: LoaderSize;
 }
 
