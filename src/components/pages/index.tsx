@@ -1,45 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/display-name */
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import PageWrapper from 'components/HOC/PageWrapper';
-import SuspenseLoader from '../ui/SuspenseLoader';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
-function withSuspense(page: string, data?: Record<string, any>): React.FC<null> {
-  return function(props: Record<string, any>): React.ReactElement<Record<string, any>> {
-    const LazyComponent = React.lazy(() => import(`components/pages/${page}`));
-
-    // TODO: implement fallback loader/spinner for lazy loading
-    return (
-      <React.Suspense fallback={<SuspenseLoader />}>
-        <PageWrapper>
-          <LazyComponent {...props} {...data} />
-        </PageWrapper>
-      </React.Suspense>
-    );
-  };
-}
+import withSuspense from 'components/HOC/withSuspense';
 
 const pageRoutes = [
   {
     path: '/',
-    component: withSuspense('Authentication'),
+    component: withSuspense({ page: 'Authentication' }),
     exact: true,
   },
   {
     path: '/reset-password/:reset_id',
-    component: withSuspense('ConfirmResetPassword'),
+    component: withSuspense({ page: 'ConfirmResetPassword' }),
     exact: true,
   },
   {
     path: '/success-feedback',
-    component: withSuspense('AuthenticationFeedback'),
+    component: withSuspense({ page: 'AuthenticationFeedback' }),
     exact: true,
   },
   {
     path: '/dashboard',
-    component: withSuspense('Dashboard'),
-    exact: true,
+    component: withSuspense({ page: 'Dashboard' }),
+    exact: false,
   },
 ];
 
@@ -49,6 +32,7 @@ export default function Pages(): React.ReactElement<{}> {
       {pageRoutes.map((route, index) => (
         <Route key={index} {...route} />
       ))}
+      <Redirect to="/dashboard" />
     </Switch>
   );
 }

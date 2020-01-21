@@ -1,7 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { boolean, select, text } from '@storybook/addon-knobs';
-import Button, { ButtonType } from '.';
+import Button, { ButtonType, ButtonProps } from '.';
 
 export default {
   component: Button,
@@ -22,7 +22,7 @@ const sizeDefaultValue = 'button';
 const childrenLabel = 'children';
 const childrenDefaultValue = 'Default Button Component';
 
-export const button = () => (
+export const button = (): React.ReactElement<ButtonProps> => (
   <Button
     isLoading={boolean(isLoadingLabel, isLoadingDefaultValue)}
     type={select(typeLabel, typeOptions, sizeDefaultValue) as ButtonType}

@@ -1,30 +1,33 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
+
 import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
 import { GRAY, BLACK, GAINS_BORO } from 'settings/__color';
-import { SyntheticEvent } from 'react';
 
 interface AuthenticationFormLayoutProps {
   showTerms?: boolean;
-
   display?: number;
   showHeader?: boolean;
-
   children: React.ReactNode;
-  handleTabChange?: (tabNumber?: number) => React.EventHandler<SyntheticEvent>;
+  handleTabChange?: (tabNumber?: number) => React.EventHandler<React.SyntheticEvent>;
 }
-export function AuthenticationFormLayout({
-  showTerms = true,
-  display,
-  showHeader = true,
-  children,
-  handleTabChange = tabNumber => {
-    return (() => null) as React.EventHandler<SyntheticEvent>;
-  },
-}: AuthenticationFormLayoutProps) {
+
+export function AuthenticationFormLayout(
+  props: AuthenticationFormLayoutProps,
+): React.ReactElement<AuthenticationFormLayoutProps> {
+  const {
+    showTerms = true,
+    display,
+    showHeader = true,
+    children,
+    handleTabChange = () => {
+      return (() => null) as React.EventHandler<React.SyntheticEvent>;
+    },
+  } = props;
+
   return (
     <AuthenticationLayout showTerms={showTerms}>
       <AuthenticationFormLayout.Wrapper>
@@ -59,9 +62,10 @@ AuthenticationFormLayout.Wrapper = styled.div`
   &::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
   }
-
-  // scroll bar ideas gotten from
-  //  https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll
+  /**
+  /* scroll bar ideas gotten from
+  /*  https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll
+  */
 `;
 
 AuthenticationFormLayout.Header = styled.header`
@@ -104,9 +108,10 @@ AuthenticationFormLayout.Content = styled.main`
   padding-top: 7%;
 `;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state): { isLoading: boolean } => {
   return {
     isLoading: state.auth.status.isLoading,
   };
 };
+
 export default connect(mapStateToProps)(AuthenticationFormLayout);

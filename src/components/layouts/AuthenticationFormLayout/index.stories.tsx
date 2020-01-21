@@ -1,7 +1,7 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
+import { boolean, number } from '@storybook/addon-knobs';
 import { AuthenticationFormLayout } from '.';
-import { action } from '@storybook/addon-actions';
-import { boolean, number, text } from '@storybook/addon-knobs';
+
 export default {
   component: AuthenticationFormLayout,
   title: 'components/layouts/AuthenticationFormLayout',

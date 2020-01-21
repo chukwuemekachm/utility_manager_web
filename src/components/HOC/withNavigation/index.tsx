@@ -10,7 +10,7 @@ interface PageWrapperProps {
 
 function PageWrapper({ children, retrievePageData }: PageWrapperProps): React.ReactElement<PageWrapperProps> {
   retrievePageData();
-  return <main>{children}</main>;
+  return <div>{children}</div>;
 }
 
 const mapDispatchToProps = (dispatch): Pick<PageWrapperProps, 'retrievePageData'> => ({

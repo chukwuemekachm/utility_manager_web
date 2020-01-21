@@ -8,10 +8,11 @@ interface AuthState {
   };
   error: {
     message: string;
-    errors: Array<any>;
+    errors: Array<unknown>;
   };
-  data: Record<string, any>;
+  data: Record<string, unknown>;
 }
+
 const initialState = {
   status: {
     isAuthenticated: false,
@@ -82,6 +83,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         },
         message: payload.message,
       };
+
     case authConstants.SIGN_UP_ERROR:
       return {
         ...state,
@@ -92,6 +94,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         },
         message: payload.message,
       };
+
     case authConstants.LOGIN_REQUEST:
       return {
         ...state,
@@ -100,6 +103,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           isLoading: true,
         },
       };
+
     case authConstants.LOGIN_SUCCESS:
       return {
         ...state,
@@ -114,6 +118,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         },
         data: payload,
       };
+
     case authConstants.LOGIN_ERROR:
       return {
         ...state,
@@ -137,6 +142,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           isLoading: true,
         },
       };
+
     case authConstants.CHANGE_USER_PASSWORD_SUCCESS:
       return {
         ...state,
@@ -148,6 +154,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           errors: {},
         },
       };
+
     case authConstants.CHANGE_USER_PASSWORD_FAILURE:
       return {
         ...state,
@@ -159,6 +166,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           data: {},
         },
       };
+
     default:
       return state;
   }

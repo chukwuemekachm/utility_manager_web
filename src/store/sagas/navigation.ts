@@ -1,7 +1,7 @@
 import { takeLatest, all, fork, put, select } from 'redux-saga/effects';
-
-import { navigationConstants, storeDataFromPrevPages } from '../actions/navigation';
 import { replace } from 'connected-react-router';
+
+import { navigationConstants, storeDataFromPrevPages } from 'store/actions/navigation';
 
 export function* nextPage(action) {
   const getNavigation = state => state.navigation;

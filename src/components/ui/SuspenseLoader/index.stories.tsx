@@ -6,4 +6,4 @@ export default {
   title: 'components/ui/SuspenseLoader',
 };
 
-export const suspenseLoader = () => <SuspenseLoader />;
+export const suspenseLoader = (): React.ReactElement<{}> => <SuspenseLoader />;

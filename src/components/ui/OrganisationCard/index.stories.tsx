@@ -1,6 +1,6 @@
 import React from 'react';
 import { text } from '@storybook/addon-knobs';
-import OrganisationCard from '.';
+import OrganisationCard, { OrganisationCardProps } from '.';
 
 const imageUrl =
   'https://res.cloudinary.com/xrole/image/upload/v1578660628/BlueFlameIndoors/ThinkTech/organisation-image.jpg';
@@ -14,7 +14,7 @@ export default {
   title: 'components/ui/OrganisationCard',
 };
 
-export const card = () => (
+export const card = (): React.ReactElement<OrganisationCardProps> => (
   <OrganisationCard
     img={text(image, imageUrl)}
     name={text('text', name)}

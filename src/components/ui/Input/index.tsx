@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
+
 import __layouts from 'settings/__layouts';
 import { fontSizes } from 'settings/__fonts';
 import __spacing from 'settings/__spacing';
@@ -18,14 +19,14 @@ export interface InputProps {
   handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export default function Input(props: InputProps) {
+export default function Input(props: InputProps): React.ReactElement<InputProps> {
   const {
     type = 'text',
     name,
     autoComplete,
     title,
     handleChange,
-    handleBlur = () => true,
+    handleBlur = (): boolean => true,
     value,
     errorFeedback = [],
   } = props;

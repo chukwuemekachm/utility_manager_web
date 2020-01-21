@@ -1,9 +1,10 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
-import { BRAND_PRIMARY } from '../../../settings/__color';
-import Logo from '../../layouts/Logo';
 
-const SuspenseLoader = () => {
+import { BRAND_PRIMARY } from 'settings/__color';
+import Logo from 'components/ui/Logo';
+
+const SuspenseLoader = (): React.ReactElement<{}> => {
   return (
     <SuspenseLoader.Wrapper>
       <div className="circle">
@@ -12,6 +13,7 @@ const SuspenseLoader = () => {
     </SuspenseLoader.Wrapper>
   );
 };
+
 SuspenseLoader.Wrapper = styled.div`
   width: 100%;
   height: 100vh;

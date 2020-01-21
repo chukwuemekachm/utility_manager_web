@@ -32,22 +32,23 @@ const initialState = {
   errors: {},
 };
 
-const { SIGN_UP_REDIRECT_URL = `${location.origin}/dashboard` } = process.env;
+const { SIGN_UP_REDIRECT_URL = `${window.location.origin}/dashboard` } = process.env;
 
 export default function withAuthenticationContainer(WrappedComponent) {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   return function AuthenticationContainer(props: Record<string, any>) {
     const [values, setValues] = React.useState(initialState);
 
-    function handleChange({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>) {
-      setValues({
+    function handleChange({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>): void {
+      return setValues({
         ...values,
         [name]: name == 'showPassword' ? !values.showPassword : value,
       });
     }
 
-    function handleBlur({ target: { value, name } }: React.FocusEvent<HTMLInputElement>) {
+    function handleBlur({ target: { value, name } }: React.FocusEvent<HTMLInputElement>): void {
       if (value) {
-        setValues({
+        return setValues({
           ...values,
           errors: {
             ...values.errors,
@@ -70,7 +71,7 @@ export default function withAuthenticationContainer(WrappedComponent) {
       return signUp({ ...values, redirectURL: SIGN_UP_REDIRECT_URL });
     }
 
-    async function handleAuthOperation(schemaKey, validFuncName) {
+    async function handleAuthOperation(schemaKey, validFuncName): Promise<void> {
       const errors = await validatePayload(values, schemaKey);
       if (errors) {
         return setValues({
@@ -81,9 +82,9 @@ export default function withAuthenticationContainer(WrappedComponent) {
       return props[validFuncName](values);
     }
     function handleSubmit(trigger: string) {
-      return function(event: React.FormEvent<HTMLFormElement>) {
+      return function(event: React.FormEvent<HTMLFormElement>): Promise<void> {
         event.preventDefault();
-        const values = {};
+
         switch (trigger) {
           case 'FORGOT_PASSWORD':
             return handleAuthOperation('forgotPassword', 'forgotPassword');
@@ -109,8 +110,9 @@ export default function withAuthenticationContainer(WrappedComponent) {
       };
     }
 
-    // TypeScript doesn't recognize WrappedComponent in JSX here
-    // So I defaulted to using React.createElement
+    /* TypeScript doesn't recognize WrappedComponent in JSX here
+     * So I defaulted to using React.createElement
+     */
     return React.createElement(WrappedComponent, composeProps());
   };
 }

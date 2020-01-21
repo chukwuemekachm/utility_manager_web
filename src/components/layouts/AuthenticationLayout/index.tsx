@@ -5,9 +5,9 @@ import __spacing from 'settings/__spacing';
 import __layouts from 'settings/__layouts';
 import { fontSizes } from 'settings/__fonts';
 import { BRAND_WHITE } from 'settings/__color';
-import Logo from '../Logo';
-import Footer from '../Footer';
-import { __wrapper, __content } from '../__authPage.css';
+import Logo from 'components/ui/Logo';
+import Footer from 'components/layouts/Footer';
+import { __wrapper, __content } from 'components/layouts/__authPage.css';
 
 const backGroundURL =
   'https://images.pexels.com/photos/65623/vehicle-chrome-technology-automobile-65623.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500';
