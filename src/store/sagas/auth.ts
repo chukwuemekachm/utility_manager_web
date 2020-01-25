@@ -8,10 +8,10 @@ import {
   forgotPasswordError,
   forgotPasswordSuccess,
 } from 'store/actions/auth';
-import { showNotification } from 'store/actions/notification';
 import { errorHandler } from 'store/helpers';
 import api, { authRequest } from 'services/api';
-import { moveToNextPage } from '../actions/navigation/index';
+import { moveToNextPage } from 'store/actions/navigation';
+import { STORAGE_KEYS } from 'utils/constants';
 
 function* signUpUser(action) {
   try {
@@ -82,9 +82,11 @@ function* loginUser(action) {
         },
       },
     };
+    localStorage.setItem(STORAGE_KEYS.IS_USER_AUTHENTICATED, String(true));
     yield put(moveToNextPage(payload));
   } catch (error) {
-    const response = yield error.response;
+    yield error.response;
+    console.log(error.response.data, 'error --------');
     yield put({
       type: authConstants.LOGIN_ERROR,
       payload: error.response.data,

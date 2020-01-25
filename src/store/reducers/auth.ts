@@ -11,6 +11,7 @@ interface AuthState {
     errors: Array<unknown>;
   };
   data: Record<string, unknown>;
+  message: string;
 }
 
 const initialState = {
@@ -27,7 +28,7 @@ const initialState = {
   message: '',
 };
 
-export default function authReducer(state: AuthState = initialState, { type, payload }) {
+export default function authReducer(state: AuthState = initialState, { type, payload }): AuthState {
   switch (type) {
     case authConstants.FORGOT_PASSWORD_REQUEST:
       return {
@@ -150,8 +151,11 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           ...state.status,
           isLoading: false,
           hasError: false,
-          data: payload,
-          errors: {},
+        },
+        data: payload,
+        error: {
+          errors: [],
+          message: '',
         },
       };
 
@@ -162,9 +166,12 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           ...state.status,
           isLoading: false,
           hasError: true,
-          errors: payload,
-          data: {},
         },
+        error: {
+          errors: payload,
+          message: payload,
+        },
+        data: {},
       };
 
     default:

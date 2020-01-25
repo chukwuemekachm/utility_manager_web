@@ -2,24 +2,21 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 
-import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
 import { GRAY, BLACK, GAINS_BORO } from 'settings/__color';
 
-interface AuthenticationFormLayoutProps {
-  showTerms?: boolean;
+export interface AuthenticationFormWrapperProps {
   display?: number;
   showHeader?: boolean;
   children: React.ReactNode;
   handleTabChange?: (tabNumber?: number) => React.EventHandler<React.SyntheticEvent>;
 }
 
-export function AuthenticationFormLayout(
-  props: AuthenticationFormLayoutProps,
-): React.ReactElement<AuthenticationFormLayoutProps> {
+export function AuthenticationFormWrapper(
+  props: AuthenticationFormWrapperProps,
+): React.ReactElement<AuthenticationFormWrapperProps> {
   const {
-    showTerms = true,
     display,
     showHeader = true,
     children,
@@ -29,26 +26,24 @@ export function AuthenticationFormLayout(
   } = props;
 
   return (
-    <AuthenticationLayout showTerms={showTerms}>
-      <AuthenticationFormLayout.Wrapper>
-        {showHeader && (
-          <AuthenticationFormLayout.Header>
-            <button className={display === 1 ? '__active' : ''} onClick={handleTabChange(1)}>
-              Sign Up
-            </button>
-            <span className="divider" />
-            <button className={display === 0 ? '__active' : ''} onClick={handleTabChange(0)}>
-              Login
-            </button>
-          </AuthenticationFormLayout.Header>
-        )}
-        <AuthenticationFormLayout.Content>{children}</AuthenticationFormLayout.Content>
-      </AuthenticationFormLayout.Wrapper>
-    </AuthenticationLayout>
+    <AuthenticationFormWrapper.Wrapper>
+      {showHeader && (
+        <AuthenticationFormWrapper.Header>
+          <button className={display === 1 ? '__active' : ''} onClick={handleTabChange(1)}>
+            Sign Up
+          </button>
+          <span className="divider" />
+          <button className={display === 0 ? '__active' : ''} onClick={handleTabChange(0)}>
+            Login
+          </button>
+        </AuthenticationFormWrapper.Header>
+      )}
+      <AuthenticationFormWrapper.Content>{children}</AuthenticationFormWrapper.Content>
+    </AuthenticationFormWrapper.Wrapper>
   );
 }
 
-AuthenticationFormLayout.Wrapper = styled.div`
+AuthenticationFormWrapper.Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
@@ -68,7 +63,7 @@ AuthenticationFormLayout.Wrapper = styled.div`
   */
 `;
 
-AuthenticationFormLayout.Header = styled.header`
+AuthenticationFormWrapper.Header = styled.header`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -103,7 +98,7 @@ AuthenticationFormLayout.Header = styled.header`
   }
 `;
 
-AuthenticationFormLayout.Content = styled.main`
+AuthenticationFormWrapper.Content = styled.main`
   width: 100%;
   padding-top: 7%;
 `;
@@ -114,4 +109,4 @@ const mapStateToProps = (state): { isLoading: boolean } => {
   };
 };
 
-export default connect(mapStateToProps)(AuthenticationFormLayout);
+export default connect(mapStateToProps)(AuthenticationFormWrapper);

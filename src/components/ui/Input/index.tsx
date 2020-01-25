@@ -55,7 +55,7 @@ export default function Input(props: InputProps): React.ReactElement<InputProps>
 
 Input.Wrapper = styled.div`
   @media (max-width: ${__layouts.lg}) {
-    &:first-child {
+    &:first-of-type {
       margin-top: 10%;
     }
   }

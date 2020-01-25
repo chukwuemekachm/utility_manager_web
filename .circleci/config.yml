@@ -22,6 +22,6 @@ jobs:
           name: Checking for ESlint and Typescript errors
           command: |
             yarn run ts-test
+            yarn run storybook-test
             yarn run lint-test
             yarn run test
-

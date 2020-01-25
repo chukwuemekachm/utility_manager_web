@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 
-import __spacing from 'settings/__spacing';
 import { AuthenticationFormProps } from 'components/pages/Authentication';
 import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
 import Link from 'components/ui/Link';
 import Checkbox from 'components/ui/Checkbox';
+import __spacing from 'settings/__spacing';
 
 export interface LoginFormProps extends AuthenticationFormProps {
   forgotLinkClicked: React.EventHandler<React.SyntheticEvent>;

@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import styled from '@emotion/styled';
+
+import { AuthenticationProps } from 'components/containers/AuthenticationContainer';
 import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
 import Checkbox from 'components/ui/Checkbox';
-import { AuthenticationProps } from 'components/containers/AuthenticationContainer';
 
-export interface NewPasswordProps extends AuthenticationProps {
+export interface NewPasswordFormProps extends AuthenticationProps {
   isLoading: boolean;
   changePassword: (payload: any) => void;
 }
 
-function NewPassword(props: NewPasswordProps): React.ReactElement<NewPasswordProps> {
+function NewPasswordForm(props: NewPasswordFormProps): React.ReactElement<NewPasswordFormProps> {
   const {
     isLoading,
     handleChange,
@@ -22,7 +23,7 @@ function NewPassword(props: NewPasswordProps): React.ReactElement<NewPasswordPro
   } = props;
 
   return (
-    <NewPassword.Wrapper onSubmit={handleSubmit('NEW_PASSWORD')}>
+    <NewPasswordForm.Wrapper onSubmit={handleSubmit('NEW_PASSWORD')}>
       <Input
         name="password"
         type={values.showPassword ? 'text' : 'password'}
@@ -55,12 +56,12 @@ function NewPassword(props: NewPasswordProps): React.ReactElement<NewPasswordPro
       <Button type="submit" isLoading={isLoading}>
         Update Password
       </Button>
-    </NewPassword.Wrapper>
+    </NewPasswordForm.Wrapper>
   );
 }
 
-NewPassword.Wrapper = styled.form`
+NewPasswordForm.Wrapper = styled.form`
   width: 100%;
 `;
 
-export default NewPassword;
+export default NewPasswordForm;
