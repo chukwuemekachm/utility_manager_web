@@ -8,7 +8,7 @@
   "scripts": {
     "build:dev": "rm -rf dist && webpack-dev-server --env.mode development",
     "build:prod": "rm -rf dist && webpack --env.mode production",
-    "prestart": "yarn build:prod",
+    "prestart": "yarn build:prod && yarn build-storybook",
     "start": "node server.js",
     "dev": "yarn build:dev && rm -rf dist && webpack-dev-server --env.mode development --open --hot",
     "storybook": "start-storybook",
