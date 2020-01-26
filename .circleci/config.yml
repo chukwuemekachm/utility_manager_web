@@ -23,5 +23,6 @@ jobs:
           command: |
             yarn run ts-test
             yarn run storybook-test
+            rm -rf docs && rm -rf dist
             yarn run lint-test
             yarn run test
