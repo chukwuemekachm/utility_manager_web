@@ -18,7 +18,7 @@ export interface SnackBarProps {
 
 const { NOTIFICATION_TYPES } = notificationConstants;
 
-export function SnackBar(props: SnackBarProps): React.ReactElement<SnackBarProps> {
+export function SnackBar(props: SnackBarProps): React.ReactElement<SnackBarProps> | null {
   const { isNotificationOpen, type = NOTIFICATION_TYPES.INFO, message, duration, hideSnackBar } = props;
   const notificationIconTypes = {
     [NOTIFICATION_TYPES.SUCCESS]: 'ios-checkmark-circle',
@@ -37,16 +37,14 @@ export function SnackBar(props: SnackBarProps): React.ReactElement<SnackBarProps
     [isNotificationOpen],
   );
 
-  return (
-    isNotificationOpen && (
-      <SnackBar.Wrapper>
-        <SnackBar.IconWrapper>
-          <Icon size="LARGE" color={type} iconType={notificationIconTypes[type]} />
-        </SnackBar.IconWrapper>
-        <SnackBar.TextWrapper>{message}</SnackBar.TextWrapper>
-      </SnackBar.Wrapper>
-    )
-  );
+  return isNotificationOpen ? (
+    <SnackBar.Wrapper>
+      <SnackBar.IconWrapper>
+        <Icon size="LARGE" color={type} iconType={notificationIconTypes[type]} />
+      </SnackBar.IconWrapper>
+      <SnackBar.TextWrapper>{message}</SnackBar.TextWrapper>
+    </SnackBar.Wrapper>
+  ) : null;
 }
 
 SnackBar.Wrapper = styled.span`

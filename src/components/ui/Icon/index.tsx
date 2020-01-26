@@ -21,7 +21,7 @@ interface WrapperProps {
 export default function Icon({ iconType, color, size }: IconProps): React.ReactElement<IconProps> {
   const iconSize = size === 'LARGE' ? fontSizes.large : fontSizes.normal;
 
-  return <Icon.Wrapper className={`icon ion-${iconType}`} color={color} size={iconSize} />;
+  return <Icon.Wrapper className={`icon ion-${iconType}`} color={color as string} size={iconSize} />;
 }
 
 function colorSelector({ color }): string {

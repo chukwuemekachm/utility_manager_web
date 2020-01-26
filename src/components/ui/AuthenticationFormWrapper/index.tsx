@@ -10,7 +10,7 @@ export interface AuthenticationFormWrapperProps {
   display?: number;
   showHeader?: boolean;
   children: React.ReactNode;
-  handleTabChange?: (tabNumber?: number) => React.EventHandler<React.SyntheticEvent>;
+  handleTabChange?: (tabNumber: number) => React.EventHandler<React.SyntheticEvent>;
 }
 
 export function AuthenticationFormWrapper(
