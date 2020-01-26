@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build:dev": "rm -rf dist && webpack-dev-server --env.mode development",
-    "build:prod": "rm -rf dist && webpack --env.mode production",
-    "prestart": "yarn build:prod && yarn build-storybook",
+    "build:prod": "rm -rf dist && webpack --env.mode production && yarn build-storybook",
+    "build": "yarn build:prod",
     "start": "node server.js",
     "dev": "yarn build:dev && rm -rf dist && webpack-dev-server --env.mode development --open --hot",
     "storybook": "start-storybook",
