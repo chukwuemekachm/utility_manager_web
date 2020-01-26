@@ -6,6 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import __globalCss from 'settings/__global.css';
 import store, { history } from 'store';
 import Pages from 'components/pages';
+import SnackBar from 'components/ui/SnackBar';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
       <ConnectedRouter history={history}>
         <Global styles={__globalCss} />
         <Pages />
+        <SnackBar />
       </ConnectedRouter>
     </Provider>
   );

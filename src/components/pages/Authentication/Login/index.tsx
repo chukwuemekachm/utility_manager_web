@@ -2,24 +2,20 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import LoginForm, { LoginFormProps } from './LoginForm';
 import withAuthenticationContainer from 'components/containers/AuthenticationContainer';
+import LoginForm, { LoginFormProps } from 'components/ui/LoginForm';
 import { login } from 'store/actions/auth';
+
+interface LoginDispatchProps {
+  makeLoginRequest: (payload: any) => void;
+}
 
 function Login(props: LoginFormProps): React.ReactElement<LoginFormProps> {
   return <LoginForm {...props} />;
 }
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = dispatch => ({
-  makeLoginRequest: payload => {
-    const loginparams = {
-      usernameOrEmail: payload.usernameOrEmail,
-      password: payload.password,
-    };
-    dispatch(login(loginparams));
-  },
+const mapDispatchToProps = (dispatch): LoginDispatchProps => ({
+  makeLoginRequest: (payload): void => dispatch(login(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticationContainer(Login));
+export default connect(null, mapDispatchToProps)(withAuthenticationContainer(Login));

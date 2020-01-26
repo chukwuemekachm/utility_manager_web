@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
 import { AuthenticationFormProps } from 'components/pages/Authentication';
-import Checkbox from '../../../ui/Checkbox';
+import Checkbox from 'components/ui/Checkbox';
 
 function SignUpForm(props: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
   const {

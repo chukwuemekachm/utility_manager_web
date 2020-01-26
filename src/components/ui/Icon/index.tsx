@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 
-import { DARK_GRAY, BRAND_WHITE } from 'settings/__color';
+import { DARK_GRAY, BRAND_WHITE, LIGHT_SEA_GREEN, CRIMSON, ORANGE } from 'settings/__color';
 import { fontSizes } from 'settings/__fonts';
 
-export type Color = 'WHITE' | 'GREY';
+export type Color = 'WHITE' | 'GREY' | 'SUCCESS' | 'ERROR' | 'INFO' | string;
 export type Size = 'NORMAL' | 'LARGE';
 
 export interface IconProps {
@@ -19,16 +19,30 @@ interface WrapperProps {
 }
 
 export default function Icon({ iconType, color, size }: IconProps): React.ReactElement<IconProps> {
-  const iconColor = color === 'WHITE' ? BRAND_WHITE : DARK_GRAY;
   const iconSize = size === 'LARGE' ? fontSizes.large : fontSizes.normal;
 
-  return <Icon.Wrapper className={`icon ion-${iconType}`} color={iconColor} size={iconSize} />;
+  return <Icon.Wrapper className={`icon ion-${iconType}`} color={color as string} size={iconSize} />;
+}
+
+function colorSelector({ color }): string {
+  switch (color) {
+    case 'WHITE':
+      return BRAND_WHITE;
+    case 'SUCCESS':
+      return LIGHT_SEA_GREEN;
+    case 'ERROR':
+      return CRIMSON;
+    case 'INFO':
+      return ORANGE;
+    default:
+      return DARK_GRAY;
+  }
 }
 
 Icon.Wrapper = styled.i<WrapperProps>`
   display: inline;
   justify-content: center;
   align-items: center;
-  color: ${({ color }): string => color};
+  color: ${colorSelector};
   font-size: ${({ size }): string => size};
 `;

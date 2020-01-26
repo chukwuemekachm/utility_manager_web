@@ -8,3 +8,5 @@ export const DARK_GRAY = '#7A7D7F';
 export const GAINS_BORO = '#DDDDDD';
 export const CRIMSON = '#F22E46';
 export const WHITE_SMOKE = '#F5F5F5';
+export const LIGHT_SEA_GREEN = '#00BB8F';
+export const ORANGE = '#FEB500';

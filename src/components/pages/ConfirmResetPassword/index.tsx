@@ -1,16 +1,17 @@
 import * as React from 'react';
-import NewPassword, { NewPasswordProps } from './NewPassword';
-import AuthenticationLayout from '../../layouts/AuthenticationLayout';
-import AuthForm from '../../layouts/AuthenticationFormLayout';
-import AuthSuccessMessage, { imageTypes } from '../../ui/AuthMessage';
-import Link from '../../ui/Link';
 import { connect } from 'react-redux';
-import { changeUserPassword } from '../../../store/actions/auth';
-import withAuthenticationContainer from 'components/containers/AuthenticationContainer';
 import styled from '@emotion/styled';
+
+import withAuthenticationContainer from 'components/containers/AuthenticationContainer';
+import NewPasswordForm, { NewPasswordFormProps } from 'components/ui/NewPasswordForm';
+import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
+import AuthenticationFormWrapper from 'components/ui/AuthenticationFormWrapper';
+import AuthSuccessMessage, { imageTypes } from 'components/ui/AuthMessage';
+import Link from 'components/ui/Link';
+import { changeUserPassword } from 'store/actions/auth';
 import LocationHelper from 'helpers/Location';
 
-function ResetPasswordLayout(props: NewPasswordProps) {
+function ResetPasswordLayout(props: NewPasswordFormProps): React.ReactElement<NewPasswordFormProps> {
   const expiresAt = LocationHelper.getSearchValue('expiresAt');
   let linkHasExpired = true;
   if (expiresAt) {
@@ -19,9 +20,9 @@ function ResetPasswordLayout(props: NewPasswordProps) {
     linkHasExpired = dateIsInvalid || !dateObj || dateObj < new Date();
   }
 
-  if (linkHasExpired) {
-    return (
-      <AuthenticationLayout showTerms={false}>
+  function renderChildView(): React.ReactElement<NewPasswordFormProps> {
+    if (linkHasExpired) {
+      return (
         <AuthSuccessMessage imageType={imageTypes.expiredLink}>
           <div>
             Oops, it seems the link has expired.  Please click the link below to resend the email.
@@ -30,25 +31,27 @@ function ResetPasswordLayout(props: NewPasswordProps) {
             </ResetPasswordLayout.LinkWrapper>
           </div>
         </AuthSuccessMessage>
-      </AuthenticationLayout>
+      );
+    }
+
+    return (
+      <AuthenticationFormWrapper showHeader={false}>
+        <NewPasswordForm {...props} />
+      </AuthenticationFormWrapper>
     );
   }
 
-  return (
-    <AuthForm showTerms={false} showHeader={false}>
-      <NewPassword {...props} />
-    </AuthForm>
-  );
+  return <AuthenticationLayout showTerms={false}>{renderChildView()}</AuthenticationLayout>;
 }
 
 ResetPasswordLayout.LinkWrapper = styled.div`
   margin-top: 2%;
 `;
-const mapStateToProps = state => ({
+const mapStateToProps = (state): Pick<NewPasswordFormProps, 'isLoading'> => ({
   isLoading: state.auth.status.isLoading,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch): Pick<NewPasswordFormProps, 'changePassword'> => ({
   changePassword: payload => dispatch(changeUserPassword(payload)),
 });
 
