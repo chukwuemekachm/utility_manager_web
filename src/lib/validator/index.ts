@@ -11,3 +11,13 @@ export async function validatePayload(payload: Record<string, any>, schemaKey: s
   }
   return null;
 }
+export function inputValidation(object: object): Array<string> {
+  const objectValues = Object.entries(object);
+  const errorArray: Array<string> = [];
+  objectValues.forEach(([key, value]) => {
+    if (String(value).length < 1) {
+      errorArray.push(key);
+    }
+  });
+  return errorArray;
+}
