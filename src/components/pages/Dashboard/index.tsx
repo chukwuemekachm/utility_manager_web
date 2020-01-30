@@ -2,10 +2,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, match, RouteProps } from 'react-router';
 import { Location } from 'history';
-
 import withSuspense from 'components/HOC/withSuspense';
 import withDashboardContainer from 'components/containers/DashBoardContainer';
-import { retrieveProfile } from 'store/actions/dashboard';
+import { fetchProfile } from 'store/actions/dashboard';
 import DashBoardLayout from 'components/layouts/DashBoardLayout';
 
 interface DashboardProps {
@@ -17,7 +16,7 @@ interface DashboardProps {
     verified: string;
     imageURL: string;
   };
-  retrieveProfile: () => void;
+  fetchProfile: () => void;
   match: match<{}>;
   location: Location;
 }
@@ -65,14 +64,14 @@ function getPageTitle(pathname: string): string {
 
 function Dashboard(props: DashboardProps): React.ReactElement<DashboardProps> {
   const {
-    retrieveProfile,
+    fetchProfile,
     profile,
     match: { path },
     location: { pathname },
   } = props;
 
   React.useEffect(function(): void {
-    return retrieveProfile();
+    return fetchProfile();
   }, []);
 
   const pageTitle = getPageTitle(pathname);
@@ -94,8 +93,8 @@ const mapStateToProps = (state): Pick<DashboardProps, 'profile'> => ({
   profile: state.dashboard.data,
 });
 
-const mapDispatchToProps = (dispatch): Pick<DashboardProps, 'retrieveProfile'> => ({
-  retrieveProfile: (): void => dispatch(retrieveProfile()),
+const mapDispatchToProps = (dispatch): Pick<DashboardProps, 'fetchProfile'> => ({
+  fetchProfile: (): void => dispatch(fetchProfile()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withDashboardContainer(Dashboard));

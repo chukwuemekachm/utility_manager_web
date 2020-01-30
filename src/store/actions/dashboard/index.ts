@@ -1,16 +1,30 @@
 import * as dashboardConstants from './constants';
 
-export const retrieveProfile = (): Action => ({
+export const fetchProfile = (): Action => ({
   type: dashboardConstants.PROFILE_REQUEST,
 });
 
-export const retrieveProfileError = (payload): Action => ({
+export const fetchProfileError = (payload): Action => ({
   type: dashboardConstants.PROFILE_ERROR,
   payload,
 });
 
-export const retrieveProfileSuccess = (payload): Action => ({
+export const fetchProfileSuccess = (payload): Action => ({
   type: dashboardConstants.PROFILE_SUCCESS,
+  payload,
+});
+
+export const fetchCurrentUserOrganisations = (): Action => ({
+  type: dashboardConstants.ORGANISATION_REQUEST,
+});
+
+export const fetchCurrentUserOrganisationsError = (payload): Action => ({
+  type: dashboardConstants.ORGANISATION_ERROR,
+  payload,
+});
+
+export const fetchCurrentUserOrganisationsSuccess = (payload): Action => ({
+  type: dashboardConstants.ORGANISATION_SUCCESS,
   payload,
 });
 
