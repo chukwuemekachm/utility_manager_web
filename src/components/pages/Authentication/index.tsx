@@ -22,7 +22,7 @@ function Authentication({ isLoading }: AuthenticationFormProps): React.ReactElem
     const value = +LocationHelper.getSearchValue('display') || 0;
     return value < 3 ? value : 0;
   });
-  const isAuthenticated = localStorage.getItem(STORAGE_KEYS.IS_USER_AUTHENTICATED);
+  const isAuthenticated = window.localStorage.getItem(STORAGE_KEYS.IS_USER_AUTHENTICATED);
 
   if (String(isAuthenticated) === 'true') return <Redirect to="/dashboard" />;
 

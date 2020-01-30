@@ -1,6 +1,6 @@
 export default class Location {
   public static getSearchValue(param: string): string | void {
-    const args = location.search && location.search.split('?')[1];
+    const args = window.location.search && window.location.search.split('?')[1];
     const splittedArgs = args && args.split('&');
     const valueWithEqualSign = splittedArgs && splittedArgs.find(element => element.startsWith(`${param}=`));
     if (valueWithEqualSign) {

@@ -10,6 +10,31 @@ export const login = payload => ({
   payload,
 });
 
+export const loginError = payload => ({
+  type: authConstants.LOGIN_ERROR,
+  payload,
+});
+
+export const loginSuccess = payload => ({
+  type: authConstants.LOGIN_SUCCESS,
+  payload,
+});
+
+export const logout = payload => ({
+  type: authConstants.LOGOUT_REQUEST,
+  payload,
+});
+
+export const logoutError = payload => ({
+  type: authConstants.LOGIN_ERROR,
+  payload,
+});
+
+export const logoutSuccess = payload => ({
+  type: authConstants.LOGOUT_SUCCESS,
+  payload,
+});
+
 export const signUpSuccess = payload => ({
   type: authConstants.SIGN_UP_SUCCESS,
   payload,

@@ -1,21 +1,18 @@
 import { takeLatest, all, fork, call, put } from 'redux-saga/effects';
 import {
-  fetchProfile,
   fetchProfileError,
   fetchProfileSuccess,
   dashboardConstants,
-  fetchCurrentUserOrganisations,
   fetchCurrentUserOrganisationsError,
   fetchCurrentUserOrganisationsSuccess,
 } from 'store/actions/dashboard';
-import { moveToNextPage } from 'store/actions/navigation';
-import { errorHandler } from 'store/helpers';
+import { errorHandler, successHandler } from 'store/helpers';
 import api, { dashboardRequest } from 'services/api';
 
 function* callFetchProfile(action) {
   try {
-    const { data } = yield call([api, 'get'], dashboardRequest.PROFILE, action.payload);
-    yield put(fetchProfileSuccess(data));
+    const response = yield call([api, 'get'], dashboardRequest.PROFILE, action.payload);
+    yield fork(successHandler, response, fetchProfileSuccess);
   } catch (error) {
     yield fork(errorHandler, error, fetchProfileError);
   }
