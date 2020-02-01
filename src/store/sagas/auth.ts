@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { takeLatest, all, fork, call, put } from 'redux-saga/effects';
 import {
   authConstants,
@@ -86,7 +87,6 @@ function* loginUser(action) {
     yield put(moveToNextPage(payload));
   } catch (error) {
     yield error.response;
-    console.log(error.response.data, 'error --------');
     yield put({
       type: authConstants.LOGIN_ERROR,
       payload: error.response.data,
@@ -110,5 +110,5 @@ export function* watchChangeUserPassword() {
 }
 
 export default function* authSaga() {
-  yield all([fork(watchSignUpUser), fork(watchChangeUserPassword), fork(watchLoginUser)]);
+  yield all([fork(watchSignUpUser), fork(watchChangeUserPassword), fork(watchLoginUser), fork(watchForgotPassword)]);
 }

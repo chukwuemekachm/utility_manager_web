@@ -39,7 +39,7 @@ function AuthMessage({
   return (
     <AuthMessage.Wrapper>
       <AuthMessage.Image src={src} alt={alt} />
-      <p>{children}</p>
+      <AuthMessage.ChildrenWrapper>{children}</AuthMessage.ChildrenWrapper>
     </AuthMessage.Wrapper>
   );
 }
@@ -60,13 +60,13 @@ AuthMessage.Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
 
-  p {
-    text-align: center;
-    margin-top: ${__spacing.normal};
-    color: ${GRAY};
-    font-size: ${fontSizes.small};
-  }
+AuthMessage.ChildrenWrapper = styled.div`
+  text-align: center;
+  margin-top: ${__spacing.normal};
+  color: ${GRAY};
+  font-size: ${fontSizes.small};
 `;
 
 export default AuthMessage;
