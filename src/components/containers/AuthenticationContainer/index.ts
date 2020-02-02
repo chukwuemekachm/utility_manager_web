@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 
 export interface AuthenticationProps {
-  handleSubmit: (trigger: string) => (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (trigger: string) => (values: Record<string, any>) => void;
 }
 
 const { SIGN_UP_REDIRECT_URL = `${window.location.origin}/dashboard` } = process.env;
@@ -17,6 +18,7 @@ export default function withAuthenticationContainer(WrappedComponent) {
     async function handleAuthOperation(validFuncName, values): Promise<void> {
       return props[validFuncName](values);
     }
+
     function handleSubmit(trigger: string) {
       return function(values: Record<string, any>): Promise<void> {
         switch (trigger) {

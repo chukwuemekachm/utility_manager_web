@@ -49,10 +49,11 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
   }
 
   async function handleBlur({ target: { value, name } }: React.FocusEvent<HTMLInputElement>): Promise<void> {
-    if (value) {
-      const newErrors = await validatePayload(values, validationSchemaKey);
-      setErrors({ ...errors, [name]: newErrors ? newErrors[name] : [] });
+    let newErrors;
+    if (value && validationSchemaKey) {
+      newErrors = await validatePayload(values, validationSchemaKey);
     }
+    setErrors({ ...errors, [name]: newErrors ? newErrors[name] : [] });
     if (handleInputBlur) handleInputBlur();
   }
 
