@@ -1,110 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
-import { validatePayload } from 'lib/validator';
-
-type AuthenticationFormValues = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  username: string;
-  usernameOrEmail: string;
-  password: string;
-  confirmPassword: string;
-  showPassword: boolean;
-  errors: Record<string, string[]>;
-};
 
 export interface AuthenticationProps {
-  values: AuthenticationFormValues;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
-  handleSubmit: (trigger: string) => (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (trigger: string) => (values: Record<string, any>) => void;
 }
-
-const initialState = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  username: '',
-  usernameOrEmail: '',
-  password: '',
-  showPassword: false,
-  confirmPassword: '',
-  errors: {},
-};
 
 const { SIGN_UP_REDIRECT_URL = `${window.location.origin}/dashboard` } = process.env;
 
 export default function withAuthenticationContainer(WrappedComponent) {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   return function AuthenticationContainer(props: Record<string, any>) {
-    const [values, setValues] = React.useState(initialState);
-
-    function handleChange({ target: { value, name } }: React.ChangeEvent<HTMLInputElement>): void {
-      return setValues({
-        ...values,
-        [name]: name == 'showPassword' ? !values.showPassword : value,
-      });
-    }
-
-    function handleBlur({ target: { value, name } }: React.FocusEvent<HTMLInputElement>): void {
-      if (value) {
-        return setValues({
-          ...values,
-          errors: {
-            ...values.errors,
-            [name]: [],
-          },
-        });
-      }
-    }
-
-    async function handleSignUp(): Promise<void> {
+    async function handleSignUp(values: Record<string, any>): Promise<void> {
       const { signUp } = props;
-      const errors = await validatePayload(values, 'signUp');
-      if (errors) {
-        return setValues({
-          ...values,
-          errors,
-        });
-      }
-
       return signUp({ ...values, redirectURL: SIGN_UP_REDIRECT_URL });
     }
 
-    async function handleAuthOperation(schemaKey, validFuncName): Promise<void> {
-      const errors = await validatePayload(values, schemaKey);
-      if (errors) {
-        return setValues({
-          ...values,
-          errors,
-        });
-      }
+    async function handleAuthOperation(validFuncName, values): Promise<void> {
       return props[validFuncName](values);
     }
-    function handleSubmit(trigger: string) {
-      return function(event: React.FormEvent<HTMLFormElement>): Promise<void> {
-        event.preventDefault();
 
+    function handleSubmit(trigger: string) {
+      return function(values: Record<string, any>): Promise<void> {
         switch (trigger) {
           case 'FORGOT_PASSWORD':
-            return handleAuthOperation('forgotPassword', 'forgotPassword');
-          case 'SIGN_UP':
-            return handleSignUp();
+            return handleAuthOperation('forgotPassword', values);
           case 'NEW_PASSWORD':
-            return handleAuthOperation('changeUserPassword', 'changePassword');
+            return handleAuthOperation('changePassword', values);
           case 'LOGIN':
-            return handleAuthOperation('validateLoginValues', 'makeLoginRequest');
+            return handleAuthOperation('makeLoginRequest', values);
           default:
-            return handleSignUp();
+            return handleSignUp(values);
         }
       };
     }
 
     function composeProps(): AuthenticationProps {
       return {
-        values,
-        handleChange,
-        handleBlur,
         handleSubmit,
         ...props,
       };

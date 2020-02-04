@@ -71,7 +71,7 @@ function Dashboard(props: DashboardProps): React.ReactElement<DashboardProps> {
   } = props;
 
   React.useEffect(function(): void {
-    return fetchProfile();
+    fetchProfile();
   }, []);
 
   const pageTitle = getPageTitle(pathname);

@@ -3,36 +3,36 @@ import styled from '@emotion/styled';
 
 import { AuthenticationFormProps } from 'components/pages/Authentication';
 import Input from 'components/ui/Input';
-import Button from 'components/ui/Button';
+import Form from 'components/ui/Form';
 
 function ForgotPassword(props: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
-  const {
-    handleChange,
-    handleSubmit,
-    handleBlur,
-    values,
-    values: { errors },
-    isLoading,
-  } = props;
+  const { isLoading, handleSubmit } = props;
 
   return (
-    <ForgotPassword.Wrapper onSubmit={handleSubmit('FORGOT_PASSWORD')}>
-      <Input
-        name="email"
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        title="Email"
-        value={values.email}
-        errorFeedback={errors.email}
-      />
-      <Button type="submit" isLoading={isLoading}>
-        Forgot Password
-      </Button>
+    <ForgotPassword.Wrapper>
+      <Form
+        handleSubmit={handleSubmit('FORGOT_PASSWORD')}
+        isLoading={isLoading}
+        submitButtonLabel="Forgot Password"
+        validationSchemaKey="forgotPassword"
+        defaultValues={{ email: '' }}
+      >
+        {({ values, errors, handleChange, handleBlur }): React.ReactNode => (
+          <Input
+            name="email"
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            title="Email"
+            value={values.email}
+            errorFeedback={errors.email}
+          />
+        )}
+      </Form>
     </ForgotPassword.Wrapper>
   );
 }
 
-ForgotPassword.Wrapper = styled.form`
+ForgotPassword.Wrapper = styled.div`
   width: 100%;
 `;
 

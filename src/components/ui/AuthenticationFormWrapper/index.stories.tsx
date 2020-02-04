@@ -4,7 +4,7 @@ import { AuthenticationFormWrapper, AuthenticationFormWrapperProps } from '.';
 
 export default {
   component: AuthenticationFormWrapper,
-  title: 'components/layouts/AuthenticationFormWrapper',
+  title: 'components/ui/AuthenticationFormWrapper',
 };
 
 export const authenticationFormWrapper = (): React.ReactElement<AuthenticationFormWrapperProps> => (
