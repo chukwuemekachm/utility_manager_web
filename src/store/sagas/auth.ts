@@ -4,20 +4,26 @@ import {
   authConstants,
   signUpSuccess,
   signUpError,
+  loginError,
+  loginSuccess,
+  logoutError,
+  logoutSuccess,
   changeUserPasswordFailure,
   changeUserPasswordSuccess,
   forgotPasswordError,
   forgotPasswordSuccess,
 } from 'store/actions/auth';
-import { errorHandler } from 'store/helpers';
+
+import { errorHandler, successHandler } from 'store/helpers';
 import api, { authRequest } from 'services/api';
 import { moveToNextPage } from 'store/actions/navigation';
 import { STORAGE_KEYS } from 'utils/constants';
 
 function* signUpUser(action) {
   try {
-    const { data } = yield call([api, 'post'], authRequest.SIGN_UP, action.payload);
-    yield put(signUpSuccess(data));
+    const response = yield call([api, 'post'], authRequest.SIGN_UP, action.payload);
+    const data = yield response.data;
+    yield fork(successHandler, response, signUpSuccess);
     const payload = {
       nextPageRoute: '/success-feedback',
       data: {
@@ -39,8 +45,8 @@ function* forgotPasswordHandler(action) {
       email: action.payload.email,
       redirectURL: `${location.origin}/reset-password`,
     };
-    const { data } = yield call([api, 'patch'], authRequest.FORGOT_PASSWORD, requestData);
-    yield put(forgotPasswordSuccess(data));
+    const response = yield call([api, 'patch'], authRequest.FORGOT_PASSWORD, requestData);
+    yield fork(successHandler, response, forgotPasswordSuccess);
     const payload = {
       nextPageRoute: '/success-feedback',
       data: {
@@ -62,35 +68,46 @@ function* changeUserPassword(action) {
       .splice(-1);
     const { password } = action.payload;
 
-    const data = yield call([api, 'patch'], authRequest.CHANGE_PASSWORD, { password, resetId });
-    yield put(changeUserPasswordSuccess(data));
-  } catch (errors) {
-    yield put(changeUserPasswordFailure(errors.response.data.message));
+    const response = yield call([api, 'patch'], authRequest.CHANGE_PASSWORD, { password, resetId });
+    const payload = {
+      nextPageRoute: '/',
+      data: {},
+    };
+    yield fork(successHandler, response, changeUserPasswordSuccess);
+    yield put(moveToNextPage(payload));
+  } catch (error) {
+    yield fork(errorHandler, error, changeUserPasswordFailure);
   }
 }
 function* loginUser(action) {
   try {
-    const { data } = yield call([api, 'post'], authRequest.LOGIN, action.payload);
-    yield put({
-      type: authConstants.LOGIN_SUCCESS,
-      payload: data.data,
-    });
+    const response = yield call([api, 'post'], authRequest.LOGIN, action.payload);
     const payload = {
       nextPageRoute: '/dashboard',
-      data: {
-        userData: {
-          ...data.data,
-        },
-      },
+      data: {},
     };
     localStorage.setItem(STORAGE_KEYS.IS_USER_AUTHENTICATED, String(true));
+    yield fork(successHandler, response, loginSuccess);
     yield put(moveToNextPage(payload));
   } catch (error) {
-    yield error.response;
-    yield put({
-      type: authConstants.LOGIN_ERROR,
-      payload: error.response.data,
-    });
+    yield fork(errorHandler, error, loginError);
+  }
+}
+
+function* logoutUser(action) {
+  try {
+    const response = yield call([api, 'delete'], authRequest.LOGIN, action.payload);
+    const payload = {
+      nextPageRoute: '/',
+      data: {
+        userData: {},
+      },
+    };
+    localStorage.removeItem(STORAGE_KEYS.IS_USER_AUTHENTICATED);
+    yield fork(successHandler, response, logoutSuccess, false);
+    yield put(moveToNextPage(payload));
+  } catch (error) {
+    yield fork(errorHandler, error, logoutError);
   }
 }
 
@@ -99,6 +116,10 @@ export function* watchSignUpUser() {
 }
 export function* watchLoginUser() {
   yield takeLatest(authConstants.LOGIN_REQUEST, loginUser);
+}
+
+export function* watchLogoutUser() {
+  yield takeLatest(authConstants.LOGOUT_REQUEST, logoutUser);
 }
 
 export function* watchForgotPassword() {
@@ -110,5 +131,11 @@ export function* watchChangeUserPassword() {
 }
 
 export default function* authSaga() {
-  yield all([fork(watchSignUpUser), fork(watchChangeUserPassword), fork(watchLoginUser), fork(watchForgotPassword)]);
+  yield all([
+    fork(watchSignUpUser),
+    fork(watchChangeUserPassword),
+    fork(watchLoginUser),
+    fork(watchForgotPassword),
+    fork(watchLogoutUser),
+  ]);
 }

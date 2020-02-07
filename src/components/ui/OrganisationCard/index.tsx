@@ -17,9 +17,9 @@ export default function OrganisationCard(props: OrganisationCardProps): React.Re
   return (
     <OrganisationCard.Wrapper>
       <OrganisationCard.Content>
-        <div className="organisation-image">
-          <img src={img} alt="organisation image" />
-        </div>
+        <OrganisationCard.ImageWrapper>
+          <OrganisationCard.Image src={img} alt="organisation image" />
+        </OrganisationCard.ImageWrapper>
         <div className="organisation-name">
           <h3>{name}</h3>
           <div className="organisation-role">
@@ -42,11 +42,23 @@ export default function OrganisationCard(props: OrganisationCardProps): React.Re
   );
 }
 
+OrganisationCard.Image = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+`;
+OrganisationCard.ImageWrapper = styled.div`
+  height: 100%;
+  width: 28vw;
+  margin-right: 20px;
+  overflow: hidden;
+`;
+
 OrganisationCard.Wrapper = styled.article`
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
-  margin: 5% auto;
-  width: 98%;
+  margin: 5% 0;
+  width: 100%;
   background-color: ${BRAND_WHITE};
 `;
 
@@ -55,16 +67,6 @@ OrganisationCard.Content = styled.div`
   display: flex;
   height: 33vh;
 
-  .organisation-image {
-    height: 100%;
-    width: 28vw;
-    margin-right: 20px;
-    overflow: hidden;
-
-    img {
-      height: 100%;
-    }
-  }
   .organisation-name {
     display: flex;
     flex-direction: column;

@@ -5,7 +5,6 @@ import { sleep } from 'utils/misc';
 
 function* displayNotification(action) {
   sleep(action.payload.delay || 3000); // still don't know if this works as expected
-  yield put(hideNotification());
 }
 
 export function* watchDisplayNotification() {

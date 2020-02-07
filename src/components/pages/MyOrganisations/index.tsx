@@ -80,5 +80,5 @@ const mapDispatchToProps = (dispatch): Pick<MyOrganisationsProps, 'fetchCurrentU
 export default connect(mapStateToProps, mapDispatchToProps)(MyOrganisations);
 
 MyOrganisations.Wrapper = styled.section`
-  padding: 0 ${__spacing.small};
+  padding: 0;
 `;

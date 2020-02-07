@@ -1,13 +1,10 @@
 import { takeLatest, all, fork, put, select } from 'redux-saga/effects';
-import { replace } from 'connected-react-router';
+import { push } from 'connected-react-router';
 
 import { navigationConstants, storeDataFromPrevPages } from 'store/actions/navigation';
 
 export function* nextPage(action) {
-  const getNavigation = state => state.navigation;
-
-  const navigation = yield select(getNavigation);
-  yield put(replace(action.payload.nextPageRoute, navigation.data));
+  yield put(push(action.payload.nextPageRoute));
 }
 
 export function* loadCurrentPage() {

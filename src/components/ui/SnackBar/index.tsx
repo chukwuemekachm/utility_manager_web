@@ -56,7 +56,7 @@ SnackBar.Wrapper = styled.span`
   background: ${BRAND_WHITE};
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   position: absolute;
-  bottom: ${__spacing.xLarge};
+  top: ${__spacing.xLarge};
   opacity: 1;
   transition: opacity 150ms ease-in;
   -webkit-transition: opacity 150ms ease-in;

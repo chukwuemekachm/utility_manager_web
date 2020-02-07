@@ -12,6 +12,7 @@ import AuthSuccessMessage, { imageTypes } from 'components/ui/AuthMessage';
 import Link from 'components/ui/Link';
 import { changeUserPassword } from 'store/actions/auth';
 import LocationHelper from 'helpers/Location';
+import DateHelper from 'helpers/DateHelper';
 
 interface ConfirmResetPasswordProps extends AuthenticationProps {
   isLoading: boolean;
@@ -25,7 +26,7 @@ function ResetPasswordLayout({
   const expiresAt = LocationHelper.getSearchValue('expiresAt');
   let linkHasExpired = true;
   if (expiresAt) {
-    const dateObj = new Date(expiresAt);
+    const dateObj = DateHelper.convertISOtoDateObj(expiresAt);
     const dateIsInvalid = Number.isNaN(dateObj.getDay());
     linkHasExpired = dateIsInvalid || !dateObj || dateObj < new Date();
   }
