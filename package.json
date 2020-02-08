@@ -15,7 +15,7 @@
     "build-storybook": "rm -rf docs && build-storybook -c .storybook -o docs",
     "ts-test": "tsc --noEmit --strict",
     "storybook-test": "yarn build-storybook",
-    "lint-test": "rm -rf dist && tsc --noEmit && eslint '*/**/*.{js,ts,tsx}'",
+    "lint-test": "rm -rf dist && rm -rf docs && tsc --noEmit && eslint '*/**/*.{js,ts,tsx}'",
     "test": "exit 0",
     "lint": "rm -rf dist && tsc --noEmit && eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
   },

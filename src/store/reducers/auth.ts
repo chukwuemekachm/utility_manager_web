@@ -1,31 +1,5 @@
 import { authConstants } from 'store/actions/auth';
 
-interface AuthState {
-  status: {
-    isAuthenticated: boolean;
-    isLoading: boolean;
-    isProfileFetched: boolean;
-    hasError: boolean;
-  };
-  profile: Partial<{
-    id: string;
-    email: string;
-    createdAt: string;
-    updatedAt: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    imageURL: string;
-    verified: boolean;
-  }>;
-  error: {
-    message: string;
-    errors: Array<unknown>;
-  };
-  data: Record<string, unknown>;
-  message: string;
-}
-
 const initialState = {
   status: {
     isAuthenticated: false,

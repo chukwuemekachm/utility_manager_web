@@ -13,7 +13,7 @@ interface ErrorBoundaryState {
 }
 
 export default class ErrorBoundary extends React.Component<{}, ErrorBoundaryState> {
-  state = { eventId: null, hasError: false };
+  state = { eventId: '', hasError: false };
 
   static getDerivedStateFromError(): Pick<ErrorBoundaryState, 'hasError'> {
     return { hasError: true };

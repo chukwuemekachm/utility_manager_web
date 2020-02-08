@@ -69,8 +69,8 @@ const mapStateToProps = (
   state,
 ): Pick<MyOrganisationsProps, 'isOrganisationPending' | 'isOrganizationFetched' | 'organisations'> => ({
   organisations: state.dashboard.organisations,
-  isOrganisationPending: state.dashboard.fetchOrganisationStatus.isOrganisationPending,
-  isOrganizationFetched: state.dashboard.fetchOrganisationStatus.isOrganisationFetched,
+  isOrganisationPending: state.dashboard.status.isOrganisationPending,
+  isOrganizationFetched: state.dashboard.status.isOrganisationFetched,
 });
 
 const mapDispatchToProps = (dispatch): Pick<MyOrganisationsProps, 'fetchCurrentUserOrganisations'> => ({

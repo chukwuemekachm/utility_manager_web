@@ -1,14 +1,5 @@
 import { notificationConstants } from 'store/actions/notification';
 
-interface NotificationState {
-  status: {
-    isOpen: boolean;
-  };
-  type: string;
-  message: string;
-  duration: number;
-}
-
 const initialState = {
   status: {
     isOpen: false,

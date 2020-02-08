@@ -1,14 +1,13 @@
-import { combineReducers } from 'redux';
+import { combineReducers, CombinedState, Reducer } from 'redux';
 import { connectRouter } from 'connected-react-router';
 
-import notification from './notification';
-import navigation from './navigation';
-import dashboard from './dashboard';
+import notification from 'store/reducers/notification';
+import navigation from 'store/reducers/navigation';
+import dashboard from 'store/reducers/dashboard';
+import auth from 'store/reducers/auth';
 
-import auth from './auth';
-
-export default function createRootReducer(history) {
-  return combineReducers({
+export default function createRootReducer(history): Reducer<CombinedState<AppState>> {
+  return combineReducers<AppState>({
     auth,
     notification,
     navigation,

@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { navigationConstants } from 'store/actions/navigation';
 
 const initialState = {
   data: {},
+  nextPageRoute: '',
   status: {
     isRetrieved: false,
     isChanged: false,
@@ -14,7 +16,7 @@ const defaultPayload = {
   data: {},
 };
 
-export default function navigationReducer(state = initialState, { type, payload = defaultPayload }) {
+export default function navigationReducer(state = initialState, { type, payload = defaultPayload }): NavigationState {
   switch (type) {
     case navigationConstants.NAVIGATION_RETRIEVE_REQUEST:
       return {
