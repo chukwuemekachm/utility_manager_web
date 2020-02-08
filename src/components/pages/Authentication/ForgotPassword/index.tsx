@@ -7,6 +7,7 @@ import { forgotPassword } from 'store/actions/auth';
 import { AuthenticationFormProps } from 'components/pages/Authentication';
 import Input from 'components/ui/Input';
 import Form from 'components/ui/Form';
+import SEO from 'components/HOC/SEO';
 
 interface DispatchProps {
   forgotPassword: (payload: any) => void;
@@ -17,6 +18,7 @@ function ResetPassword(props: AuthenticationFormProps): React.ReactElement<Authe
 
   return (
     <ResetPassword.Wrapper>
+      <SEO title="Forgot Password" />
       <Form
         handleSubmit={handleSubmit('FORGOT_PASSWORD')}
         isLoading={isLoading}

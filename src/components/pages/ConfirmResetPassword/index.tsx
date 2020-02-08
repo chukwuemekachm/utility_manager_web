@@ -13,6 +13,7 @@ import Link from 'components/ui/Link';
 import { changeUserPassword } from 'store/actions/auth';
 import LocationHelper from 'helpers/Location';
 import DateHelper from 'helpers/DateHelper';
+import SEO from 'components/HOC/SEO';
 
 interface ConfirmResetPasswordProps extends AuthenticationProps {
   isLoading: boolean;
@@ -98,7 +99,12 @@ function ResetPasswordLayout({
     );
   }
 
-  return <AuthenticationLayout showTerms={false}>{renderChildView()}</AuthenticationLayout>;
+  return (
+    <>
+      <SEO title={linkHasExpired ? 'Link Expired' : 'Reset Password'} />
+      <AuthenticationLayout showTerms={false}>{renderChildView()}</AuthenticationLayout>
+    </>
+  );
 }
 
 ResetPasswordLayout.LinkWrapper = styled.div`

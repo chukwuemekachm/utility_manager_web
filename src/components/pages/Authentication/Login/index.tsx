@@ -11,6 +11,7 @@ import Link from 'components/ui/Link';
 import Checkbox from 'components/ui/Checkbox';
 import { login } from 'store/actions/auth';
 import __spacing from 'settings/__spacing';
+import SEO from 'components/HOC/SEO';
 
 export interface LoginProps extends AuthenticationFormProps {
   forgotLinkClicked: React.EventHandler<React.SyntheticEvent>;
@@ -30,52 +31,55 @@ function Login(props: LoginProps): React.ReactElement<LoginProps> {
   const { handleSubmit, forgotLinkClicked, isLoading } = props;
 
   return (
-    <Form
-      handleSubmit={handleSubmit('LOGIN')}
-      isLoading={isLoading}
-      submitButtonLabel="Login"
-      validationSchemaKey="validateLoginValues"
-      defaultValues={defaultValues}
-    >
-      {({ handleChange, handleBlur, values, errors }): React.ReactNode => (
-        <Login.Wrapper>
-          <Input
-            name="usernameOrEmail"
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            title="Username Or Email"
-            value={values.usernameOrEmail}
-            errorFeedback={errors.usernameOrEmail}
-            autoComplete="username"
-          />
-          <Input
-            name="password"
-            type={values.showPassword ? 'text' : 'password'}
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            title="Password"
-            value={values.password}
-            errorFeedback={errors.password}
-            autoComplete="current-password"
-          />
-          <Checkbox
-            name="showPassword"
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            value={values.showPassword}
-            errorFeedback={errors.confirmPassword}
-            checked={values.showPassword}
-          >
-            Show Passwords
-          </Checkbox>
-          <div className="forgot-link">
-            <Link href="#" handleClick={forgotLinkClicked}>
-              Forgot Password
-            </Link>
-          </div>
-        </Login.Wrapper>
-      )}
-    </Form>
+    <>
+      <SEO title="Login" />
+      <Form
+        handleSubmit={handleSubmit('LOGIN')}
+        isLoading={isLoading}
+        submitButtonLabel="Login"
+        validationSchemaKey="validateLoginValues"
+        defaultValues={defaultValues}
+      >
+        {({ handleChange, handleBlur, values, errors }): React.ReactNode => (
+          <Login.Wrapper>
+            <Input
+              name="usernameOrEmail"
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              title="Username Or Email"
+              value={values.usernameOrEmail}
+              errorFeedback={errors.usernameOrEmail}
+              autoComplete="username"
+            />
+            <Input
+              name="password"
+              type={values.showPassword ? 'text' : 'password'}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              title="Password"
+              value={values.password}
+              errorFeedback={errors.password}
+              autoComplete="current-password"
+            />
+            <Checkbox
+              name="showPassword"
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              value={values.showPassword}
+              errorFeedback={errors.confirmPassword}
+              checked={values.showPassword}
+            >
+              Show Passwords
+            </Checkbox>
+            <div className="forgot-link">
+              <Link href="#" handleClick={forgotLinkClicked}>
+                Forgot Password
+              </Link>
+            </div>
+          </Login.Wrapper>
+        )}
+      </Form>
+    </>
   );
 }
 
