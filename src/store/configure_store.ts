@@ -1,11 +1,11 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, Store, CombinedState } from 'redux';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 
-import createRootReducer from './reducers';
-import { logger, crashReporter } from './custom_middlewares';
-import rootSaga from './sagas';
+import createRootReducer from 'store/reducers';
+import { logger, crashReporter } from 'store/custom_middlewares';
+import rootSaga from 'store/sagas';
 
 declare global {
   interface Window {
@@ -17,7 +17,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleWare = createSagaMiddleware();
 export const history = createBrowserHistory();
 
-export default function configureStore() {
+export default function configureStore(): Store<CombinedState<AppState>, Action> {
   const store = createStore(
     createRootReducer(history),
     composeEnhancers(applyMiddleware(logger, crashReporter, routerMiddleware(history), sagaMiddleWare)),

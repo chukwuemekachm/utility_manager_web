@@ -1,5 +1,6 @@
 # Utility Manager Web
 [![CircleCI](https://circleci.com/gh/chukwuemekachm/utility_manager_web.svg?style=svg)](https://circleci.com/gh/chukwuemekachm/utility_manager_web)
+
 This is a Utility Manager application that makes it easy for engineers to track the appliances in their
 place of work. Some of the main  features are:
 - Engineer can log readings of parameters of their appliance to the app daily.
@@ -25,4 +26,3 @@ You can lint the files in your commit by running:
 ```bash
 yarn run lint
 ```
-

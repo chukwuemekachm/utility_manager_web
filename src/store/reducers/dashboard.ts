@@ -1,14 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { dashboardConstants } from 'store/actions/dashboard';
 
 const initialState = {
   data: {},
+  organisations: {},
   status: {
-    isRetrieved: false,
-    isPending: false,
-  },
-  organisation: {},
-  fetchOrganisationStatus: {
-    isOrganisationRetrieved: false,
+    isOrganisationFetched: false,
     isOrganisationPending: true,
   },
 };
@@ -19,34 +16,13 @@ const defaultPayload = {
   organisation: {},
 };
 
-export default function navigationReducer(state = initialState, { type, payload = defaultPayload }) {
+export default function navigationReducer(state = initialState, { type, payload = defaultPayload }): DashBoardState {
   switch (type) {
-    case dashboardConstants.PROFILE_REQUEST:
-      return {
-        ...state,
-        status: {
-          isRetrieved: false,
-          isPending: true,
-        },
-      };
-
-    case dashboardConstants.PROFILE_SUCCESS:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          ...payload.data,
-        },
-        status: {
-          isFetched: true,
-          isPending: false,
-        },
-      };
-
     case dashboardConstants.ORGANISATION_REQUEST:
       return {
         ...state,
         status: {
+          ...state.status,
           isOrganisationFetched: false,
           isOrganisationPending: true,
         },
@@ -58,7 +34,7 @@ export default function navigationReducer(state = initialState, { type, payload 
         organisations: {
           ...payload,
         },
-        fetchOrganisationStatus: {
+        status: {
           isOrganisationFetched: true,
           isOrganisationPending: false,
         },

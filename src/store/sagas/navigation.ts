@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { takeLatest, all, fork, put, select } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 

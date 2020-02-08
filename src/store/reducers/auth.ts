@@ -1,25 +1,13 @@
 import { authConstants } from 'store/actions/auth';
 
-interface AuthState {
-  status: {
-    isAuthenticated: boolean;
-    isLoading: boolean;
-    hasError: boolean;
-  };
-  error: {
-    message: string;
-    errors: Array<unknown>;
-  };
-  data: Record<string, unknown>;
-  message: string;
-}
-
 const initialState = {
   status: {
     isAuthenticated: false,
     isLoading: false,
+    isProfileFetched: false,
     hasError: false,
   },
+  profile: {},
   error: {
     message: '',
     errors: [],
@@ -109,6 +97,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
       return {
         ...state,
         status: {
+          ...state.status,
           isAuthenticated: true,
           isLoading: false,
           hasError: false,
@@ -124,7 +113,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
       return {
         ...state,
         status: {
-          isAuthenticated: false,
+          ...state.status,
           isLoading: false,
           hasError: true,
         },
@@ -172,6 +161,46 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           message: payload,
         },
         data: {},
+      };
+
+    case authConstants.FETCH_PROFILE_REQUEST:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: true,
+          hasError: false,
+        },
+      };
+
+    case authConstants.FETCH_PROFILE_ERROR:
+      return {
+        ...state,
+        error: {
+          ...state.error,
+          ...payload.data,
+        },
+        status: {
+          ...state.status,
+          isLoading: false,
+          hasError: true,
+        },
+        message: payload.message,
+      };
+
+    case authConstants.FETCH_PROFILE_SUCCESS:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          ...payload.data,
+        },
+        status: {
+          ...state.status,
+          isLoading: false,
+          isProfileFetched: true,
+        },
+        message: payload.message,
       };
 
     default:

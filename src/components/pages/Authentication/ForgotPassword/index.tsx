@@ -1,19 +1,50 @@
 import * as React from 'react';
+import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 
-import ForgotPasswordForm from './ForgotPassword';
 import withAuthenticationContainer from 'components/containers/AuthenticationContainer';
 import { forgotPassword } from 'store/actions/auth';
-import { AuthenticationFormProps } from '../index';
+import { AuthenticationFormProps } from 'components/pages/Authentication';
+import Input from 'components/ui/Input';
+import Form from 'components/ui/Form';
 
-function ResetPassword(props: AuthenticationFormProps) {
-  return <ForgotPasswordForm {...props} />;
+interface DispatchProps {
+  forgotPassword: (payload: any) => void;
 }
 
-const mapStateToProps = ({}) => ({});
+function ResetPassword(props: AuthenticationFormProps): React.ReactElement<AuthenticationFormProps> {
+  const { isLoading, handleSubmit } = props;
 
-const mapDispatchToProps = dispatch => ({
-  forgotPassword: payload => dispatch(forgotPassword(payload)),
+  return (
+    <ResetPassword.Wrapper>
+      <Form
+        handleSubmit={handleSubmit('FORGOT_PASSWORD')}
+        isLoading={isLoading}
+        submitButtonLabel="Forgot Password"
+        validationSchemaKey="forgotPassword"
+        defaultValues={{ email: '' }}
+      >
+        {({ values, errors, handleChange, handleBlur }): React.ReactNode => (
+          <Input
+            name="email"
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            title="Email"
+            value={values.email}
+            errorFeedback={errors.email}
+          />
+        )}
+      </Form>
+    </ResetPassword.Wrapper>
+  );
+}
+
+ResetPassword.Wrapper = styled.div`
+  width: 100%;
+`;
+
+const mapDispatchToProps = (dispatch): DispatchProps => ({
+  forgotPassword: (payload): void => dispatch(forgotPassword(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticationContainer(ResetPassword));
+export default connect(null, mapDispatchToProps)(withAuthenticationContainer(ResetPassword));
