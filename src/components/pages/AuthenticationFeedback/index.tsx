@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import AuthenticationLayout from 'components/layouts/AuthenticationLayout';
 import AuthMessage from 'components/ui/AuthMessage';
+import SEO from 'components/HOC/SEO';
 
 type UserData = {
   firstName: string;
@@ -28,6 +29,7 @@ function AuthenticationFeedback({
 
   return (
     <AuthenticationLayout>
+      <SEO title="Success" />
       <AuthMessage>{navigationData.authSuccessType == 'SIGN_UP' ? SIGNUP_MESSAGE : RESET_PASSWORD_MESSAGE}</AuthMessage>
     </AuthenticationLayout>
   );

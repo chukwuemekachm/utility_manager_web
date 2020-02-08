@@ -6,6 +6,7 @@ import withSuspense from 'components/HOC/withSuspense';
 import withDashboardContainer from 'components/containers/DashBoardContainer';
 import { fetchProfile } from 'store/actions/auth';
 import DashBoardLayout from 'components/layouts/DashBoardLayout';
+import SEO from 'components/HOC/SEO';
 
 interface DashboardProps {
   profile: {
@@ -78,6 +79,7 @@ function Dashboard(props: DashboardProps): React.ReactElement<DashboardProps> {
 
   return (
     <DashBoardLayout pageTitle={pageTitle} {...profile}>
+      <SEO title={profile.firstName || 'Dashboard'} />
       {
         <Switch>
           {getDashBoardRoutes(path).map((route, index) => (
