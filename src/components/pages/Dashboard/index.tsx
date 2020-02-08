@@ -4,7 +4,7 @@ import { Switch, Route, match, RouteProps } from 'react-router';
 import { Location } from 'history';
 import withSuspense from 'components/HOC/withSuspense';
 import withDashboardContainer from 'components/containers/DashBoardContainer';
-import { fetchProfile } from 'store/actions/dashboard';
+import { fetchProfile } from 'store/actions/auth';
 import DashBoardLayout from 'components/layouts/DashBoardLayout';
 
 interface DashboardProps {
@@ -90,7 +90,7 @@ function Dashboard(props: DashboardProps): React.ReactElement<DashboardProps> {
 }
 
 const mapStateToProps = (state): Pick<DashboardProps, 'profile'> => ({
-  profile: state.dashboard.data,
+  profile: state.auth.profile,
 });
 
 const mapDispatchToProps = (dispatch): Pick<DashboardProps, 'fetchProfile'> => ({

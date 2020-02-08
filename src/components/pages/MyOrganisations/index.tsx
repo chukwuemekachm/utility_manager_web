@@ -7,8 +7,6 @@ import OrganisationCard from 'components/ui/OrganisationCard';
 import { fetchCurrentUserOrganisations } from 'store/actions/dashboard';
 import { getDateJoinedMessage } from 'helpers/dateHelpers';
 
-import __spacing from 'settings/__spacing';
-
 interface OrganisationProps {
   id: string;
   organisation: {
@@ -21,6 +19,7 @@ interface OrganisationProps {
     name: string;
   };
 }
+
 interface MyOrganisationsProps {
   img: string;
   name: string;
@@ -40,7 +39,7 @@ export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement
   }, []);
 
   if (isOrganisationPending) {
-    return <p> ... Loading </p>;
+    return <MyOrganisations.Message>...Loading</MyOrganisations.Message>;
   } else if (isOrganizationFetched) {
     const organisationsToDisplay = Object.values(organisations);
     if (organisationsToDisplay) {
@@ -62,7 +61,8 @@ export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement
       );
     }
   }
-  return <p> Sorry! you do not belong to any organisation yet </p>;
+
+  return <MyOrganisations.Message>Sorry! you do not belong to any organisation yet</MyOrganisations.Message>;
 }
 
 const mapStateToProps = (
@@ -82,3 +82,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(MyOrganisations);
 MyOrganisations.Wrapper = styled.section`
   padding: 0;
 `;
+
+MyOrganisations.Message = styled.p``;

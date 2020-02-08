@@ -21,28 +21,6 @@ const defaultPayload = {
 
 export default function navigationReducer(state = initialState, { type, payload = defaultPayload }) {
   switch (type) {
-    case dashboardConstants.PROFILE_REQUEST:
-      return {
-        ...state,
-        status: {
-          isRetrieved: false,
-          isPending: true,
-        },
-      };
-
-    case dashboardConstants.PROFILE_SUCCESS:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          ...payload.data,
-        },
-        status: {
-          isFetched: true,
-          isPending: false,
-        },
-      };
-
     case dashboardConstants.ORGANISATION_REQUEST:
       return {
         ...state,
