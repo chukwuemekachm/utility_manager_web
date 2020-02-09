@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import OrganisationCard from 'components/ui/OrganisationCard';
 import { fetchCurrentUserOrganisations } from 'store/actions/dashboard';
 import { getDateJoinedMessage } from 'helpers/dateHelpers';
-import { transformCloudinaryURL } from 'helpers/imageHelpers';
+import { transformCloudinaryURL } from 'utils/misc';
 import { ImageOptions } from 'utils/constants';
 
 interface OrganisationProps {

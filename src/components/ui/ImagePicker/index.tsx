@@ -1,9 +1,10 @@
-import Avatar from '../Avatar';
-import Icon from '../Icon';
 import * as React from 'react';
+import styled from '@emotion/styled';
+
+import Avatar from 'components/ui/Avatar';
+import Icon from 'components/ui/Icon';
 import InputErrors from 'components/ui/InputErrors';
 import { InputProps } from 'components/ui/Input';
-import styled from '@emotion/styled';
 
 export interface ImagePickerProps extends Pick<InputProps, 'errorFeedback' | 'handleChange' | 'handleBlur'> {
   imageURL: string;
@@ -30,7 +31,6 @@ export default function ImagePicker(props: ImagePickerProps): React.ReactElement
           <Icon iconType="md-create" size="LARGE" />
         </label>
       </ImagePicker.InnerWrapper>
-
       <InputErrors errorFeedback={errorFeedback} />
     </ImagePicker.Wrapper>
   );

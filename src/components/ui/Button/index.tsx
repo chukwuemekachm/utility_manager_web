@@ -5,6 +5,7 @@ import Loader from 'components/ui/Loader';
 import __spacing from 'settings/__spacing';
 import { fontSizes, fontWeights } from 'settings/__fonts';
 import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER } from 'settings/__color';
+import convertFromPixelsToRem from 'utils/misc';
 
 export type ButtonType = 'submit' | 'button' | 'reset';
 
@@ -39,8 +40,8 @@ Button.Wrapper = styled.div`
   justify-content: center;
   height: 2.5em;
   width: 100%;
-  border-radius: 3px;
-  box-shadow: rgba(153, 153, 153, 0.1) 0px 0.32em 2em;
+  border-radius: ${convertFromPixelsToRem(3)};
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `;
 
 Button.Component = styled.button`
@@ -54,8 +55,8 @@ Button.Component = styled.button`
   border: none;
   background: ${BRAND_PRIMARY};
   color: ${BRAND_WHITE};
-  border-radius: 3px;
-  box-shadow: rgba(153, 153, 153, 0.1) 0px 0.32em 2em;
+  border-radius: ${convertFromPixelsToRem(3)};
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 
   &:focus {
     outline: none;

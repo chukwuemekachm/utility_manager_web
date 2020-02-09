@@ -221,6 +221,11 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           isLoading: false,
           hasError: false,
         },
+        profile: {
+          ...state.profile,
+          ...payload.data,
+        },
+        message: payload.message,
       };
 
     case authConstants.UPDATE_PROFILE_ERROR:
