@@ -15,4 +15,15 @@ export function convertFromPixelsToRem(size: number): string {
   return `${(size / 16).toFixed(4)}rem`;
 }
 
+export function transformCloudinaryURL(url, options): string {
+  if (!url) {
+    return '';
+  }
+  const splittedURL = url.split('/');
+  const beforeOptions = splittedURL.slice(0, -2).join('/');
+  const afterOptions = splittedURL.slice(-2).join('/');
+
+  return beforeOptions + '/' + options.join(',') + '/' + afterOptions;
+}
+
 export default convertFromPixelsToRem;

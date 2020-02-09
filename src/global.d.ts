@@ -30,12 +30,14 @@ declare interface AuthState {
 }
 
 interface DashBoardState {
-  data: Record<string, any>;
-  organisations: Record<string, any>;
+  organisations: Array<unknown>;
+  meta: Record<string, any>;
   status: {
     isOrganisationFetched: boolean;
     isOrganisationPending: boolean;
+    hasError: boolean;
   };
+  message: string;
 }
 
 interface NavigationState {

@@ -3,9 +3,10 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 
 import Button from 'components/ui/Button';
-import EditIcon from 'components/ui/Icon';
 import { convertFromPixelsToRem } from 'utils/misc';
 import { validatePayload } from 'lib/validator';
+import ImagePicker from '../ImagePicker';
+import __spacing from 'settings/__spacing';
 
 export interface FormProps {
   handleSubmit: (values: Record<string, any>) => void;
@@ -17,6 +18,7 @@ export interface FormProps {
   validationSchemaKey?: string;
   children: (props: ChildrenProps) => React.ReactNode;
   defaultValues?: Record<string, any>;
+  handleShouldDisableButton?: (composedProps: Record<string, any>) => boolean;
 }
 
 interface ChildrenProps {
@@ -31,12 +33,12 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
     handleSubmit,
     handleInputBlur,
     isLoading = false,
-    imageURL = '',
     imageAltText = '',
     submitButtonLabel = '',
     children,
     validationSchemaKey,
     defaultValues = {},
+    handleShouldDisableButton = composedProps => false,
   } = props;
   const [values, setValues] = React.useState(defaultValues);
   const [errors, setErrors] = React.useState({});
@@ -46,6 +48,12 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
       target: { value, name },
     } = event;
     setValues(prevState => ({ ...prevState, [name]: name == 'showPassword' ? !values.showPassword : value }));
+  }
+
+  function handleImgChange(event): void {
+    values.imageURL = URL.createObjectURL(event.target.files[0]);
+    values.image = event.target.files[0];
+    handleChange(event);
   }
 
   async function handleBlur({ target: { value, name } }: React.FocusEvent<HTMLInputElement>): Promise<void> {
@@ -79,14 +87,11 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
 
   return (
     <Form.Wrapper onSubmit={handleFormSubmit}>
-      {imageURL && (
+      {values.imageURL && (
         <Form.Header>
-          <div className="image-wrapper">
-            <img src={imageURL} className="user-image" alt={imageAltText} />
-            <div className="image-overlay">
-              <EditIcon iconType="md-create" color="GREY" size="NORMAL" />
-            </div>
-          </div>
+          <Form.ImageWrapper>
+            <ImagePicker handleChange={handleImgChange} altText={imageAltText} imageURL={values.imageURL} name="logo" />
+          </Form.ImageWrapper>
         </Form.Header>
       )}
       <Form.Body>
@@ -108,43 +113,41 @@ Form.Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 8.25rem;
+  margin-bottom: ${__spacing.xLarge};
+`;
 
-  .image-wrapper {
-    position: relative;
-    width: ${convertFromPixelsToRem(70)};
-    height: ${convertFromPixelsToRem(70)};
-    background: gray;
-    border-radius: 50%;
-    overflow: hidden;
+Form.ImageWrapper = styled.div`
+  position: relative;
+  width: ${convertFromPixelsToRem(70)};
+  height: ${convertFromPixelsToRem(70)};
+  background: gray;
+  border-radius: 50%;
+  overflow: hidden;
 
-    .user-image {
-      width: 100%;
-      height: 100%;
-    }
+  .user-image {
+    width: 100%;
+    height: 100%;
+  }
 
-    .image-overlay {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      position: absolute;
-      background: rgba(255, 255, 255, 0.7);
-      height: 50%;
-      top: 50%;
-      right: 0;
-    }
+  .image-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.7);
+    height: 50%;
+    top: 50%;
+    right: 0;
   }
 `;
 
 Form.Wrapper = styled.form`
   width: 100%;
+`;
 
-  div {
-    button {
-      border-radius: ${convertFromPixelsToRem(3)};
-    }
-  }
+Form.ButtonWrapper = styled.div`
+  margin-top: ${__spacing.medium};
 `;
 
 export default Form;

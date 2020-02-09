@@ -11,7 +11,7 @@ import api, { dashboardRequest } from 'services/api';
 function* callFetchMyOrganisations(action) {
   try {
     const { data } = yield call([api, 'get'], dashboardRequest.ORGANISATION, action.payload);
-    yield put(fetchCurrentUserOrganisationsSuccess(data.data));
+    yield put(fetchCurrentUserOrganisationsSuccess(data));
   } catch (error) {
     yield fork(errorHandler, error, fetchCurrentUserOrganisationsError);
   }
@@ -21,6 +21,6 @@ export function* watchCallFetchMyOrganisations() {
   yield takeLatest(dashboardConstants.ORGANISATION_REQUEST, callFetchMyOrganisations);
 }
 
-export default function* authSaga() {
+export default function* dashboardSaga() {
   yield all([fork(watchCallFetchMyOrganisations)]);
 }

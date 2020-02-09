@@ -38,5 +38,5 @@ Logo.IconWrapper = styled.span`
   background: ${BRAND_PRIMARY};
   color: ${BRAND_WHITE};
   margin-right: ${__spacing.xSmall};
-  box-shadow: rgba(153, 153, 153, 0.1) 0px 0.32em 2em;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `;
