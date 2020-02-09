@@ -2,19 +2,15 @@
 import { dashboardConstants } from 'store/actions/dashboard';
 
 const initialState = {
-  // data: {},
-  // organisations: {},
   retrieveProfile: {
     data: {},
     isPending: false,
     isComplete: false,
   },
-  retrieveOrganisation: {
+  userOrganisation: {
     data: {},
     isPending: false,
     isComplete: false,
-    // isOrganisationFetched: false,
-    // isOrganisationPending: true,
   },
   updateProfileRequest: {
     data: {},
@@ -61,8 +57,17 @@ export default function navigationReducer(state = initialState, { type, payload 
           data: { ...payload.data },
         },
       };
+    case dashboardConstants.FETCH_PROFILE_ERROR:
+      return {
+        ...state,
+        retrieveProfile: {
+          isPending: false,
+          isComplete: false,
+          data: { ...payload.data },
+        },
+      };
 
-    case dashboardConstants.PROFILE_REQUEST:
+    case dashboardConstants.FETCH_PROFILE_REQUEST:
       return {
         ...state,
         // status: {
@@ -73,32 +78,24 @@ export default function navigationReducer(state = initialState, { type, payload 
         },
       };
 
-    case dashboardConstants.PROFILE_SUCCESS:
+    case dashboardConstants.FETCH_PROFILE_SUCCESS:
       return {
         ...state,
         retrieveProfile: {
+          ...state.retrieveProfile,
           data: {
-            ...state.retrieveProfile,
             ...payload.data,
           },
           isPending: true,
           isComplete: false,
         },
-        // data: {
-        //   ...state.data,
-        //   ...payload.data,
-        // },
-        // status: {
-        //   isFetched: true,
-        //   isPending: false,
-        // },
       };
 
     case dashboardConstants.ORGANISATION_REQUEST:
       return {
         ...state,
-        retrieveOrganisation: {
-          ...state.retrieveOrganisation,
+        userOrganisation: {
+          ...state.userOrganisation,
           isComplete: false,
           isPending: true,
         },
@@ -107,12 +104,10 @@ export default function navigationReducer(state = initialState, { type, payload 
     case dashboardConstants.ORGANISATION_SUCCESS:
       return {
         ...state,
-        retrieveOrganisation: {
-          data: {
-            ...payload,
-          },
-          isComplete: false,
-          isPending: true,
+        userOrganisation: {
+          data: payload.data,
+          isComplete: true,
+          isPending: false,
         },
       };
 

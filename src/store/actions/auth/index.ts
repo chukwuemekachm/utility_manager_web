@@ -77,20 +77,6 @@ export const forgotPasswordError = (payload): Action => ({
   payload,
 });
 
-export const fetchProfile = (): Action => ({
-  type: authConstants.FETCH_PROFILE_REQUEST,
-});
-
-export const fetchProfileError = (payload): Action => ({
-  type: authConstants.FETCH_PROFILE_ERROR,
-  payload,
-});
-
-export const fetchProfileSuccess = (payload): Action => ({
-  type: authConstants.FETCH_PROFILE_SUCCESS,
-  payload,
-});
-
 export {
   authConstants, // Can't aggregate and use the values from the aggregated export at the same time
 };

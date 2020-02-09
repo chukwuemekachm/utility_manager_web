@@ -112,7 +112,7 @@ UpdateProfile.FormWrapper = styled.section`
 `;
 
 const mapStateToProps = (state): Pick<UpdateProfileProps, 'profile'> => ({
-  profile: state.dashboard.data,
+  profile: state.dashboard.retrieveProfile.data,
 });
 
 const mapDispatchToProps = (dispatch): Pick<UpdateProfileProps, 'callUpdateProfile'> => ({

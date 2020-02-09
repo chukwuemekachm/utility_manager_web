@@ -1,16 +1,16 @@
 import * as dashboardConstants from './constants';
 
 export const fetchProfile = (): Action => ({
-  type: dashboardConstants.PROFILE_REQUEST,
+  type: dashboardConstants.FETCH_PROFILE_REQUEST,
 });
 
 export const fetchProfileError = (payload): Action => ({
-  type: dashboardConstants.PROFILE_ERROR,
+  type: dashboardConstants.FETCH_PROFILE_ERROR,
   payload,
 });
 
 export const fetchProfileSuccess = (payload): Action => ({
-  type: dashboardConstants.PROFILE_SUCCESS,
+  type: dashboardConstants.FETCH_PROFILE_SUCCESS,
   payload,
 });
 

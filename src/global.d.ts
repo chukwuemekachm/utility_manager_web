@@ -37,7 +37,7 @@ interface DashBoardState {
     isPending: boolean;
     isComplete: boolean;
   };
-  retrieveOrganisation: {
+  userOrganisation: {
     data: Record<string, any>;
     isPending: boolean;
     isComplete: boolean;

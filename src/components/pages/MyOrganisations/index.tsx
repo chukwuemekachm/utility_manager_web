@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import OrganisationCard from 'components/ui/OrganisationCard';
 import { fetchCurrentUserOrganisations } from 'store/actions/dashboard';
 import { getDateJoinedMessage } from 'helpers/dateHelpers';
+import { transformCloudinaryURL } from '../../../helpers/imageHelpers';
 
 interface OrganisationProps {
   id: string;
@@ -37,11 +38,11 @@ export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement
   React.useEffect(function(): void {
     fetchCurrentUserOrganisations();
   }, []);
-
   if (isOrganisationPending) {
     return <MyOrganisations.Message>...Loading</MyOrganisations.Message>;
   } else if (isOrganizationFetched) {
     const organisationsToDisplay = Object.values(organisations);
+
     if (organisationsToDisplay) {
       return (
         <MyOrganisations.Wrapper>
@@ -49,7 +50,7 @@ export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement
             return (
               <div key={org.organisation.id} onClick={() => history.push('/dashboard/profile', org)}>
                 <OrganisationCard
-                  img={org.organisation.logoUrl}
+                  img={transformCloudinaryURL(org.organisation.logoUrl, ['q_40'])}
                   name={org.organisation.name}
                   role={org.role.name}
                   date={getDateJoinedMessage(org.organisation.createdAt)}
@@ -68,9 +69,9 @@ export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement
 const mapStateToProps = (
   state,
 ): Pick<MyOrganisationsProps, 'isOrganisationPending' | 'isOrganizationFetched' | 'organisations'> => ({
-  organisations: state.dashboard.organisations,
-  isOrganisationPending: state.dashboard.status.isOrganisationPending,
-  isOrganizationFetched: state.dashboard.status.isOrganisationFetched,
+  organisations: state.dashboard.userOrganisation.data,
+  isOrganisationPending: state.dashboard.userOrganisation.isPending,
+  isOrganizationFetched: state.dashboard.userOrganisation.isComplete,
 });
 
 const mapDispatchToProps = (dispatch): Pick<MyOrganisationsProps, 'fetchCurrentUserOrganisations'> => ({

@@ -4,13 +4,14 @@ import {
   dashboardConstants,
   fetchUpdateProfileSuccess,
   fetchUpdateProfileError,
+  fetchProfileError,
+  fetchProfileSuccess,
   fetchCurrentUserOrganisationsError,
   fetchCurrentUserOrganisationsSuccess,
 } from 'store/actions/dashboard';
 import { errorHandler, successHandler } from 'store/helpers';
 import api, { authRequest, dashboardRequest } from 'services/api';
 import { moveToNextPage } from '../actions/navigation';
-import { fetchProfileError, fetchProfileSuccess } from '../actions/auth';
 
 function* callFetchMyOrganisations(action) {
   try {
@@ -60,7 +61,7 @@ export function* watchCallFetchUpdateProfile() {
 }
 
 export function* watchCallFetchProfile() {
-  yield takeLatest(dashboardConstants.PROFILE_REQUEST, callFetchProfile);
+  yield takeLatest(dashboardConstants.FETCH_PROFILE_REQUEST, callFetchProfile);
 }
 
 export function* watchCallFetchMyOrganisations() {
