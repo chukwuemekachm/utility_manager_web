@@ -17,7 +17,6 @@ export interface FormProps {
   validationSchemaKey?: string;
   children: (props: ChildrenProps) => React.ReactNode;
   defaultValues?: Record<string, any>;
-  handleShouldDisableButton?: (composedProps: Record<string, any>) => boolean;
 }
 
 interface ChildrenProps {
@@ -38,7 +37,6 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
     children,
     validationSchemaKey,
     defaultValues = {},
-    handleShouldDisableButton = composedProps => false,
   } = props;
   const [values, setValues] = React.useState(defaultValues);
   const [errors, setErrors] = React.useState({});
@@ -93,7 +91,7 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
       )}
       <Form.Body>
         {children(composeProps())}
-        <Button isLoading={isLoading} type="submit" disabled={handleShouldDisableButton(composeProps())}>
+        <Button isLoading={isLoading} type="submit">
           {submitButtonLabel}
         </Button>
       </Form.Body>

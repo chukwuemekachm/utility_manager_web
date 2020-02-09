@@ -5,7 +5,7 @@ import __layouts from 'settings/__layouts';
 import { fontSizes } from 'settings/__fonts';
 import __spacing from 'settings/__spacing';
 import { GAINS_BORO, GRAY, CRIMSON } from 'settings/__color';
-import InputErrors from 'components/ui/InputErrors';
+
 export type InputType = 'text' | 'number' | 'email' | 'password';
 
 export interface InputProps {
@@ -43,7 +43,12 @@ export default function Input(props: InputProps): React.ReactElement<InputProps>
           onBlur={handleBlur}
         />
       </span>
-      <InputErrors errorFeedback={errorFeedback} />
+      {errorFeedback &&
+        errorFeedback.map(message => (
+          <span key={message} className="input-error-feedback">
+            {message}
+          </span>
+        ))}
     </Input.Wrapper>
   );
 }
