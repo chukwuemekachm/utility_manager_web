@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import NavBar from 'components/ui/NavBar';
 import UserProfileCard from 'components/ui/UserProfileCard';
 import DashBoardTitle from 'components/ui/DashBoardTitle';
+import { transformCloudinaryURL } from 'helpers/imageHelpers';
 import __spacing from 'settings/__spacing';
 import { WHITE_SMOKE } from 'settings/__color';
 
@@ -21,12 +22,17 @@ const imgUrl =
 
 export default function DashBoardLayout(props: DashBoardLayoutProps): React.ReactElement<DashBoardLayoutProps> {
   const { children, email, firstName, lastName, imageURL, pageTitle } = props;
-
+  const imgOptions = ['q_40'];
   return (
     <DashBoardLayout.Wrapper>
       <DashBoardLayout.ProfileWrapper>
         <NavBar />
-        <UserProfileCard email={email} firstName={firstName} lastName={lastName} imgUrl={imageURL || imgUrl} />
+        <UserProfileCard
+          email={email}
+          firstName={firstName}
+          lastName={lastName}
+          imgUrl={transformCloudinaryURL(imageURL || imgUrl, imgOptions)}
+        />
       </DashBoardLayout.ProfileWrapper>
       <DashBoardLayout.PageTitleWrapper>
         <DashBoardTitle>{pageTitle}</DashBoardTitle>

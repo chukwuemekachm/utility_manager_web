@@ -12,8 +12,6 @@ import {
   changeUserPasswordSuccess,
   forgotPasswordError,
   forgotPasswordSuccess,
-  fetchProfileSuccess,
-  fetchProfileError,
 } from 'store/actions/auth';
 
 import { errorHandler, successHandler } from 'store/helpers';
@@ -113,15 +111,6 @@ function* logoutUser(action) {
   }
 }
 
-function* fetchProfile(action) {
-  try {
-    const response = yield call([api, 'get'], authRequest.PROFILE, action.payload);
-    yield fork(successHandler, response, fetchProfileSuccess);
-  } catch (error) {
-    yield fork(errorHandler, error, fetchProfileError);
-  }
-}
-
 export function* watchSignUpUser() {
   yield takeLatest(authConstants.SIGN_UP_REQUEST, signUpUser);
 }
@@ -141,10 +130,6 @@ export function* watchChangeUserPassword() {
   yield takeLatest(authConstants.CHANGE_USER_PASSWORD_REQUEST, changeUserPassword);
 }
 
-export function* watchFetchProfile() {
-  yield takeLatest(authConstants.FETCH_PROFILE_REQUEST, fetchProfile);
-}
-
 export default function* authSaga() {
   yield all([
     fork(watchSignUpUser),
@@ -152,6 +137,5 @@ export default function* authSaga() {
     fork(watchLoginUser),
     fork(watchForgotPassword),
     fork(watchLogoutUser),
-    fork(watchFetchProfile),
   ]);
 }
