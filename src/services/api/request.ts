@@ -8,7 +8,6 @@ export const authRequest = {
 
 export const dashboardRequest = {
   ORGANISATION: '/user/orgs?sort_by=role.name',
-  UPDATE_PROFILE: '/user/profile',
 };
 
 export default {

@@ -30,22 +30,11 @@ declare interface AuthState {
 }
 
 interface DashBoardState {
-  // data: Record<string, any>;
-  // organisations: Record<string, any>;
-  retrieveProfile: {
-    data: Record<string, any>;
-    isPending: boolean;
-    isComplete: boolean;
-  };
-  userOrganisation: {
-    data: Record<string, any>;
-    isPending: boolean;
-    isComplete: boolean;
-  };
-  updateProfileRequest: {
-    data: Record<string, any>;
-    isPending: boolean;
-    isComplete: boolean;
+  data: Record<string, any>;
+  organisations: Record<string, any>;
+  status: {
+    isOrganisationFetched: boolean;
+    isOrganisationPending: boolean;
   };
 }
 

@@ -2,72 +2,25 @@
 import { takeLatest, all, fork, call, put } from 'redux-saga/effects';
 import {
   dashboardConstants,
-  fetchUpdateProfileSuccess,
-  fetchUpdateProfileError,
-  fetchProfileError,
-  fetchProfileSuccess,
   fetchCurrentUserOrganisationsError,
   fetchCurrentUserOrganisationsSuccess,
 } from 'store/actions/dashboard';
-import { errorHandler, successHandler } from 'store/helpers';
-import api, { authRequest, dashboardRequest } from 'services/api';
-import { moveToNextPage } from '../actions/navigation';
+import { errorHandler } from 'store/helpers';
+import api, { dashboardRequest } from 'services/api';
 
 function* callFetchMyOrganisations(action) {
   try {
-    const response = yield call([api, 'get'], dashboardRequest.ORGANISATION, action.payload);
-    yield fork(successHandler, response, fetchCurrentUserOrganisationsSuccess);
+    const { data } = yield call([api, 'get'], dashboardRequest.ORGANISATION, action.payload);
+    yield put(fetchCurrentUserOrganisationsSuccess(data.data));
   } catch (error) {
     yield fork(errorHandler, error, fetchCurrentUserOrganisationsError);
   }
-}
-
-function* callFetchUpdateProfile(action) {
-  try {
-    const { payload } = action;
-    const formData = new FormData();
-
-    formData.set('firstName', payload.firstName);
-    formData.set('lastName', payload.lastName);
-    formData.set('lastName', payload.lastName);
-
-    if (payload.logo) {
-      formData.append('image', payload.image);
-    }
-    const response = yield call([api, 'patch'], dashboardRequest.UPDATE_PROFILE, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    yield fork(successHandler, response, fetchUpdateProfileSuccess);
-    const temp = {
-      nextPageRoute: '/dashboard',
-      data: {},
-    };
-    yield put(moveToNextPage(temp));
-  } catch (error) {
-    yield fork(errorHandler, error, fetchUpdateProfileError);
-  }
-}
-
-function* callFetchProfile(action) {
-  try {
-    const response = yield call([api, 'get'], authRequest.PROFILE, action.payload);
-    yield fork(successHandler, response, fetchProfileSuccess);
-  } catch (error) {
-    yield fork(errorHandler, error, fetchProfileError);
-  }
-}
-export function* watchCallFetchUpdateProfile() {
-  yield takeLatest(dashboardConstants.UPDATE_PROFILE_REQUEST, callFetchUpdateProfile);
-}
-
-export function* watchCallFetchProfile() {
-  yield takeLatest(dashboardConstants.FETCH_PROFILE_REQUEST, callFetchProfile);
 }
 
 export function* watchCallFetchMyOrganisations() {
   yield takeLatest(dashboardConstants.ORGANISATION_REQUEST, callFetchMyOrganisations);
 }
 
-export default function* dashboardSaga() {
-  yield all([fork(watchCallFetchProfile), fork(watchCallFetchMyOrganisations), fork(watchCallFetchUpdateProfile)]);
+export default function* authSaga() {
+  yield all([fork(watchCallFetchMyOrganisations)]);
 }

@@ -163,45 +163,45 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         data: {},
       };
 
-    // case authConstants.FETCH_PROFILE_REQUEST:
-    //   return {
-    //     ...state,
-    //     status: {
-    //       ...state.status,
-    //       isLoading: true,
-    //       hasError: false,
-    //     },
-    //   };
-    //
-    // case authConstants.FETCH_PROFILE_ERROR:
-    //   return {
-    //     ...state,
-    //     error: {
-    //       ...state.error,
-    //       ...payload.data,
-    //     },
-    //     status: {
-    //       ...state.status,
-    //       isLoading: false,
-    //       hasError: true,
-    //     },
-    //     message: payload.message,
-    //   };
-    //
-    // case authConstants.FETCH_PROFILE_SUCCESS:
-    //   return {
-    //     ...state,
-    //     profile: {
-    //       ...state.profile,
-    //       ...payload.data,
-    //     },
-    //     status: {
-    //       ...state.status,
-    //       isLoading: false,
-    //       isProfileFetched: true,
-    //     },
-    //     message: payload.message,
-    //   };
+    case authConstants.FETCH_PROFILE_REQUEST:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: true,
+          hasError: false,
+        },
+      };
+
+    case authConstants.FETCH_PROFILE_ERROR:
+      return {
+        ...state,
+        error: {
+          ...state.error,
+          ...payload.data,
+        },
+        status: {
+          ...state.status,
+          isLoading: false,
+          hasError: true,
+        },
+        message: payload.message,
+      };
+
+    case authConstants.FETCH_PROFILE_SUCCESS:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          ...payload.data,
+        },
+        status: {
+          ...state.status,
+          isLoading: false,
+          isProfileFetched: true,
+        },
+        message: payload.message,
+      };
 
     default:
       return state;
