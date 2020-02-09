@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import Loader from 'components/ui/Loader';
 import __spacing from 'settings/__spacing';
 import { fontSizes, fontWeights } from 'settings/__fonts';
-import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER } from 'settings/__color';
+import { BRAND_PRIMARY, BRAND_WHITE, BRAND_PRIMARY_HOVER, LIGHT_GRAY } from 'settings/__color';
 import convertFromPixelsToRem from 'utils/misc';
 
 export type ButtonType = 'submit' | 'button' | 'reset';
@@ -14,15 +14,15 @@ export interface ButtonProps {
   children: React.ReactNode;
   isLoading: boolean;
   handleClick?: () => void;
+  disabled: boolean;
 }
 
 function Button(props: ButtonProps): React.ReactElement<ButtonProps> {
-  const { type = 'submit', children, isLoading, handleClick } = props;
-
+  const { type = 'submit', children, isLoading, handleClick, disabled = false } = props;
   return (
     <Button.Wrapper>
       {!isLoading ? (
-        <Button.Component type={type} onClick={handleClick}>
+        <Button.Component type={type} onClick={handleClick} disabled={disabled}>
           {children}
         </Button.Component>
       ) : (
@@ -65,6 +65,10 @@ Button.Component = styled.button`
   &:hover {
     cursor: pointer;
     background: ${BRAND_PRIMARY_HOVER};
+  }
+
+  &:disabled {
+    background-color: ${LIGHT_GRAY};
   }
 `;
 

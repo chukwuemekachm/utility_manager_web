@@ -60,6 +60,21 @@ export const changeUserPasswordSuccess = (payload): Action => ({
   payload,
 });
 
+export const changeLoggedInUserPassword = (payload): Action => ({
+  type: authConstants.CHANGE_LOGGED_IN_USER_PASSWORD_REQUEST,
+  payload,
+});
+
+export const changeLoggedInUserPasswordFailure = (payload): Action => ({
+  type: authConstants.CHANGE_LOGGED_IN_USER_PASSWORD_FAILURE,
+  payload,
+});
+
+export const changeLoggedInUserPasswordSuccess = (payload): Action => ({
+  type: authConstants.CHANGE_LOGGED_IN_USER_PASSWORD_SUCCESS,
+  payload,
+});
+
 export const forgotPassword = (payload): Action => {
   return {
     type: authConstants.FORGOT_PASSWORD_REQUEST,
