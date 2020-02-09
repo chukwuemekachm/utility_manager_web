@@ -39,6 +39,8 @@ Button.Wrapper = styled.div`
   justify-content: center;
   height: 2.5em;
   width: 100%;
+  border-radius: 3px;
+  box-shadow: rgba(153, 153, 153, 0.1) 0px 0.32em 2em;
 `;
 
 Button.Component = styled.button`

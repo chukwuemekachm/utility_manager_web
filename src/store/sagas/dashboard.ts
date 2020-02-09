@@ -21,6 +21,6 @@ export function* watchCallFetchMyOrganisations() {
   yield takeLatest(dashboardConstants.ORGANISATION_REQUEST, callFetchMyOrganisations);
 }
 
-export default function* authSaga() {
+export default function* dashboardSaga() {
   yield all([fork(watchCallFetchMyOrganisations)]);
 }

@@ -203,6 +203,36 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         message: payload.message,
       };
 
+    case authConstants.UPDATE_PROFILE_REQUEST:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: true,
+          hasError: false,
+        },
+      };
+
+    case authConstants.UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false,
+          hasError: false,
+        },
+      };
+
+    case authConstants.UPDATE_PROFILE_ERROR:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false,
+          hasError: true,
+        },
+      };
+
     default:
       return state;
   }

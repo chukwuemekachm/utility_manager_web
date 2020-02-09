@@ -6,6 +6,8 @@ import styled from '@emotion/styled';
 import OrganisationCard from 'components/ui/OrganisationCard';
 import { fetchCurrentUserOrganisations } from 'store/actions/dashboard';
 import { getDateJoinedMessage } from 'helpers/dateHelpers';
+import { transformCloudinaryURL } from 'helpers/imageHelpers';
+import { ImageOptions } from 'utils/constants';
 
 interface OrganisationProps {
   id: string;
@@ -27,42 +29,39 @@ interface MyOrganisationsProps {
   date: string;
   isOrganisationPending: boolean;
   isOrganizationFetched: boolean;
-  organisations: OrganisationProps;
+  organisations: OrganisationProps[];
   fetchCurrentUserOrganisations: () => void;
 }
 
-export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement<{}> {
+export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement<MyOrganisationsProps> {
   const { fetchCurrentUserOrganisations, organisations, isOrganisationPending, isOrganizationFetched } = props;
 
   React.useEffect(function(): void {
     fetchCurrentUserOrganisations();
   }, []);
 
-  if (isOrganisationPending) {
-    return <MyOrganisations.Message>...Loading</MyOrganisations.Message>;
-  } else if (isOrganizationFetched) {
-    const organisationsToDisplay = Object.values(organisations);
-    if (organisationsToDisplay) {
-      return (
-        <MyOrganisations.Wrapper>
-          {organisationsToDisplay.map(org => {
-            return (
-              <div key={org.organisation.id} onClick={() => history.push('/dashboard/profile', org)}>
-                <OrganisationCard
-                  img={org.organisation.logoUrl}
-                  name={org.organisation.name}
-                  role={org.role.name}
-                  date={getDateJoinedMessage(org.organisation.createdAt)}
-                />
-              </div>
-            );
-          })}
-        </MyOrganisations.Wrapper>
-      );
-    }
-  }
+  if (isOrganisationPending) return <MyOrganisations.Message>...Loading</MyOrganisations.Message>;
 
-  return <MyOrganisations.Message>Sorry! you do not belong to any organisation yet</MyOrganisations.Message>;
+  return (
+    <MyOrganisations.Wrapper>
+      {isOrganizationFetched && organisations.length ? (
+        <>
+          {organisations.map(org => (
+            <div key={org.organisation.id} onClick={() => history.push('/dashboard/profile', org)}>
+              <OrganisationCard
+                img={transformCloudinaryURL(org.organisation.logoUrl, [ImageOptions.AVATAR])}
+                name={org.organisation.name}
+                role={org.role.name}
+                date={getDateJoinedMessage(org.organisation.createdAt)}
+              />
+            </div>
+          ))}
+        </>
+      ) : (
+        <MyOrganisations.Message>Sorry! you do not belong to any organisation yet</MyOrganisations.Message>
+      )}
+    </MyOrganisations.Wrapper>
+  );
 }
 
 const mapStateToProps = (

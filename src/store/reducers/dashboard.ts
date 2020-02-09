@@ -2,42 +2,58 @@
 import { dashboardConstants } from 'store/actions/dashboard';
 
 const initialState = {
-  data: {},
-  organisations: {},
+  organisations: [],
+  meta: {},
   status: {
+    hasError: false,
     isOrganisationFetched: false,
     isOrganisationPending: true,
   },
+  message: '',
 };
 
 const defaultPayload = {
   nextPageRoute: '',
-  data: {},
-  organisation: {},
+  data: [],
+  organisations: [],
+  message: '',
+  meta: {},
 };
 
-export default function navigationReducer(state = initialState, { type, payload = defaultPayload }): DashBoardState {
+export default function dashboardReducer(state = initialState, { type, payload = defaultPayload }): DashBoardState {
   switch (type) {
     case dashboardConstants.ORGANISATION_REQUEST:
       return {
         ...state,
         status: {
           ...state.status,
-          isOrganisationFetched: false,
           isOrganisationPending: true,
+          hasError: false,
         },
       };
 
     case dashboardConstants.ORGANISATION_SUCCESS:
       return {
         ...state,
-        organisations: {
-          ...payload,
-        },
         status: {
-          isOrganisationFetched: true,
+          ...state.status,
           isOrganisationPending: false,
+          isOrganisationFetched: true,
+          hasError: false,
         },
+        organisations: payload.data,
+        meta: { ...state.meta, ...payload.meta },
+      };
+
+    case dashboardConstants.ORGANISATION_ERROR:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isOrganisationPending: false,
+          hasError: true,
+        },
+        message: payload.message,
       };
 
     default:

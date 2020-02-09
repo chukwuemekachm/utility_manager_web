@@ -14,6 +14,8 @@ import {
   forgotPasswordSuccess,
   fetchProfileSuccess,
   fetchProfileError,
+  updateProfileSuccess,
+  updateProfileError,
 } from 'store/actions/auth';
 
 import { errorHandler, successHandler } from 'store/helpers';
@@ -122,6 +124,32 @@ function* fetchProfile(action) {
   }
 }
 
+function* updateProfile(action) {
+  try {
+    const { payload } = action;
+    const formData = new FormData();
+
+    formData.set('firstName', payload.firstName);
+    formData.set('lastName', payload.lastName);
+    formData.set('lastName', payload.lastName);
+
+    if (payload.logo) {
+      formData.append('image', payload.image);
+    }
+    const response = yield call([api, 'patch'], authRequest.PROFILE, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    yield fork(successHandler, response, updateProfileSuccess);
+    const temp = {
+      nextPageRoute: '/dashboard',
+      data: {},
+    };
+    yield put(moveToNextPage(temp));
+  } catch (error) {
+    yield fork(errorHandler, error, updateProfileError);
+  }
+}
+
 export function* watchSignUpUser() {
   yield takeLatest(authConstants.SIGN_UP_REQUEST, signUpUser);
 }
@@ -145,6 +173,10 @@ export function* watchFetchProfile() {
   yield takeLatest(authConstants.FETCH_PROFILE_REQUEST, fetchProfile);
 }
 
+export function* watchUpdateProfile() {
+  yield takeLatest(authConstants.UPDATE_PROFILE_REQUEST, updateProfile);
+}
+
 export default function* authSaga() {
   yield all([
     fork(watchSignUpUser),
@@ -153,5 +185,6 @@ export default function* authSaga() {
     fork(watchForgotPassword),
     fork(watchLogoutUser),
     fork(watchFetchProfile),
+    fork(watchUpdateProfile),
   ]);
 }

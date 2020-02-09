@@ -91,6 +91,21 @@ export const fetchProfileSuccess = (payload): Action => ({
   payload,
 });
 
+export const updateProfile = (payload): Action => ({
+  type: authConstants.UPDATE_PROFILE_REQUEST,
+  payload,
+});
+
+export const updateProfileError = (payload): Action => ({
+  type: authConstants.UPDATE_PROFILE_ERROR,
+  payload,
+});
+
+export const updateProfileSuccess = (payload): Action => ({
+  type: authConstants.UPDATE_PROFILE_SUCCESS,
+  payload,
+});
+
 export {
   authConstants, // Can't aggregate and use the values from the aggregated export at the same time
 };

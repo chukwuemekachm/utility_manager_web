@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 
-import __layouts from 'settings/__layouts';
 import { fontSizes } from 'settings/__fonts';
 import __spacing from 'settings/__spacing';
 import { GAINS_BORO, GRAY, CRIMSON } from 'settings/__color';
@@ -54,11 +53,6 @@ export default function Input(props: InputProps): React.ReactElement<InputProps>
 }
 
 Input.Wrapper = styled.div`
-  @media (max-width: ${__layouts.lg}) {
-    &:first-of-type {
-      margin-top: 10%;
-    }
-  }
   display: flex;
   flex-direction: column;
   width: 100%;
