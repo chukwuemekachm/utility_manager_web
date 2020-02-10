@@ -10,6 +10,8 @@ export default function withDashboardContainer(WrappedComponent) {
     function handleSubmit(trigger: string) {
       return function(values: Record<string, any>): Promise<void> {
         switch (trigger) {
+          case 'UPDATE_PASSWORD':
+            return props.callUpdatePassword(values);
           default:
             return props.callUpdateProfile(values);
         }

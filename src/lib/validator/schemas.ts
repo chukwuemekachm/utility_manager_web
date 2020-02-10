@@ -20,4 +20,9 @@ export default {
     usernameOrEmail: 'required|min:3',
     password: 'required|min:8',
   },
+  updatePassword: {
+    currentPassword: PASSWORD,
+    newPassword: PASSWORD,
+    confirmPassword: `${PASSWORD}|same:newPassword`,
+  },
 };

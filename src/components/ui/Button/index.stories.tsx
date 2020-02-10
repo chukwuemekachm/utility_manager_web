@@ -27,6 +27,7 @@ export const button = (): React.ReactElement<ButtonProps> => (
     isLoading={boolean(isLoadingLabel, isLoadingDefaultValue)}
     type={select(typeLabel, typeOptions, sizeDefaultValue) as ButtonType}
     handleClick={action('clicked')}
+    disabled={boolean('disabled', true)}
   >
     {text(childrenLabel, childrenDefaultValue)}
   </Button>

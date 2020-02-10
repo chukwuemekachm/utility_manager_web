@@ -10,6 +10,9 @@ import {
   logoutSuccess,
   changeUserPasswordFailure,
   changeUserPasswordSuccess,
+  changeLoggedInUserPasswordFailure,
+  changeLoggedInUserPasswordSuccess,
+  logout,
   forgotPasswordError,
   forgotPasswordSuccess,
   fetchProfileSuccess,
@@ -43,6 +46,15 @@ function* signUpUser(action) {
   }
 }
 
+function* callChangeLoggedInUserPassword(action) {
+  try {
+    const response = yield call([api, 'patch'], authRequest.CHANGE_LOGGED_IN_USER_PASSWORD, action.payload);
+    yield put(logout(response.data));
+    yield fork(successHandler, response, changeLoggedInUserPasswordSuccess);
+  } catch (error) {
+    yield fork(errorHandler, error, changeLoggedInUserPasswordFailure);
+  }
+}
 function* forgotPasswordHandler(action) {
   try {
     const requestData = {
@@ -133,7 +145,7 @@ function* updateProfile(action) {
     formData.set('lastName', payload.lastName);
     formData.set('lastName', payload.lastName);
 
-    if (payload.logo) {
+    if (payload.imageFile) {
       formData.append('image', payload.image);
     }
     const response = yield call([api, 'patch'], authRequest.PROFILE, formData, {
@@ -148,6 +160,10 @@ function* updateProfile(action) {
   } catch (error) {
     yield fork(errorHandler, error, updateProfileError);
   }
+}
+
+export function* watchCallChangeLoggedInUserPassword() {
+  yield takeLatest(authConstants.CHANGE_LOGGED_IN_USER_PASSWORD_REQUEST, callChangeLoggedInUserPassword);
 }
 
 export function* watchSignUpUser() {
@@ -186,5 +202,6 @@ export default function* authSaga() {
     fork(watchLogoutUser),
     fork(watchFetchProfile),
     fork(watchUpdateProfile),
+    fork(watchCallChangeLoggedInUserPassword),
   ]);
 }

@@ -4,6 +4,7 @@ export const authRequest = {
   LOGIN: '/auth/login',
   FORGOT_PASSWORD: '/auth/reset',
   PROFILE: '/user/profile',
+  CHANGE_LOGGED_IN_USER_PASSWORD: '/auth/password',
 };
 
 export const dashboardRequest = {

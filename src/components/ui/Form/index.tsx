@@ -18,7 +18,10 @@ export interface FormProps {
   validationSchemaKey?: string;
   children: (props: ChildrenProps) => React.ReactNode;
   defaultValues?: Record<string, any>;
+  imageErrorFeedback?: Record<string, any>;
   handleShouldDisableButton?: (composedProps: Record<string, any>) => boolean;
+  imageErrFeedbackHandler?: (composedProps: Record<string, any>) => string[];
+  imageInputName?: string;
 }
 
 interface ChildrenProps {
@@ -38,6 +41,8 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
     children,
     validationSchemaKey,
     defaultValues = {},
+    imageInputName = 'logo',
+    imageErrFeedbackHandler = composedProps => [],
     handleShouldDisableButton = composedProps => false,
   } = props;
   const [values, setValues] = React.useState(defaultValues);
@@ -52,7 +57,7 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
 
   function handleImgChange(event): void {
     values.imageURL = URL.createObjectURL(event.target.files[0]);
-    values.image = event.target.files[0];
+    values.imageFile = event.target.files[0];
     handleChange(event);
   }
 
@@ -90,13 +95,19 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
       {values.imageURL && (
         <Form.Header>
           <Form.ImageWrapper>
-            <ImagePicker handleChange={handleImgChange} altText={imageAltText} imageURL={values.imageURL} name="logo" />
+            <ImagePicker
+              handleChange={handleImgChange}
+              altText={imageAltText}
+              imageURL={values.imageURL}
+              name={imageInputName}
+              errorFeedback={imageErrFeedbackHandler(errors)[imageInputName]}
+            />
           </Form.ImageWrapper>
         </Form.Header>
       )}
       <Form.Body>
         {children(composeProps())}
-        <Button isLoading={isLoading} type="submit">
+        <Button isLoading={isLoading} type="submit" disabled={handleShouldDisableButton(composeProps())}>
           {submitButtonLabel}
         </Button>
       </Form.Body>
@@ -122,7 +133,6 @@ Form.ImageWrapper = styled.div`
   height: ${convertFromPixelsToRem(70)};
   background: gray;
   border-radius: 50%;
-  overflow: hidden;
 
   .user-image {
     width: 100%;

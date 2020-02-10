@@ -17,10 +17,14 @@ interface UpdateProfileProps extends DashboardProps {
     imageURL: string;
   };
   isLoading: boolean;
+  error: {
+    message: string;
+    errors: string[];
+  };
 }
 
 function UpdateProfile(props: UpdateProfileProps): React.ReactElement<{}> {
-  const { handleSubmit, isLoading, profile } = props;
+  const { handleSubmit, isLoading, profile, error } = props;
 
   function hasAnyValueChanged(composedProps): boolean {
     const { values } = composedProps;
@@ -28,8 +32,19 @@ function UpdateProfile(props: UpdateProfileProps): React.ReactElement<{}> {
       values.firstName == profile.firstName &&
       values.lastName == profile.lastName &&
       values.username == profile.username &&
-      !values.logo
+      !values.imageFile
     );
+  }
+
+  function pickErrors(formErrors) {
+    let returnedErrors;
+    if (Object.keys(formErrors).length) {
+      returnedErrors = formErrors;
+    } else {
+      returnedErrors = error.errors;
+    }
+
+    return returnedErrors;
   }
 
   const defaults = {
@@ -48,6 +63,8 @@ function UpdateProfile(props: UpdateProfileProps): React.ReactElement<{}> {
         validationSchemaKey="updateProfile"
         defaultValues={defaults}
         handleShouldDisableButton={hasAnyValueChanged}
+        imageInputName="image"
+        imageErrFeedbackHandler={pickErrors}
       >
         {({ handleChange, handleBlur, values, errors }): React.ReactNode => (
           <>
@@ -57,7 +74,7 @@ function UpdateProfile(props: UpdateProfileProps): React.ReactElement<{}> {
               handleBlur={handleBlur}
               title="First Name"
               value={values.firstName}
-              errorFeedback={errors.firstName}
+              errorFeedback={pickErrors(errors).firstName}
             />
             <Input
               name="lastName"
@@ -65,7 +82,7 @@ function UpdateProfile(props: UpdateProfileProps): React.ReactElement<{}> {
               handleBlur={handleBlur}
               title="Last Name"
               value={values.lastName}
-              errorFeedback={errors.lastName}
+              errorFeedback={pickErrors(errors).lastName}
             />
             <Input
               name="username"
@@ -73,7 +90,7 @@ function UpdateProfile(props: UpdateProfileProps): React.ReactElement<{}> {
               handleBlur={handleBlur}
               title="Username"
               value={values.username}
-              errorFeedback={errors.username}
+              errorFeedback={pickErrors(errors).username}
               autoComplete="username"
             />
           </>
@@ -88,8 +105,9 @@ UpdateProfile.Wrapper = styled.section`
   padding: ${__spacing.large};
 `;
 
-const mapStateToProps = (state): Pick<UpdateProfileProps, 'profile'> => ({
+const mapStateToProps = (state): Pick<UpdateProfileProps, 'profile' | 'error'> => ({
   profile: state.auth.profile,
+  error: state.auth.error,
 });
 
 const mapDispatchToProps = (dispatch): Pick<UpdateProfileProps, 'callUpdateProfile'> => ({

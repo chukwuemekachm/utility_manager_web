@@ -236,6 +236,48 @@ export default function authReducer(state: AuthState = initialState, { type, pay
           isLoading: false,
           hasError: true,
         },
+        error: {
+          message: payload.message,
+          errors: payload.errors,
+        },
+      };
+
+    case authConstants.CHANGE_LOGGED_IN_USER_PASSWORD_REQUEST:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: true,
+        },
+      };
+
+    case authConstants.CHANGE_LOGGED_IN_USER_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false,
+        },
+        data: {
+          ...state.data,
+          ...payload.data,
+        },
+        message: payload.message,
+      };
+
+    case authConstants.CHANGE_LOGGED_IN_USER_PASSWORD_FAILURE:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          isLoading: false,
+          hasError: true,
+        },
+        error: {
+          ...state.error,
+          errors: payload.errors,
+        },
+        message: payload.message,
       };
 
     default:

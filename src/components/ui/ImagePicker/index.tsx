@@ -14,7 +14,6 @@ export interface ImagePickerProps extends Pick<InputProps, 'errorFeedback' | 'ha
 
 export default function ImagePicker(props: ImagePickerProps): React.ReactElement<ImagePickerProps> {
   const { imageURL, errorFeedback, handleChange, altText = 'Alt Image', name } = props;
-
   return (
     <ImagePicker.Wrapper htmlFor={name}>
       <ImagePicker.InnerWrapper>

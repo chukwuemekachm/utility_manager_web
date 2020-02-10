@@ -25,6 +25,7 @@ export function* errorHandler(error, errorCb) {
   } else if (error.request) {
     // TODO: handle network errors
     // This could be due to the user's browser being offline or our servers being down
+    // This occured when the URL I sent was undefined
   } else {
     // TODO: should we leave this handler? It's rare and means the code is faulty so the request was never step up
   }
