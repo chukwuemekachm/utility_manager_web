@@ -9,6 +9,7 @@ export const authRequest = {
 
 export const dashboardRequest = {
   ORGANISATION: '/user/orgs?sort_by=role.name',
+  CREATE_ORGANISATION: '/org/create',
 };
 
 export default {

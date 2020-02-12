@@ -143,10 +143,10 @@ function* updateProfile(action) {
 
     formData.set('firstName', payload.firstName);
     formData.set('lastName', payload.lastName);
-    formData.set('lastName', payload.lastName);
+    formData.set('username', payload.username);
 
     if (payload.imageFile) {
-      formData.append('image', payload.image);
+      formData.append('image', payload.imageFile);
     }
     const response = yield call([api, 'patch'], authRequest.PROFILE, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
