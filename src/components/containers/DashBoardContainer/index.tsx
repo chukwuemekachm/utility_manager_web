@@ -12,6 +12,8 @@ export default function withDashboardContainer(WrappedComponent) {
         switch (trigger) {
           case 'UPDATE_PASSWORD':
             return props.callUpdatePassword(values);
+          case 'CREATE_ORGANISATION':
+            return props.callCreateOrganisation(values);
           default:
             return props.callUpdateProfile(values);
         }

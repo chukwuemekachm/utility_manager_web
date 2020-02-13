@@ -4,6 +4,8 @@ import {
   dashboardConstants,
   fetchCurrentUserOrganisationsError,
   fetchCurrentUserOrganisationsSuccess,
+  createOrganisationSuccess,
+  createOrganisationError,
 } from 'store/actions/dashboard';
 import { errorHandler } from 'store/helpers';
 import api, { dashboardRequest } from 'services/api';
@@ -17,10 +19,35 @@ function* callFetchMyOrganisations(action) {
   }
 }
 
+function* callCreateOrganisation(action) {
+  const { payload } = action;
+  const formData = new FormData();
+
+  formData.set('name', payload.name);
+  formData.set('website', payload.website);
+  formData.set('address', payload.address);
+  formData.set('displayName', payload.displayName);
+  formData.append('logo', payload.imageFile);
+
+  try {
+    const { data } = yield call([api, 'post'], dashboardRequest.CREATE_ORGANISATION, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    yield put(createOrganisationSuccess(data));
+    window.location.replace('/dashboard');
+  } catch (error) {
+    yield fork(errorHandler, error, createOrganisationError);
+  }
+}
+
 export function* watchCallFetchMyOrganisations() {
   yield takeLatest(dashboardConstants.ORGANISATION_REQUEST, callFetchMyOrganisations);
 }
 
+export function* watchCallCreateOrganisations() {
+  yield takeLatest(dashboardConstants.CREATE_ORGANISATION_REQUEST, callCreateOrganisation);
+}
+
 export default function* dashboardSaga() {
-  yield all([fork(watchCallFetchMyOrganisations)]);
+  yield all([fork(watchCallFetchMyOrganisations), fork(watchCallCreateOrganisations)]);
 }

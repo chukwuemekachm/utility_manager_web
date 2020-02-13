@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 
-import Form from 'components/ui/Form';
 import withDashboardContainer, { DashboardProps } from 'components/containers/DashBoardContainer';
+import Form from 'components/ui/Form';
 import Input from 'components/ui/Input';
 import { updateProfile } from 'store/actions/auth';
 import __spacing from 'settings/__spacing';
@@ -50,7 +50,7 @@ function UpdateProfile(props: UpdateProfileProps): React.ReactElement<{}> {
   const defaults = {
     firstName: profile.firstName,
     lastName: profile.lastName,
-    imageURL: profile.imageURL,
+    imageURL: profile.imageURL || 'imageURL',
     username: profile.username,
   };
 

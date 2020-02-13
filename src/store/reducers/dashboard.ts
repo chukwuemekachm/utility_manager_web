@@ -8,6 +8,8 @@ const initialState = {
     hasError: false,
     isOrganisationFetched: false,
     isOrganisationPending: true,
+    isOrganisationCreated: false,
+    isOrganisationCreating: false,
   },
   message: '',
 };
@@ -54,6 +56,37 @@ export default function dashboardReducer(state = initialState, { type, payload =
           hasError: true,
         },
         message: payload.message,
+      };
+    case dashboardConstants.CREATE_ORGANISATION_REQUEST:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          hasError: false,
+          isOrganisationCreated: false,
+          isOrganisationCreating: true,
+        },
+      };
+
+    case dashboardConstants.CREATE_ORGANISATION_SUCCESS:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          hasError: false,
+          isOrganisationCreated: true,
+          isOrganisationCreating: false,
+        },
+      };
+    case dashboardConstants.CREATE_ORGANISATION_ERROR:
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          hasError: true,
+          isOrganisationCreated: false,
+          isOrganisationCreating: false,
+        },
       };
 
     default:

@@ -35,6 +35,8 @@ interface DashBoardState {
   status: {
     isOrganisationFetched: boolean;
     isOrganisationPending: boolean;
+    isOrganisationCreating: boolean;
+    isOrganisationCreated: boolean;
     hasError: boolean;
   };
   message: string;
