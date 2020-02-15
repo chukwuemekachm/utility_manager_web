@@ -50,6 +50,10 @@ interface NavigationState {
     isChanged: boolean;
     isPending: boolean;
   };
+  navigation: {
+    showNavigationMenu: boolean;
+    hideNavigationMenu: boolean;
+  };
 }
 
 interface NotificationState {

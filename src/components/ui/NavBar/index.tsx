@@ -6,11 +6,16 @@ import Logo from 'components/ui/Logo';
 import __spacing from 'settings/__spacing';
 import { BRAND_WHITE, WHITE_SMOKE } from 'settings/__color';
 
-export default function NavBar(): React.ReactElement<{}> {
+interface NavBarProps {
+  handleClick?: () => void;
+}
+export default function NavBar(props: NavBarProps): React.ReactElement<{ NavBarProps }> {
+  const { handleClick } = props;
+
   return (
     <NavBar.Wrapper>
       <Logo hasText={false} />
-      <Icon iconType="md-menu" size="LARGE" />
+      <Icon iconType="md-menu" size="LARGE" handleClick={handleClick} />
     </NavBar.Wrapper>
   );
 }
