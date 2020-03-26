@@ -9,6 +9,10 @@ const initialState = {
     isChanged: false,
     isPending: false,
   },
+  navigation: {
+    showNavigationMenu: false,
+    hideNavigationMenu: false,
+  },
 };
 
 const defaultPayload = {
@@ -54,6 +58,24 @@ export default function navigationReducer(state = initialState, { type, payload 
           isChanged: true,
           isPending: false,
           isRetrieved: false,
+        },
+      };
+
+    case navigationConstants.SHOW_NAVIGATION_MENU:
+      return {
+        ...state,
+        navigation: {
+          showNavigationMenu: true,
+          hideNavigationMenu: false,
+        },
+      };
+
+    case navigationConstants.HIDE_NAVIGATION_MENU:
+      return {
+        ...state,
+        navigation: {
+          showNavigationMenu: false,
+          hideNavigationMenu: true,
         },
       };
 

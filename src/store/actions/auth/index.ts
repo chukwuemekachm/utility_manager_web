@@ -20,7 +20,7 @@ export const loginSuccess = (payload): Action => ({
   payload,
 });
 
-export const logout = (payload): Action => ({
+export const logout = (payload = { showNotification: false }): Action => ({
   type: authConstants.LOGOUT_REQUEST,
   payload,
 });

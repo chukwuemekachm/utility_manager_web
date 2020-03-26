@@ -1,5 +1,6 @@
 import React from 'react';
-import { text } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
+import { text, object, boolean } from '@storybook/addon-knobs';
 import DashBoardLayout, { DashBoardLayoutProps } from '.';
 
 export default {
@@ -30,6 +31,8 @@ export const dashBoardLayout = (): React.ReactElement<DashBoardLayoutProps> => (
     email={text(emailLabel, emailValue)}
     pageTitle={text(pageTitleLabel, pageTitleValue)}
     imageURL={text(imageURLLabel, imageURLValue)}
+    hideNavMenu={action('show')}
+    callLogout={() => 'logout'}
   >
     DashBoard Components
   </DashBoardLayout>

@@ -6,7 +6,6 @@ import withDashboardContainer from 'components/containers/DashBoardContainer';
 import Form from 'components/ui/Form';
 import { AuthenticationFormProps } from 'components/pages/Authentication';
 import Input from 'components/ui/Input';
-import ImagePicker from 'components/ui/ImagePicker';
 import { createOrganisation } from 'store/actions/dashboard';
 import __spacing from 'settings/__spacing';
 

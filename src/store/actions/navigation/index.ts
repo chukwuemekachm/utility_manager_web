@@ -14,4 +14,12 @@ export const moveToNextPage = (payload): Action => ({
   payload,
 });
 
+export const showNavigationMenu = (): Action => ({
+  type: navigationConstants.SHOW_NAVIGATION_MENU,
+});
+
+export const hideNavigationMenu = (): Action => ({
+  type: navigationConstants.HIDE_NAVIGATION_MENU,
+});
+
 export { navigationConstants };

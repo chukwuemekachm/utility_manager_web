@@ -33,6 +33,7 @@ export function* errorHandler(error, errorCb) {
 
 export function* successHandler(response, successCb, notify = true) {
   const data = yield response.data;
+
   if (notify && response.status >= 200 && response.status < 299) {
     yield put(
       showNotification({

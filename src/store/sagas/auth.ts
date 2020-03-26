@@ -120,7 +120,7 @@ function* logoutUser(action) {
       },
     };
     localStorage.removeItem(STORAGE_KEYS.IS_USER_AUTHENTICATED);
-    yield fork(successHandler, response, logoutSuccess, false);
+    yield fork(successHandler, response, logoutSuccess, action.payload.showNotification);
     yield put(moveToNextPage(payload));
   } catch (error) {
     yield fork(errorHandler, error, logoutError);
