@@ -10,3 +10,4 @@ export const CRIMSON = '#F22E46';
 export const WHITE_SMOKE = '#F5F5F5';
 export const LIGHT_SEA_GREEN = '#00BB8F';
 export const ORANGE = '#FEB500';
+export const SECONDARY_LIGHT_SMOKE = '#fafafa';
