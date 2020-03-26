@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
-
+import Tab, { TabItem } from 'components/ui/Tab';
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
 import { GRAY, BLACK, GAINS_BORO } from 'settings/__color';
@@ -28,15 +28,14 @@ export function AuthenticationFormWrapper(
   return (
     <AuthenticationFormWrapper.Wrapper>
       {showHeader && (
-        <AuthenticationFormWrapper.Header>
-          <button className={display === 1 ? '__active' : ''} onClick={handleTabChange(1)}>
+        <Tab>
+          <TabItem selected={display === 1} onClick={handleTabChange(1)}>
             Sign Up
-          </button>
-          <span className="divider" />
-          <button className={display === 0 ? '__active' : ''} onClick={handleTabChange(0)}>
+          </TabItem>
+          <TabItem selected={display === 0} onClick={handleTabChange(0)}>
             Login
-          </button>
-        </AuthenticationFormWrapper.Header>
+          </TabItem>
+        </Tab>
       )}
       <AuthenticationFormWrapper.Content>{children}</AuthenticationFormWrapper.Content>
     </AuthenticationFormWrapper.Wrapper>
@@ -61,41 +60,6 @@ AuthenticationFormWrapper.Wrapper = styled.div`
   /* scroll bar ideas gotten from
   /*  https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll
   */
-`;
-
-AuthenticationFormWrapper.Header = styled.header`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-
-  .divider {
-    width: 1px;
-    background: ${GAINS_BORO};
-  }
-
-  button {
-    border: none;
-    border-bottom: 1px solid ${GAINS_BORO};
-    width: calc(50% - 1px);
-    padding: ${__spacing.normal} 0;
-    font-size: ${fontSizes.small};
-    color: ${GRAY};
-    background: transparent;
-
-    &.__active {
-      color: ${BLACK};
-    }
-
-    &:hover {
-      cursor: pointer;
-      color: ${BLACK};
-      background: rgba(0, 0, 0, 0.05);
-    }
-
-    &:focus {
-      outline: none;
-    }
-  }
 `;
 
 AuthenticationFormWrapper.Content = styled.main`

@@ -29,3 +29,19 @@ export const input = (): React.ReactElement<InputProps> => {
     />
   );
 };
+
+export const InputWithIcon = (): React.ReactElement<InputProps> => {
+  const currentValue = 'First Name';
+  return (
+    <Input
+      iconLabel={text('iconLabel', 'md-search')}
+      type={select('type', typeOptions, 'text') as InputType}
+      name={text('name', 'firstName')}
+      title={text('title', 'First Name')}
+      value={text('value', currentValue)}
+      errorFeedback={array('errorFeedback', ['Missing Field', 'First name must be at least 5 characters'])}
+      handleChange={action('Clicked')}
+      handleBlur={action('Blur Handler!!')}
+    />
+  );
+};
