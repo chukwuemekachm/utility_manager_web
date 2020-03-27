@@ -11,7 +11,7 @@ export type InputType = 'text' | 'number' | 'email' | 'password';
 export interface CheckBoxProps extends Omit<InputProps, 'title' | 'autoComplete' | 'type'> {
   checked: boolean;
   disabled?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export default function CheckBox(props: CheckBoxProps): React.ReactElement<CheckBoxProps> {
@@ -47,7 +47,6 @@ CheckBox.Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: ${__spacing.medium};
 
   label {
     color: ${GRAY};
