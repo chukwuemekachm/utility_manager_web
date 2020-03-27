@@ -6,9 +6,10 @@ import { CRIMSON } from 'settings/__color';
 import __spacing from 'settings/__spacing';
 import { InputProps } from 'components/ui/Input';
 
-export default function InputErrors({
-  errorFeedback,
-}: Pick<InputProps, 'errorFeedback'>): React.ReactElement<Pick<InputProps, 'errorFeedback'>> {
+export default function InputErrors(
+  props: Pick<InputProps, 'errorFeedback'>,
+): React.ReactElement<Pick<InputProps, 'errorFeedback'>> {
+  const { errorFeedback } = props;
   return (
     <InputErrors.Wrapper>
       {errorFeedback &&

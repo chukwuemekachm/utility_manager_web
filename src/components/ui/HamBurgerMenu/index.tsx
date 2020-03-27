@@ -8,11 +8,12 @@ import { fontSizes, fontWeights } from 'settings/__fonts';
 import Logo from 'components/ui/Logo';
 import { BRAND_WHITE, BLACK, BRAND_PRIMARY } from 'settings/__color';
 import { hideNavigationMenu } from 'store/actions/navigation';
+import { logout } from 'store/actions/auth';
 
 interface HamBurgerMenuProps {
   shouldNavMenuShow: boolean;
   hideNavMenu: () => void;
-  callLogout: () => string;
+  callLogout: () => void;
 }
 
 export function HamBurgerMenu({
@@ -178,6 +179,7 @@ HamBurgerMenu.LogoContainer = styled.div`
 
 const mapDispatchToProps = dispatch => ({
   hideNavMenu: (): void => dispatch(hideNavigationMenu()),
+  callLogout: (): string => dispatch(logout({ showNotification: true })),
 });
 
 const mapStateToProps = (state): Pick<HamBurgerMenuProps, 'shouldNavMenuShow'> => ({

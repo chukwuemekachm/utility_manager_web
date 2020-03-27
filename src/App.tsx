@@ -8,6 +8,7 @@ import store, { history } from 'store';
 import Pages from 'components/pages';
 import SnackBar from 'components/ui/SnackBar';
 import ErrorBoundary from 'components/HOC/ErrorBoundary';
+import HamBurgerMenu from './components/ui/HamBurgerMenu';
 
 export default function App(): React.ReactElement<{}> {
   return (
@@ -17,6 +18,7 @@ export default function App(): React.ReactElement<{}> {
           <Global styles={__globalCss} />
           <Pages />
           <SnackBar />
+          <HamBurgerMenu />
         </ConnectedRouter>
       </Provider>
     </ErrorBoundary>
