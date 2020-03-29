@@ -18,6 +18,7 @@ export interface InputProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   iconLabel?: string;
+  placeholder?: string;
 }
 
 export default function Input(props: InputProps): React.ReactElement<InputProps> {
@@ -31,17 +32,18 @@ export default function Input(props: InputProps): React.ReactElement<InputProps>
     value,
     errorFeedback = [],
     iconLabel = '',
+    placeholder = '',
   } = props;
   return (
     <Input.Container>
       <label>{title}</label>
-      <Input.Wrapper>
+      <Input.IconAndInputGroup>
         {iconLabel && (
           <Input.IconLabel>
             <Icon iconType={iconLabel} size="NORMAL" />
           </Input.IconLabel>
         )}
-        <div>
+        <Input.Wrapper>
           <input
             autoComplete={autoComplete}
             value={value}
@@ -49,15 +51,16 @@ export default function Input(props: InputProps): React.ReactElement<InputProps>
             type={type}
             onChange={handleChange}
             onBlur={handleBlur}
+            placeholder={placeholder}
           />
-        </div>
-      </Input.Wrapper>
+        </Input.Wrapper>
+      </Input.IconAndInputGroup>
       <InputErrors errorFeedback={errorFeedback} />
     </Input.Container>
   );
 }
 
-Input.Wrapper = styled.div`
+Input.IconAndInputGroup = styled.div`
   border: 1px solid ${GAINS_BORO};
   border-radius: 3px;
   margin: ${__spacing.xSmall} 0;
@@ -70,14 +73,13 @@ Input.Wrapper = styled.div`
     border: none;
     outline: none;
   }
-
-  > div {
-    width: 100%;
-  }
 `;
-
+Input.Wrapper = styled.div`
+  width: 100%;
+`;
 Input.IconLabel = styled.div`
   padding-left: ${__spacing.small};
+  width: auto;
 `;
 
 Input.Container = styled.div`

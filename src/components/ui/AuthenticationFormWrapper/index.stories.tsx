@@ -8,7 +8,5 @@ export default {
 };
 
 export const authenticationFormWrapper = (): React.ReactElement<AuthenticationFormWrapperProps> => (
-  <AuthenticationFormWrapper display={number('display', 0)} showHeader={boolean('showHeader', false)}>
-    {''}
-  </AuthenticationFormWrapper>
+  <AuthenticationFormWrapper showHeader={boolean('showHeader', false)}>{''}</AuthenticationFormWrapper>
 );

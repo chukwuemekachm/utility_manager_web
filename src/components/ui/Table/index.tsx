@@ -3,21 +3,28 @@ import styled from '@emotion/styled';
 import { SECONDARY_LIGHT_SMOKE, GAINS_BORO } from 'settings/__color';
 
 interface ItemProps {
-  flexValue: number;
+  flexValue?: number;
   children: React.ReactNode | string;
+  textAlign?: string;
 }
 
 export function TableItem(props: ItemProps): React.ReactElement {
-  const { children, flexValue } = props;
-  return <TableItem.Wrapper flexValue={flexValue}>{children}</TableItem.Wrapper>;
+  const { children, flexValue = 1, textAlign = 'left' } = props;
+  return (
+    <TableItem.Wrapper textAlign={textAlign} flexValue={flexValue}>
+      {children}
+    </TableItem.Wrapper>
+  );
 }
 export function TableCard({ children }: Pick<ItemProps, 'children'>): React.ReactElement {
   return <TableCard.Wrapper>{children}</TableCard.Wrapper>;
 }
 
-TableItem.Wrapper = styled.div<Pick<ItemProps, 'flexValue'>>`
+TableItem.Wrapper = styled.div<Pick<ItemProps, 'flexValue' | 'textAlign'>>`
   flex: ${props => props.flexValue};
+  text-align: ${props => props.textAlign};
   padding-left: 2%;
+  width: 100%;
 `;
 TableCard.Wrapper = styled.div`
   display: flex;

@@ -2,20 +2,28 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import { GAINS_BORO } from '../../../settings/__color';
 
-interface TabItemProps {
+export interface TabItemProps {
   children: React.ReactNode;
   selected?: boolean;
-  onClick: React.EventHandler<React.SyntheticEvent>;
+  setTab: Function;
+  itemValue: number;
+  currentValue: number;
 }
 export function TabItem(props: TabItemProps) {
-  const { children, selected = false, onClick } = props;
+  const { children, setTab, itemValue, currentValue } = props;
+  function handleTabChange(tabNumber: number) {
+    return (event: React.SyntheticEvent): void => {
+      event.preventDefault();
+      setTab(tabNumber);
+    };
+  }
   return (
     <>
-      <TabItem.Wrapper onClick={onClick} selected={selected}>
+      <TabItem.Wrapper onClick={handleTabChange(itemValue)} selected={currentValue === itemValue}>
         {children}
       </TabItem.Wrapper>
       <div>
-        <TabItem.Seperator selected={selected}></TabItem.Seperator>
+        <TabItem.Seperator selected={currentValue === itemValue}></TabItem.Seperator>
       </div>
     </>
   );
@@ -63,9 +71,24 @@ TabItem.Wrapper = styled.button<Pick<TabItemProps, 'selected'>>`
   }}
 `;
 
-export default function Tab(props: Pick<TabItemProps, 'children'>) {
-  const { children } = props;
-  return <Tab.Wrapper>{children}</Tab.Wrapper>;
+export interface TabProps {
+  children: Function;
+  onTabChange?: Function;
+}
+export default function Tab(props: TabProps) {
+  const [tab, setTab] = React.useState(0);
+  const { children, onTabChange } = props;
+  function changeHandler(value) {
+    setTab(value);
+    onTabChange && onTabChange(value);
+  }
+  function composeProps() {
+    return {
+      setTab: changeHandler,
+      tab,
+    };
+  }
+  return <Tab.Wrapper>{children(composeProps())}</Tab.Wrapper>;
 }
 
 Tab.Wrapper = styled.div`
