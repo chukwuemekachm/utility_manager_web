@@ -26,7 +26,7 @@ function Authentication({ isLoading }: AuthenticationFormProps): React.ReactElem
 
   if (String(isAuthenticated) === 'true') return <Redirect to="/dashboard" />;
 
-  function handleTabChange(tabNumber: number): (event: React.SyntheticEvent) => void {
+  function forgotLinkClicked(tabNumber: number): (event: React.SyntheticEvent) => void {
     return (event: React.SyntheticEvent): void => {
       event.preventDefault();
       setDisplay(tabNumber);
@@ -34,14 +34,14 @@ function Authentication({ isLoading }: AuthenticationFormProps): React.ReactElem
   }
 
   return (
-    <AuthenticationLayout showTerms={display == 1}>
-      <AuthenticationFormWrapper display={display} handleTabChange={handleTabChange} showHeader={true}>
-        {display == 2 ? (
+    <AuthenticationLayout showTerms={display === 1}>
+      <AuthenticationFormWrapper handleTabChange={setDisplay} showHeader={true}>
+        {display === 2 ? (
           <ForgotPassword isLoading={isLoading} />
-        ) : display == 1 ? (
+        ) : display === 1 ? (
           <SignUp isLoading={isLoading} />
         ) : (
-          <Login isLoading={isLoading} forgotLinkClicked={handleTabChange(2)} />
+          <Login isLoading={isLoading} forgotLinkClicked={forgotLinkClicked(2)} />
         )}
       </AuthenticationFormWrapper>
     </AuthenticationLayout>

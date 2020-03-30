@@ -18,11 +18,13 @@ SuspenseLoader.Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .circle {
     position: absolute;
-    top: 50%;
     left: 50%;
-    transform: traslate(-50%, -50%);
+    transform: translate(-50%, -50%);
     display: flex;
     width: 60px;
     height: 60px;

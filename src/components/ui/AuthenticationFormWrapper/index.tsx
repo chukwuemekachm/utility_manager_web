@@ -2,39 +2,31 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 import Tab, { TabItem } from 'components/ui/Tab';
-import __spacing from 'settings/__spacing';
-import { fontSizes } from 'settings/__fonts';
-import { GRAY, BLACK, GAINS_BORO } from 'settings/__color';
 
 export interface AuthenticationFormWrapperProps {
-  display?: number;
   showHeader?: boolean;
   children: React.ReactNode;
-  handleTabChange?: (tabNumber: number) => React.EventHandler<React.SyntheticEvent>;
+  handleTabChange?: Function;
 }
 
 export function AuthenticationFormWrapper(
   props: AuthenticationFormWrapperProps,
 ): React.ReactElement<AuthenticationFormWrapperProps> {
-  const {
-    display,
-    showHeader = true,
-    children,
-    handleTabChange = () => {
-      return (() => null) as React.EventHandler<React.SyntheticEvent>;
-    },
-  } = props;
-
+  const { showHeader = true, children, handleTabChange } = props;
   return (
     <AuthenticationFormWrapper.Wrapper>
       {showHeader && (
-        <Tab>
-          <TabItem selected={display === 1} onClick={handleTabChange(1)}>
-            Sign Up
-          </TabItem>
-          <TabItem selected={display === 0} onClick={handleTabChange(0)}>
-            Login
-          </TabItem>
+        <Tab onTabChange={handleTabChange}>
+          {({ tab, setTab }) => (
+            <>
+              <TabItem setTab={setTab} itemValue={1} currentValue={tab}>
+                Sign Up
+              </TabItem>
+              <TabItem setTab={setTab} itemValue={0} currentValue={tab}>
+                Login
+              </TabItem>
+            </>
+          )}
         </Tab>
       )}
       <AuthenticationFormWrapper.Content>{children}</AuthenticationFormWrapper.Content>
