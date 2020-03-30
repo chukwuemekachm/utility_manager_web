@@ -1,35 +1,124 @@
 import * as React from 'react';
 import SettingsPageLayout from '.';
+import { number } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 
 export default {
   component: SettingsPageLayout,
   title: 'components/layouts/SettingsPageLayout',
 };
-
+const handleTabChange = () => true;
+const handleChange = () => true;
 export const emptyStructure = () => {
-  return <SettingsPageLayout />;
+  const values = { search: '', tabSelected: 0 };
+
+  return (
+    <SettingsPageLayout
+      values={values}
+      handleChange={handleChange}
+      handleTabChange={handleTabChange}
+      currentWindow={number('currentWindow', 0)}
+      handleObjectClicked={action('objectClicked')}
+    />
+  );
 };
 
 export const layoutWithContnent = () => {
   const applianceCategories = [
-    ['Generators', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'],
-    ['Pumps', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'],
-    ['Lifts', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'],
-    ['Motor', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'],
-    ['Wind Mill', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'],
-    ['Regulator', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'],
+    {
+      id: '-M3hBI_hEXj8MZtnuYdc',
+      name: 'Generator',
+      description:
+        "This category encompasses all the generators in this organistion. I hope we don't log irrelevant data into this one.",
+    },
+    {
+      id: '-M3hGTj0rb5IcGWPxDei',
+      name: 'Air Conditioner',
+      description:
+        'This category groups all the air conditioners that exists in this application. It removes the need for future',
+    },
+    {
+      id: '-M3hGTj0rb5IcGWPxDeu',
+      name: 'Lifts',
+      description: 'This category groups all the lifts that exists in this application. It removes the need for future',
+    },
   ];
-
   const parameters = [
-    ['Voltage', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'],
-    ['Current', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'],
-    ['Ampere', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'],
+    {
+      id: '-M3jpXEUVYCXAchlMwdW',
+      name: 'Energy Consumed',
+      valueType: 'NUMERIC',
+    },
+    {
+      id: '-M3jpXEUVYCXAchlMwdW',
+      name: 'Current',
+      valueType: 'NUMERIC',
+    },
   ];
-
   const units = [
-    ['J', 'Joules'],
-    ['A', 'Current'],
+    {
+      id: '-Ls3N32e3WL3iqV4SHNW',
+      name: 'Ampere',
+      letterSymbol: 'A',
+    },
+    {
+      id: '-LrsZYnoZ7aK729tvFkn',
+      name: 'Atmosphere',
+      letterSymbol: 'atm',
+    },
+    {
+      id: '-LsDg17oyhU4atfTIrz1',
+      name: 'Becquerel',
+      letterSymbol: 'Bq',
+    },
+    {
+      id: '-LrsZYnoa9cM94BvxHmp',
+      name: 'Calories',
+      letterSymbol: 'Cal',
+    },
+    {
+      id: '-LsDg17k4aww265nBAyX',
+      name: 'Coulomb',
+      letterSymbol: 'C',
+      greekSymbol: null,
+    },
+    {
+      id: '-Ls3N32fCSwaqsz00Hrm',
+      name: 'Decibels',
+      letterSymbol: 'Db',
+      greekSymbol: null,
+    },
+    {
+      id: '-LsDg17nnRABjB45Qq4K',
+      name: 'Degree Celsius',
+      letterSymbol: 'degC',
+      greekSymbol: null,
+    },
+    {
+      id: '-LsDg17lPaQfexBpsue_',
+      name: 'Farad',
+      letterSymbol: 'F',
+    },
+    {
+      id: '-LrsZYnpSwOVOfeeD5_7',
+
+      name: 'Feet',
+      letterSymbol: 'ft',
+      greekSymbol: null,
+    },
   ];
 
-  return <SettingsPageLayout units={units} applianceCategories={applianceCategories} parameters={parameters} />;
+  const values = { search: '', tabSelected: 0 };
+  return (
+    <SettingsPageLayout
+      handleChange={handleChange}
+      handleTabChange={handleTabChange}
+      units={units}
+      values={values}
+      applianceCategories={applianceCategories}
+      parameters={parameters}
+      currentWindow={number('currentWindow', 0)}
+      handleObjectClicked={action('objectClicked')}
+    />
+  );
 };

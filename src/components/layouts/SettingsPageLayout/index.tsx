@@ -1,25 +1,24 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import Tab, { TabItem } from 'components/ui/Tab';
-import Input, { InputType } from '../../ui/Input';
+import Input from '../../ui/Input';
 import { action } from '@storybook/addon-actions';
-import Button, { ButtonType } from 'components/ui/Button';
+import Button from 'components/ui/Button';
 import Table, { TableCard, TableItem } from 'components/ui/Table';
-const { useState } = React;
 
-interface ContentProps {
-  data: string[][];
-  colFlexMap: object;
+interface TableContentParserProps {
+  data: object[];
+  colMapper: {
+    flexValue: number;
+    columnAttr: string;
+    limit?: number;
+  }[];
+  type: string;
+  onClick?: (type: string, obj: object) => void;
 }
 
-interface SettingsLayoutProps {
-  units?: string[][];
-  parameters?: string[][];
-  applianceCategories?: string[][];
-  children?: React.ReactNode;
-}
-function Content(props: ContentProps) {
-  const { data, colFlexMap } = props;
+function TableContentParser(props: TableContentParserProps) {
+  const { data, colMapper, onClick, type } = props;
   if (data.length === 0) {
     return (
       <Table>
@@ -29,13 +28,27 @@ function Content(props: ContentProps) {
       </Table>
     );
   }
+  function onClickHandler(type, obj): React.EventHandler<React.SyntheticEvent> {
+    return function(e) {
+      e.preventDefault();
+      onClick && onClick(type, obj);
+    };
+  }
+
+  function parseText(text: string, limit?: number) {
+    if (limit && text.length > limit) {
+      return text.substring(0, limit) + '...';
+    }
+    return text;
+  }
+
   return (
     <Table>
-      {data.map((row, index) => (
-        <TableCard key={index}>
-          {row.map((value, index) => (
-            <TableItem key={index} flexValue={colFlexMap[index]}>
-              {value}
+      {data.map((obj, index) => (
+        <TableCard key={index} onClick={onClickHandler(type, obj)}>
+          {colMapper.map((colMap, index) => (
+            <TableItem key={index} flexValue={colMap.flexValue}>
+              {parseText(obj[colMap.columnAttr].toString(), colMap.limit)}
             </TableItem>
           ))}
         </TableCard>
@@ -43,21 +56,71 @@ function Content(props: ContentProps) {
     </Table>
   );
 }
-export default function SettingsPageLayout(props: SettingsLayoutProps) {
-  const { units = [], parameters = [], applianceCategories = [] } = props;
-  const [currentWindow, setWindow] = React.useState(0);
-  function handleTabChange(tabNumber: number) {
-    setWindow(tabNumber);
-    console.log(currentWindow);
-  }
 
-  const colMapper = {
-    0: 2,
-    1: 10,
+interface SettingsLayoutProps {
+  units?: Record<string, unknown>[];
+  parameters?: Record<string, unknown>[];
+  applianceCategories?: Record<string, unknown>[];
+  children?: React.ReactNode;
+  currentWindow: number;
+  values: {
+    search: string;
+    tabSelected: number;
   };
+  handleTabChange;
+  handleChange: React.EventHandler<React.SyntheticEvent>;
+  handleObjectClicked: (type: string, obj: object) => void;
+}
+
+export default function SettingsPageLayout(props: SettingsLayoutProps) {
+  const {
+    units = [],
+    parameters = [],
+    applianceCategories = [],
+    currentWindow,
+    values,
+    handleTabChange,
+    handleChange,
+    handleObjectClicked,
+  } = props;
+
+  const categoryColMapper = [
+    {
+      flexValue: 2,
+      columnAttr: 'name',
+    },
+    {
+      flexValue: 10,
+      columnAttr: 'description',
+      limit: 80,
+    },
+  ];
+
+  const parameterColMapper = [
+    {
+      flexValue: 2,
+      columnAttr: 'name',
+    },
+    {
+      flexValue: 10,
+      columnAttr: 'valueType',
+    },
+  ];
+
+  const unitsColMapper = [
+    {
+      flexValue: 2,
+      columnAttr: 'letterSymbol',
+      limit: 80,
+    },
+    {
+      flexValue: 10,
+      columnAttr: 'name',
+    },
+  ];
+
   return (
     <SettingsPageLayout.Wrapper>
-      <h1>Settings</h1>
       <SettingsPageLayout.ControlsWrapper>
         <SettingsPageLayout.Tabs>
           <Tab onTabChange={handleTabChange}>
@@ -77,19 +140,19 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
           </Tab>
         </SettingsPageLayout.Tabs>
 
-        <SettingsPageLayout.ControlsWrapper>
+        <SettingsPageLayout.Search>
           <Input
             iconLabel="md-search"
             type="text"
             name="search"
             title=""
-            value=""
+            value={values.search}
             errorFeedback={[]}
-            handleChange={action('Clicked')}
-            handleBlur={action('Blur Handler!!')}
+            handleChange={handleChange}
             placeholder="Search"
           />
-        </SettingsPageLayout.ControlsWrapper>
+        </SettingsPageLayout.Search>
+
         <SettingsPageLayout.NewItem>
           <Button type="button" isLoading={false} disabled={false} handleClick={action('clicked')}>
             Create New
@@ -98,22 +161,36 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
       </SettingsPageLayout.ControlsWrapper>
       <div>
         {currentWindow == 0 ? (
-          <Content data={applianceCategories} colFlexMap={colMapper} />
+          <TableContentParser
+            data={applianceCategories}
+            colMapper={categoryColMapper}
+            onClick={handleObjectClicked}
+            type="applianceCategory"
+          />
         ) : currentWindow == 1 ? (
-          <Content data={parameters} colFlexMap={colMapper} />
+          <TableContentParser type="parameters" data={parameters} colMapper={parameterColMapper} />
         ) : (
-          <Content data={units} colFlexMap={colMapper} />
+          <TableContentParser type="units" data={units} colMapper={unitsColMapper} />
         )}
       </div>
     </SettingsPageLayout.Wrapper>
   );
 }
 
+SettingsPageLayout.Search = styled.div`
+  flex: 4;
+  padding: 0;
+  width: 100%;
+`;
+
 SettingsPageLayout.ControlsWrapper = styled.div`
   display: flex;
   align-items: center;
   > div {
     padding: 0 2%;
+    &:first-child {
+      padding-left: 0;
+    }
   }
 `;
 
@@ -121,16 +198,8 @@ SettingsPageLayout.NewItem = styled.div`
   flex: 2;
 `;
 SettingsPageLayout.Tabs = styled.div`
-  flex: 10;
+  flex: 8;
   padding-left: 0;
 `;
 
-SettingsPageLayout.Wrapper = styled.div`
-  padding: 0 3%;
-  h1 {
-    font-family: Fira Sans;
-    font-style: normal;
-    font-size: 24px;
-    font-weight: 500;
-  }
-`;
+SettingsPageLayout.Wrapper = styled.div``;
