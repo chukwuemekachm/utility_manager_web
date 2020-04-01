@@ -19,7 +19,6 @@ export function TableItem(props: ItemProps): React.ReactElement {
   );
 }
 export function TableCard({ children, onClick }: Pick<ItemProps, 'children' | 'onClick'>): React.ReactElement {
-  console.log('onClick', onClick);
   return (
     <TableCard.Wrapper mouseCursor={!!onClick} onClick={onClick}>
       {children}

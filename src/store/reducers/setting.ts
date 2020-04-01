@@ -11,7 +11,7 @@ export interface SettingObjectType {
     totalObjects: number;
     totalPages: number;
     maxObjectsPerPage: number;
-  };
+  } | null;
 }
 
 interface StateType {

@@ -11,24 +11,31 @@ interface NavigationLayoutProps {
   children: React.ReactNode;
   imgUrl: string;
   title: string;
+  changePageHandler?: (pageNumber: number) => void;
 }
 export default function NavigationLayout(props: NavigationLayoutProps) {
-  const { currentDisplay, children, imgUrl, title } = props;
+  const { currentDisplay, children, imgUrl, title, changePageHandler } = props;
+  function changePage(pageNumber) {
+    return function(event) {
+      event.preventDefault();
+      changePageHandler && changePageHandler(pageNumber);
+    };
+  }
   return (
     <NavigationLayout.Wrapper>
       <OrganizationHeader imgUrl={imgUrl} />
 
       <OrganizationSideBar>
-        <SideBarItem active={currentDisplay === 0}>
+        <SideBarItem active={currentDisplay === 0} onClick={changePage(0)}>
           <Icon iconType="md-podium" size="LARGE" color="WHITE" />
         </SideBarItem>
-        <SideBarItem active={currentDisplay === 1}>
-          <Icon iconType="md-podium" size="LARGE" color="WHITE" />
+        <SideBarItem active={currentDisplay === 1} onClick={changePage(1)}>
+          <Icon iconType="md-trending-up" size="LARGE" color="WHITE" />
         </SideBarItem>
-        <SideBarItem active={currentDisplay === 2}>
+        <SideBarItem active={currentDisplay === 2} onClick={changePage(2)}>
           <Icon iconType="md-build" size="LARGE" color="WHITE" />
         </SideBarItem>
-        <SideBarItem active={currentDisplay === 3}>
+        <SideBarItem active={currentDisplay === 3} onClick={changePage(3)}>
           <Icon iconType="md-people" size="LARGE" color="WHITE" />
         </SideBarItem>
       </OrganizationSideBar>

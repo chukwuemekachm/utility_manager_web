@@ -6,10 +6,15 @@ import { BRAND_PRIMARY } from 'settings/__color';
 interface OrgSideBarProps {
   children: React.ReactNode;
   active: boolean;
+  onClick: React.EventHandler<React.SyntheticEvent>;
 }
 export function SideBarItem(props: OrgSideBarProps) {
-  const { children, active = false } = props;
-  return <SideBarItem.Wrapper active={active}>{children}</SideBarItem.Wrapper>;
+  const { children, active = false, onClick } = props;
+  return (
+    <SideBarItem.Wrapper onClick={onClick} active={active}>
+      {children}
+    </SideBarItem.Wrapper>
+  );
 }
 export default function OrganizationSideBar(props: Pick<OrgSideBarProps, 'children'>) {
   const { children } = props;
@@ -35,6 +40,7 @@ SideBarItem.Wrapper = styled.li<Pick<OrgSideBarProps, 'active'>>`
   `}
   &:hover {
     background-color: #2976bb;
+    cursor: pointer;
   }
 `;
 

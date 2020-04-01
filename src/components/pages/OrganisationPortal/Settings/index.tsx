@@ -4,19 +4,15 @@ import NavigationLayout from 'components/layouts/NavigationLayout';
 import { connect } from 'react-redux';
 import { fetchApplianceCategory, fetchParameters, fetchUnits } from 'store/actions/setting';
 import { SettingObjectType } from 'store/reducers/setting';
+import { OrgPortalProps } from '../index';
 
-interface SettingsProps {
+interface SettingsProps extends OrgPortalProps {
   applianceCategory: SettingObjectType;
   fetchApplianceCategory: Function;
   fetchUnits: Function;
   fetchParameters: Function;
   parameters: SettingObjectType;
   units: SettingObjectType;
-  match: {
-    params: {
-      orgId: string;
-    };
-  };
 }
 function Settings(props: SettingsProps) {
   const {
@@ -64,22 +60,18 @@ function Settings(props: SettingsProps) {
 
   // TODO: The image here is supposed to the retrieved from organisation data in the store
   //       Also there should be a width transformation of the image as previously discussed
-  const sampleImage =
-    'https://images.unsplash.com/photo-1563237023-b1e970526dcb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80';
 
   return (
-    <NavigationLayout title="Settings" imgUrl={sampleImage} currentDisplay={3}>
-      <SettingsPageLayout
-        handleChange={handleChange}
-        currentWindow={currentWindow}
-        handleTabChange={handleTabChange}
-        values={values}
-        applianceCategories={applianceCategory.data}
-        units={units.data}
-        parameters={parameters.data}
-        handleObjectClicked={handleObjectClicked}
-      />
-    </NavigationLayout>
+    <SettingsPageLayout
+      handleChange={handleChange}
+      currentWindow={currentWindow}
+      handleTabChange={handleTabChange}
+      values={values}
+      applianceCategories={applianceCategory.data}
+      units={units.data}
+      parameters={parameters.data}
+      handleObjectClicked={handleObjectClicked}
+    />
   );
 }
 
