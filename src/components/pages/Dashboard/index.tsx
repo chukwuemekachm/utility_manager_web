@@ -33,22 +33,22 @@ function getDashBoardRoutes(path: string): RouteProps[] {
   return [
     {
       path: `${path}`,
-      component: withSuspense({ page: 'MyOrganisations' }),
+      component: withSuspense({ page: 'Dashboard/MyOrganisations' }),
       exact: true,
     },
     {
       path: `${path}/profile`,
-      component: withSuspense({ page: 'UpdateProfile' }),
+      component: withSuspense({ page: 'Dashboard/UpdateProfile' }),
       exact: true,
     },
     {
       path: `${path}/organisation`,
-      component: withSuspense({ page: 'CreateOrganisation' }),
+      component: withSuspense({ page: 'Dashboard/CreateOrganisation' }),
       exact: true,
     },
     {
       path: `${path}/password`,
-      component: withSuspense({ page: 'UpdatePassword' }),
+      component: withSuspense({ page: 'Dashboard/UpdatePassword' }),
       exact: true,
     },
   ];

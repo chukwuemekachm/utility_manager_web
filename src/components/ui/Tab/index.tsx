@@ -8,6 +8,7 @@ export interface TabItemProps {
   setTab: Function;
   itemValue: number;
   currentValue: number;
+  textAlign?: 'left' | 'right' | 'center' | 'inherit';
 }
 export function TabItem(props: TabItemProps) {
   const { children, setTab, itemValue, currentValue } = props;

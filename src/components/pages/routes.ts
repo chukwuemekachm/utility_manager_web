@@ -21,4 +21,9 @@ export default [
     component: withSuspense({ page: 'Dashboard' }),
     exact: false,
   },
+  {
+    path: '/organisation/:orgId',
+    component: withSuspense({ page: 'OrganisationPortal' }),
+    exact: false,
+  },
 ];

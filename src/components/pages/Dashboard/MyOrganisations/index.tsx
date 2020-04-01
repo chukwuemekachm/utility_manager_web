@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { history } from 'store';
 import styled from '@emotion/styled';
 
 import OrganisationCard from 'components/ui/OrganisationCard';
@@ -8,6 +7,7 @@ import { fetchCurrentUserOrganisations } from 'store/actions/dashboard';
 import { getDateJoinedMessage } from 'helpers/dateHelpers';
 import { transformCloudinaryURL } from 'utils/misc';
 import { ImageOptions } from 'utils/constants';
+import { moveToNextPage } from 'store/actions/navigation';
 
 interface OrganisationProps {
   id: string;
@@ -31,10 +31,17 @@ interface MyOrganisationsProps {
   isOrganizationFetched: boolean;
   organisations: OrganisationProps[];
   fetchCurrentUserOrganisations: () => void;
+  moveToNextPage: Function;
 }
 
 export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement<MyOrganisationsProps> {
-  const { fetchCurrentUserOrganisations, organisations, isOrganisationPending, isOrganizationFetched } = props;
+  const {
+    fetchCurrentUserOrganisations,
+    organisations,
+    isOrganisationPending,
+    isOrganizationFetched,
+    moveToNextPage,
+  } = props;
 
   React.useEffect(function(): void {
     fetchCurrentUserOrganisations();
@@ -42,19 +49,24 @@ export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement
 
   if (isOrganisationPending) return <MyOrganisations.Message>...Loading</MyOrganisations.Message>;
 
+  function navigateToPortal(orgId: string) {
+    return function() {
+      moveToNextPage(`/organisation/${orgId}/charts`);
+    };
+  }
   return (
     <MyOrganisations.Wrapper>
       {isOrganizationFetched && organisations.length ? (
         <>
           {organisations.map(org => (
-            <div key={org.organisation.id} onClick={() => history.push('/dashboard/profile', org)}>
+            <MyOrganisations.OrgItem key={org.organisation.id} onClick={navigateToPortal(org.organisation.id)}>
               <OrganisationCard
                 img={transformCloudinaryURL(org.organisation.logoUrl, [ImageOptions.AVATAR])}
                 name={org.organisation.name}
                 role={org.role.name}
                 date={getDateJoinedMessage(org.organisation.createdAt)}
               />
-            </div>
+            </MyOrganisations.OrgItem>
           ))}
         </>
       ) : (
@@ -72,14 +84,24 @@ const mapStateToProps = (
   isOrganizationFetched: state.dashboard.status.isOrganisationFetched,
 });
 
-const mapDispatchToProps = (dispatch): Pick<MyOrganisationsProps, 'fetchCurrentUserOrganisations'> => ({
+const mapDispatchToProps = (
+  dispatch,
+): Pick<MyOrganisationsProps, 'fetchCurrentUserOrganisations' | 'moveToNextPage'> => ({
   fetchCurrentUserOrganisations: (): void => dispatch(fetchCurrentUserOrganisations()),
+  moveToNextPage: (nextPageRoute): void => dispatch(moveToNextPage({ nextPageRoute })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyOrganisations);
 
 MyOrganisations.Wrapper = styled.section`
   padding: 0;
+`;
+
+MyOrganisations.OrgItem = styled.section`
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;
 
 MyOrganisations.Message = styled.p``;

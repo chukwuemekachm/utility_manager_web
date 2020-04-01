@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { navigationConstants } from 'store/actions/navigation';
+import { Debugger } from 'inspector';
 
 const initialState = {
   data: {},
@@ -47,12 +48,13 @@ export default function navigationReducer(state = initialState, { type, payload 
       };
 
     case navigationConstants.NAVIGATION_CHANGE:
+      const payloadData = payload.data || {};
       return {
         ...state,
         nextPageRoute: payload.nextPageRoute,
         data: {
           ...state.data,
-          ...payload.data,
+          ...payloadData,
         },
         status: {
           isChanged: true,
