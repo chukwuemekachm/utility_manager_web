@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { fontSizes } from 'settings/__fonts';
 import __spacing from 'settings/__spacing';
 import { GAINS_BORO, GRAY } from 'settings/__color';
+import InputErrors from 'components/ui/InputErrors';
 
 export interface TextAreaProps {
   rows: number;
@@ -22,12 +23,7 @@ function TextArea(props: TextAreaProps): React.ReactElement<TextAreaProps> {
       <span className="input-wrapper">
         <textarea rows={rows} name={name} value={value} onChange={handleChange} onBlur={handleBlur} />
       </span>
-      {errorFeedback &&
-        errorFeedback.map(message => (
-          <span key={message} className="input-error-feedback">
-            {message}
-          </span>
-        ))}
+      <InputErrors errorFeedback={errorFeedback} />
     </TextArea.Wrapper>
   );
 }

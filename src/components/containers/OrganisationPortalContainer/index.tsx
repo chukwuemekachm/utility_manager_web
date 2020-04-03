@@ -5,7 +5,13 @@ export default function withOrganisationPortalContainer(WrappedComponent) {
   return function OrganisationPortalContainer(props: Record<string, any>) {
     function handleSubmit(trigger: string) {
       return async function(values: Record<string, any>): Promise<void> {
-        return;
+        switch (trigger) {
+          default:
+            props.callCreateApplianceCategory({
+              params: props.match.params,
+              data: values,
+            });
+        }
       };
     }
 

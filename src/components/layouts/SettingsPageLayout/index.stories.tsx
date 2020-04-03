@@ -19,6 +19,7 @@ export const emptyStructure = () => {
       handleTabChange={handleTabChange}
       currentWindow={number('currentWindow', 0)}
       handleObjectClicked={action('objectClicked')}
+      handleCreateBtnClicked={action('create New')}
     />
   );
 };
@@ -119,6 +120,7 @@ export const layoutWithContnent = () => {
       parameters={parameters}
       currentWindow={number('currentWindow', 0)}
       handleObjectClicked={action('objectClicked')}
+      handleCreateBtnClicked={action('create New')}
     />
   );
 };

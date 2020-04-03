@@ -27,8 +27,8 @@ export interface FormProps {
 interface ChildrenProps {
   values: Record<string, any>;
   errors: Record<string, string[]>;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  handleBlur: (event) => void;
 }
 
 function Form(props: FormProps): React.ReactElement<FormProps> {
@@ -61,7 +61,7 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
     handleChange(event);
   }
 
-  async function handleBlur({ target: { value, name } }: React.FocusEvent<HTMLInputElement>): Promise<void> {
+  async function handleBlur({ target: { value, name } }): Promise<void> {
     let newErrors;
     if (value && validationSchemaKey) {
       newErrors = await validatePayload(values, validationSchemaKey);

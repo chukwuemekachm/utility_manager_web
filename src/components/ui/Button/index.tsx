@@ -13,7 +13,7 @@ export interface ButtonProps {
   type?: ButtonType;
   children: React.ReactNode;
   isLoading: boolean;
-  handleClick?: () => void;
+  handleClick?: React.EventHandler<React.SyntheticEvent>;
   disabled: boolean;
 }
 

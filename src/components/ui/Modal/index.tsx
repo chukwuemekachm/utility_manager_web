@@ -16,6 +16,7 @@ Modal.Wrapper = styled.div`
   padding: 0 5px;
   position: fixed;
   top: 0;
+  left: 0;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.3);
   align-items: center;

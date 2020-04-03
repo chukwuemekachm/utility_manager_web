@@ -7,52 +7,59 @@ import Icon from 'components/ui/Icon';
 import { fontSizes, fontWeights } from 'settings/__fonts';
 
 interface NavigationLayoutProps {
-  currentDisplay: number;
+  currentDisplay: string;
   children: React.ReactNode;
   imgUrl: string;
-  title: string;
-  changePageHandler?: (pageNumber: number) => void;
+  changePageHandler?: (pageName: string) => void;
 }
-export default function NavigationLayout(props: NavigationLayoutProps) {
-  const { currentDisplay, children, imgUrl, title, changePageHandler } = props;
-  function changePage(pageNumber) {
+
+export function OrgPortalHeading(props: Pick<NavigationLayoutProps, 'children'>) {
+  const { children } = props;
+  return <OrgPortalHeading.Content>{children}</OrgPortalHeading.Content>;
+}
+
+export default function OrgPortalLayout(props: NavigationLayoutProps) {
+  const { currentDisplay, children, imgUrl, changePageHandler } = props;
+  function changePage(pageName: string) {
     return function(event) {
       event.preventDefault();
-      changePageHandler && changePageHandler(pageNumber);
+      changePageHandler && changePageHandler(pageName);
     };
   }
   return (
-    <NavigationLayout.Wrapper>
+    <OrgPortalLayout.Wrapper>
       <OrganizationHeader imgUrl={imgUrl} />
 
       <OrganizationSideBar>
-        <SideBarItem active={currentDisplay === 0} onClick={changePage(0)}>
+        <SideBarItem active={currentDisplay === 'charts'} onClick={changePage('charts')}>
+          <Icon iconType="md-analytics" size="LARGE" color="WHITE" />
+        </SideBarItem>
+        <SideBarItem active={currentDisplay === 'logs'} onClick={changePage('logs')}>
+          <Icon iconType="md-book" size="LARGE" color="WHITE" />
+        </SideBarItem>
+        <SideBarItem active={currentDisplay === 'reports'} onClick={changePage('reports')}>
           <Icon iconType="md-podium" size="LARGE" color="WHITE" />
         </SideBarItem>
-        <SideBarItem active={currentDisplay === 1} onClick={changePage(1)}>
-          <Icon iconType="md-trending-up" size="LARGE" color="WHITE" />
-        </SideBarItem>
-        <SideBarItem active={currentDisplay === 2} onClick={changePage(2)}>
+
+        <SideBarItem active={currentDisplay === 'settings'} onClick={changePage('settings')}>
           <Icon iconType="md-build" size="LARGE" color="WHITE" />
         </SideBarItem>
-        <SideBarItem active={currentDisplay === 3} onClick={changePage(3)}>
+        <SideBarItem active={currentDisplay === 'members'} onClick={changePage('members')}>
           <Icon iconType="md-people" size="LARGE" color="WHITE" />
         </SideBarItem>
       </OrganizationSideBar>
-      <main>
-        <h1>{title}</h1>
-        {children}
-      </main>
-    </NavigationLayout.Wrapper>
+      <main>{children}</main>
+    </OrgPortalLayout.Wrapper>
   );
 }
 
-NavigationLayout.Wrapper = styled.div`
-  h1 {
-    font-size: ${fontSizes.large};
-    font-weight: ${fontWeights.bold};
-    margin-bottom: 5%;
-  }
+OrgPortalHeading.Content = styled.h1`
+  font-size: ${fontSizes.large};
+  font-weight: ${fontWeights.bold};
+  margin-bottom: 5%;
+`;
+
+OrgPortalLayout.Wrapper = styled.div`
   main {
     margin-left: 5rem;
     padding: 3% 7% 0;

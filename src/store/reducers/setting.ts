@@ -1,17 +1,28 @@
 import { settingsConstants } from 'store/actions/setting';
 
+interface Paginator {
+  currentPage: number;
+  nextPage: number | null;
+  previousPage: number | null;
+  totalObjects: number;
+  totalPages: number;
+  maxObjectsPerPage: number;
+}
+
+type MetaType = Paginator | null;
+
 export interface SettingObjectType {
   fetching: boolean;
   fetched: boolean;
   data: Record<string, unknown>[];
-  meta: {
-    currentPage: number;
-    nextPage: number | null;
-    previousPage: number | null;
-    totalObjects: number;
-    totalPages: number;
-    maxObjectsPerPage: number;
-  } | null;
+  meta: MetaType;
+}
+
+export interface CreateObjectType {
+  creating: boolean;
+  created: boolean;
+  data: Record<string, unknown>;
+  errors: Record<string, unknown[]>;
 }
 
 interface StateType {
@@ -20,6 +31,8 @@ interface StateType {
   applianceCategory: SettingObjectType;
   units: SettingObjectType;
   appliance: SettingObjectType;
+  createApplianceCategory: CreateObjectType;
+  justCreated: boolean;
 }
 
 const initialState: StateType = {
@@ -48,6 +61,13 @@ const initialState: StateType = {
     data: [],
     meta: null,
   },
+  createApplianceCategory: {
+    creating: false,
+    created: false,
+    data: {},
+    errors: {},
+  },
+  justCreated: false,
 };
 
 const defaultPayload = {
@@ -57,11 +77,17 @@ const defaultPayload = {
     orgId: '',
   },
   meta: null,
+  errors: {},
 };
 
 export default function settingsReducer(state = initialState, { type, payload = defaultPayload }) {
   const { data, meta } = payload;
   switch (type) {
+    case settingsConstants.JUST_CREATED_DATA:
+      return {
+        ...state,
+        justCreated: !!payload,
+      };
     case settingsConstants.FETCH_UNITS_REQUEST:
       return {
         ...state,
@@ -153,6 +179,44 @@ export default function settingsReducer(state = initialState, { type, payload = 
           fetching: false,
           fetched: false,
           data: [],
+        },
+      };
+    case settingsConstants.CREATE_APPLIANCE_CATEGORY_REQUEST:
+      return {
+        ...state,
+        createApplianceCategory: {
+          ...state.createApplianceCategory,
+          creating: true,
+          created: false,
+          errors: {},
+        },
+      };
+    case settingsConstants.CREATE_APPLIANCE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        createApplianceCategory: {
+          ...state.createApplianceCategory,
+          creating: false,
+          created: true,
+          data,
+          errors: {},
+        },
+        applianceCategory: {
+          ...state.applianceCategory,
+          fetching: false,
+          fetched: false,
+          data: [data, ...state.applianceCategory.data],
+        },
+      };
+    case settingsConstants.CREATE_APPLIANCE_CATEGORY_ERROR:
+      return {
+        ...state,
+        createApplianceCategory: {
+          ...state.createApplianceCategory,
+          creating: false,
+          created: false,
+          data: {},
+          errors: payload.errors,
         },
       };
     default:
