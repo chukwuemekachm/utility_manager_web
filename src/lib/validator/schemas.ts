@@ -25,4 +25,8 @@ export default {
     newPassword: PASSWORD,
     confirmPassword: `${PASSWORD}|same:newPassword`,
   },
+  createApplianceCategory: {
+    name: 'required|min:3',
+    description: 'required|min:10',
+  },
 };

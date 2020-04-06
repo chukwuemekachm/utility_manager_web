@@ -9,6 +9,16 @@ const {
   FETCH_APPLIANCE_CATEGORY_SUCCESS,
   FETCH_PARAMETERS_SUCCESS,
   FETCH_UNITS_SUCCESS,
+  CREATE_APPLIANCE_CATEGORY_REQUEST,
+  CREATE_PARAMETERS_REQUEST,
+  CREATE_UNITS_REQUEST,
+  CREATE_APPLIANCE_CATEGORY_ERROR,
+  CREATE_PARAMETERS_ERROR,
+  CREATE_UNITS_ERROR,
+  CREATE_APPLIANCE_CATEGORY_SUCCESS,
+  CREATE_PARAMETERS_SUCCESS,
+  CREATE_UNITS_SUCCESS,
+  JUST_CREATED_DATA,
 } = settingsConstants;
 
 export const fetchApplianceCategory = (payload): Action => ({
@@ -51,6 +61,56 @@ export const fetchParametersSuccess = (payload): Action => ({
 
 export const fetchUnitsSuccess = (payload): Action => ({
   type: FETCH_UNITS_SUCCESS,
+  payload,
+});
+
+export const closeModal = (payload): Action => ({
+  type: JUST_CREATED_DATA,
+  payload,
+});
+
+export const createApplianceCategory = (payload): Action => ({
+  type: CREATE_APPLIANCE_CATEGORY_REQUEST,
+  payload,
+});
+
+export const createParameters = (payload): Action => ({
+  type: CREATE_PARAMETERS_REQUEST,
+  payload,
+});
+
+export const createUnits = (payload): Action => ({
+  type: CREATE_UNITS_REQUEST,
+  payload,
+});
+
+export const createApplianceCategoryError = (payload): Action => ({
+  type: CREATE_APPLIANCE_CATEGORY_ERROR,
+  payload,
+});
+
+export const createParametersError = (payload): Action => ({
+  type: CREATE_PARAMETERS_ERROR,
+  payload,
+});
+
+export const createUnitsError = (payload): Action => ({
+  type: CREATE_UNITS_ERROR,
+  payload,
+});
+
+export const createApplianceCategorySuccess = (payload): Action => ({
+  type: CREATE_APPLIANCE_CATEGORY_SUCCESS,
+  payload,
+});
+
+export const createParametersSuccess = (payload): Action => ({
+  type: CREATE_PARAMETERS_SUCCESS,
+  payload,
+});
+
+export const createUnitsSuccess = (payload): Action => ({
+  type: CREATE_UNITS_SUCCESS,
   payload,
 });
 

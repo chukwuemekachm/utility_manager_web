@@ -58,6 +58,7 @@ SnackBar.Wrapper = styled.span`
   position: absolute;
   top: ${__spacing.xLarge};
   opacity: 1;
+  z-index: 3;
   transition: opacity 150ms ease-in;
   -webkit-transition: opacity 150ms ease-in;
   animation: slidein 1500ms ease-in-out forwards;

@@ -6,7 +6,7 @@ import { GAINS_BORO } from 'settings/__color';
 export interface ModalCardProps {
   cardTitle: string;
   children: React.ReactNode;
-  handleToggleModal: () => void;
+  handleToggleModal: React.EventHandler<React.SyntheticEvent>;
 }
 
 function ModalCard({ children, cardTitle, handleToggleModal }: ModalCardProps): React.ReactElement<ModalCardProps> {

@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import Tab, { TabItem } from 'components/ui/Tab';
 import Input from '../../ui/Input';
-import { action } from '@storybook/addon-actions';
 import Button from 'components/ui/Button';
 import Table, { TableCard, TableItem } from 'components/ui/Table';
 
@@ -70,6 +69,7 @@ interface SettingsLayoutProps {
   handleTabChange;
   handleChange: React.EventHandler<React.SyntheticEvent>;
   handleObjectClicked: (type: string, obj: object) => void;
+  handleCreateBtnClicked: React.EventHandler<React.SyntheticEvent>;
 }
 
 export default function SettingsPageLayout(props: SettingsLayoutProps) {
@@ -82,6 +82,7 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
     handleTabChange,
     handleChange,
     handleObjectClicked,
+    handleCreateBtnClicked,
   } = props;
 
   const categoryColMapper = [
@@ -118,7 +119,6 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
       columnAttr: 'name',
     },
   ];
-
   return (
     <SettingsPageLayout.Wrapper>
       <SettingsPageLayout.ControlsWrapper>
@@ -154,7 +154,7 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
         </SettingsPageLayout.Search>
 
         <SettingsPageLayout.NewItem>
-          <Button type="button" isLoading={false} disabled={false} handleClick={action('clicked')}>
+          <Button type="button" isLoading={false} disabled={false} handleClick={handleCreateBtnClicked}>
             Create New
           </Button>
         </SettingsPageLayout.NewItem>

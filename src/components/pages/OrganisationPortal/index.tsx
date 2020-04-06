@@ -3,11 +3,10 @@ import { Switch, Route, match, RouteProps } from 'react-router';
 import { Location } from 'history';
 
 import withSuspense from 'components/HOC/withSuspense';
-import withOrgnisationPortalContainer from 'components/containers/OrgnisationPortalContainer';
+import withOrganisationPortalContainer from 'components/containers/OrganisationPortalContainer';
 import SEO from 'components/HOC/SEO';
-import NavigationLayout from '../../layouts/NavigationLayout';
+import OrgPortalLayout from 'components/layouts/NavigationLayout';
 import { connect } from 'react-redux';
-import { logout } from '../../../store/actions/auth';
 import { moveToNextPage } from 'store/actions/navigation';
 
 export interface OrgPortalProps {
@@ -39,6 +38,11 @@ function getOrganisationRoutes(path: string): RouteProps[] {
       component: withSuspense({ page: 'OrganisationPortal/Charts' }),
       exact: true,
     },
+    {
+      path: `${path}/logs`,
+      component: withSuspense({ page: 'OrganisationPortal/Logs' }),
+      exact: true,
+    },
   ];
 }
 
@@ -51,34 +55,18 @@ function OrganisationPortal(props: OrgPortalProps): React.ReactElement {
     location: { pathname },
     moveToNextPage,
   } = props;
-  console.log(props);
   const sampleImage =
     'https://images.unsplash.com/photo-1563237023-b1e970526dcb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80';
-  let currentDisplay = 0;
-
-  let title = 'Reports';
-  if (pathname.endsWith('charts')) {
-    currentDisplay = 1;
-    title = 'Charts';
-  } else if (pathname.endsWith('settings')) {
-    currentDisplay = 2;
-    title = 'Settings';
-  } else if (pathname.endsWith('members')) {
-    currentDisplay = 3;
-    title = 'Members';
+  let currentDisplay = 'charts';
+  const slicedPathname = pathname.split('/').slice(-2);
+  if (slicedPathname[1]) {
+    currentDisplay = slicedPathname[1];
+  } else if (slicedPathname[0]) {
+    currentDisplay = slicedPathname[0];
   }
 
-  function changePageHandler(pageNumber: number) {
-    console.log('Got Here', pageNumber);
-    if (currentDisplay == pageNumber) return;
-    let routeName = 'reports';
-    if (pageNumber == 1) {
-      routeName = 'charts';
-    } else if (pageNumber == 2) {
-      routeName = 'settings';
-    } else if (pageNumber == 3) {
-      routeName = 'members';
-    }
+  function changePageHandler(routeName: string) {
+    if (currentDisplay == routeName) return;
     moveToNextPage({ nextPageRoute: `/organisation/${orgId}/${routeName}` });
   }
   return (
@@ -86,16 +74,11 @@ function OrganisationPortal(props: OrgPortalProps): React.ReactElement {
       <SEO title="Portal" />
       {
         <Switch>
-          <NavigationLayout
-            changePageHandler={changePageHandler}
-            title={title}
-            imgUrl={sampleImage}
-            currentDisplay={currentDisplay}
-          >
+          <OrgPortalLayout changePageHandler={changePageHandler} imgUrl={sampleImage} currentDisplay={currentDisplay}>
             {getOrganisationRoutes(path).map((route, index) => (
               <Route key={index} {...route} {...props} />
             ))}
-          </NavigationLayout>
+          </OrgPortalLayout>
         </Switch>
       }
     </div>
@@ -106,4 +89,4 @@ const mapDispatchToProps = dispatch => ({
   moveToNextPage: (payload): void => dispatch(moveToNextPage(payload)),
 });
 
-export default connect(null, mapDispatchToProps)(withOrgnisationPortalContainer(OrganisationPortal));
+export default connect(null, mapDispatchToProps)(withOrganisationPortalContainer(OrganisationPortal));
