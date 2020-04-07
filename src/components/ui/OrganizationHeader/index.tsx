@@ -39,6 +39,8 @@ OrganizationHeader.Wrapper = styled.nav`
   -ms-flex-align: center;
   align-items: center;
   padding: 0 1rem;
+  position: sticky;
+  top: 0;
 
   ul {
     list-style-type: none;
