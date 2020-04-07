@@ -3,58 +3,9 @@ import styled from '@emotion/styled';
 import Tab, { TabItem } from 'components/ui/Tab';
 import Input from '../../ui/Input';
 import Button from 'components/ui/Button';
-import Table, { TableCard, TableItem } from 'components/ui/Table';
-
-interface TableContentParserProps {
-  data: object[];
-  colMapper: {
-    flexValue: number;
-    columnAttr: string;
-    limit?: number;
-  }[];
-  type: string;
-  onClick?: (type: string, obj: object) => void;
-}
-
-function TableContentParser(props: TableContentParserProps) {
-  const { data, colMapper, onClick, type } = props;
-  if (data.length === 0) {
-    return (
-      <Table>
-        <TableCard>
-          <TableItem textAlign="center">No Results was found</TableItem>
-        </TableCard>
-      </Table>
-    );
-  }
-  function onClickHandler(type, obj): React.EventHandler<React.SyntheticEvent> {
-    return function(e) {
-      e.preventDefault();
-      onClick && onClick(type, obj);
-    };
-  }
-
-  function parseText(text: string, limit?: number) {
-    if (limit && text.length > limit) {
-      return text.substring(0, limit) + '...';
-    }
-    return text;
-  }
-
-  return (
-    <Table>
-      {data.map((obj, index) => (
-        <TableCard key={index} onClick={onClickHandler(type, obj)}>
-          {colMapper.map((colMap, index) => (
-            <TableItem key={index} flexValue={colMap.flexValue}>
-              {parseText(obj[colMap.columnAttr].toString(), colMap.limit)}
-            </TableItem>
-          ))}
-        </TableCard>
-      ))}
-    </Table>
-  );
-}
+import TableContentParser from 'components/ui/TableContentParser';
+import { TableItem } from '../../ui/Table';
+import { parseText } from 'helpers';
 
 interface SettingsLayoutProps {
   units?: Record<string, unknown>[];
@@ -68,8 +19,38 @@ interface SettingsLayoutProps {
   };
   handleTabChange;
   handleChange: React.EventHandler<React.SyntheticEvent>;
-  handleObjectClicked: (type: string, obj: object) => void;
+  handleObjectClicked: (type: string) => (obj: Record<string, any>) => void;
   handleCreateBtnClicked: React.EventHandler<React.SyntheticEvent>;
+}
+
+function objectToComponent(type: string) {
+  return function Component(obj): React.ReactNode {
+    switch (type.toUpperCase()) {
+      case 'CATEGORY':
+        return (
+          <>
+            <TableItem flexValue={2}>{obj.name}</TableItem>
+            <TableItem flexValue={10}>{parseText(obj.description, 80)}</TableItem>
+          </>
+        );
+      case 'PARAMETER':
+        return (
+          <>
+            <TableItem flexValue={2}>{obj.name}</TableItem>
+            <TableItem flexValue={10}>{obj.valueType}</TableItem>
+          </>
+        );
+      case 'UNIT':
+        return (
+          <>
+            <TableItem flexValue={2}>{obj.letterSymbol}</TableItem>
+            <TableItem flexValue={10}>{parseText(obj.name, 80)}</TableItem>
+          </>
+        );
+      default:
+        return <div></div>;
+    }
+  };
 }
 
 export default function SettingsPageLayout(props: SettingsLayoutProps) {
@@ -85,40 +66,6 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
     handleCreateBtnClicked,
   } = props;
 
-  const categoryColMapper = [
-    {
-      flexValue: 2,
-      columnAttr: 'name',
-    },
-    {
-      flexValue: 10,
-      columnAttr: 'description',
-      limit: 80,
-    },
-  ];
-
-  const parameterColMapper = [
-    {
-      flexValue: 2,
-      columnAttr: 'name',
-    },
-    {
-      flexValue: 10,
-      columnAttr: 'valueType',
-    },
-  ];
-
-  const unitsColMapper = [
-    {
-      flexValue: 2,
-      columnAttr: 'letterSymbol',
-      limit: 80,
-    },
-    {
-      flexValue: 10,
-      columnAttr: 'name',
-    },
-  ];
   return (
     <SettingsPageLayout.Wrapper>
       <SettingsPageLayout.ControlsWrapper>
@@ -161,16 +108,13 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
       </SettingsPageLayout.ControlsWrapper>
       <div>
         {currentWindow == 0 ? (
-          <TableContentParser
-            data={applianceCategories}
-            colMapper={categoryColMapper}
-            onClick={handleObjectClicked}
-            type="applianceCategory"
-          />
+          <TableContentParser data={applianceCategories} onClick={handleObjectClicked('CATEGORY')}>
+            {objectToComponent('CATEGORY')}
+          </TableContentParser>
         ) : currentWindow == 1 ? (
-          <TableContentParser type="parameters" data={parameters} colMapper={parameterColMapper} />
+          <TableContentParser data={parameters}>{objectToComponent('PARAMETER')}</TableContentParser>
         ) : (
-          <TableContentParser type="units" data={units} colMapper={unitsColMapper} />
+          <TableContentParser data={units}>{objectToComponent('UNIT')}</TableContentParser>
         )}
       </div>
     </SettingsPageLayout.Wrapper>

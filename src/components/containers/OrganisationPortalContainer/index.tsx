@@ -21,7 +21,6 @@ export default function withOrganisationPortalContainer(WrappedComponent) {
         ...props,
       };
     }
-
     /* TypeScript doesn't recognize WrappedComponent in JSX here
      * So I defaulted to using React.createElement
      */

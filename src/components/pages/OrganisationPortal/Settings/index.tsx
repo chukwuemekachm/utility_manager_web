@@ -7,6 +7,7 @@ import { SettingObjectType, CreateObjectType } from 'store/reducers/setting';
 import { OrgPortalProps } from '../index';
 import withOrganisationPortalContainer from 'components/containers/OrganisationPortalContainer';
 import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
+import { moveToNextPage } from 'store/actions/navigation';
 
 interface SettingsProps extends OrgPortalProps {
   applianceCategory: SettingObjectType;
@@ -31,6 +32,7 @@ function Settings(props: SettingsProps) {
     justCreated,
     match: { params },
     handleSubmit,
+    moveToNextPage,
   } = props;
   const defaultValues = {
     search: '',
@@ -65,12 +67,14 @@ function Settings(props: SettingsProps) {
     setValues(prevState => ({ ...prevState, [name]: value }));
   }
 
-  function handleObjectClicked(type: string, obj: object) {
+  function handleObjectClicked(type: string) {
     //  TODO: This is where we ought to handle click events of the table rows
     //        The type here would be one of units | paramters | applianceCategory
     //        We are supposed to either move to another page or perform some other operation here
-    console.log(type);
-    console.log(obj);
+    //        You can log this to be sure
+    return function(obj: Record<string, string>) {
+      moveToNextPage({ nextPageRoute: `appliance-category/${obj.id}` });
+    };
   }
 
   // TODO: The image here is supposed to the retrieved from organisation data in the store
@@ -127,6 +131,7 @@ const mapDispatchToProps = dispatch => ({
   fetchUnits: (payload): string => dispatch(fetchUnits(payload)),
   fetchApplianceCategory: (payload): void => dispatch(fetchApplianceCategory(payload)),
   callCreateApplianceCategory: (payload): void => dispatch(createApplianceCategory(payload)),
+  moveToNextPage: (payload): void => dispatch(moveToNextPage(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withOrganisationPortalContainer(Settings));

@@ -18,7 +18,7 @@ export const emptyStructure = () => {
       handleChange={handleChange}
       handleTabChange={handleTabChange}
       currentWindow={number('currentWindow', 0)}
-      handleObjectClicked={action('objectClicked')}
+      handleObjectClicked={() => action('objectClicked')}
       handleCreateBtnClicked={action('create New')}
     />
   );
@@ -119,7 +119,7 @@ export const layoutWithContnent = () => {
       applianceCategories={applianceCategories}
       parameters={parameters}
       currentWindow={number('currentWindow', 0)}
-      handleObjectClicked={action('objectClicked')}
+      handleObjectClicked={() => action('objectClicked')}
       handleCreateBtnClicked={action('create New')}
     />
   );
