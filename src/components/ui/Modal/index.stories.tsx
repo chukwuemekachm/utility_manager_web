@@ -5,7 +5,8 @@ import ModalCard from './ModalCard';
 import Form from 'components/ui/Form';
 import Input from 'components/ui/Input';
 import TextAreaInput from 'components/ui/TextAreaInput';
-import Dropdown, { DropdownItem } from 'components/ui/Dropdown';
+import Dropdown from 'components/ui/SelectInput';
+import DropdownItem from 'components/ui/DropdownItem';
 import Icon from 'components/ui/Icon';
 import { action } from '@storybook/addon-actions';
 export default {
@@ -13,6 +14,10 @@ export default {
   title: 'components/ui/Modal',
 };
 
+function handleChange(e) {
+  console.log(e);
+  console.log('Got Here');
+}
 const { Fragment } = React;
 export const CreateCategory = () => (
   <Modal>
@@ -41,20 +46,30 @@ export const CreateCategory = () => (
   </Modal>
 );
 
+const defaultValues = {
+  sample: '',
+};
 export const CreateParameter = () => (
   <Modal>
     <ModalCard cardTitle="Create New Parameter" handleToggleModal={action('Close icon is clicked')}>
-      <Form submitButtonLabel="Create Parameter" handleSubmit={action('Handle Submit')}>
-        {() => (
+      <Form defaultValues={defaultValues} submitButtonLabel="Create Parameter" handleSubmit={action('Handle Submit')}>
+        {({ values, handleBlur }) => (
           <Fragment>
             <Input
               name="name"
               title="Name"
               autoComplete="on"
-              value={text('Category Name', 'Energy Consumed')}
+              value={text('Name', 'Energy Consumed')}
               handleChange={e => true}
             />
-            <Dropdown>
+            <Dropdown
+              title="Sample"
+              tabIndex={1}
+              handleBlur={handleBlur}
+              name="sample"
+              handleChange={handleChange}
+              value={values.sample}
+            >
               {({ handleClick }) => (
                 <>
                   <DropdownItem onClick={handleClick} value={1}>

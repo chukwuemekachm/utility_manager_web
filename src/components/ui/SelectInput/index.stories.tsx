@@ -1,15 +1,24 @@
 import React from 'react';
-import Dropdown, { DropdownItem } from '.';
+import SelectInput from '.';
+import DropdownItem from 'components/ui/DropdownItem';
+
 import Icon from 'components/ui/Icon';
 import { text } from '@storybook/addon-knobs';
 
 export default {
-  component: Dropdown,
-  title: 'components/ui/Dropdown',
+  component: SelectInput,
+  title: 'components/ui/SelectInput',
 };
 
-export const dropdown = (): React.ReactElement<{}> => (
-  <Dropdown placeholder={text('placeholder', 'Select from me')}>
+export const searchInput = (): React.ReactElement<{}> => (
+  <SelectInput
+    placeholder={text('placeholder', 'Select from me')}
+    value={''}
+    title={text('title', 'Label')}
+    handleChange={() => true}
+    tabIndex={1}
+    name="name"
+  >
     {({ handleClick }) => (
       <>
         <DropdownItem onClick={handleClick} value={1}>
@@ -26,5 +35,5 @@ export const dropdown = (): React.ReactElement<{}> => (
         </DropdownItem>
       </>
     )}
-  </Dropdown>
+  </SelectInput>
 );

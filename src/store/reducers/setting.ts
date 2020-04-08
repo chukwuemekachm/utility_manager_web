@@ -14,8 +14,9 @@ type MetaType = Paginator | null;
 export interface SettingObjectType {
   fetching: boolean;
   fetched: boolean;
-  data: Record<string, unknown>[];
+  data: Record<string, any>[];
   meta: MetaType;
+  errors?: Record<string, unknown[]>;
 }
 
 export interface CreateObjectType {
@@ -30,8 +31,10 @@ interface StateType {
   parameters: SettingObjectType;
   applianceCategory: SettingObjectType;
   units: SettingObjectType;
+  searchedUnits: SettingObjectType;
   appliance: SettingObjectType;
   createApplianceCategory: CreateObjectType;
+  createParameter: CreateObjectType;
   justCreated: boolean;
 }
 
@@ -61,7 +64,19 @@ const initialState: StateType = {
     data: [],
     meta: null,
   },
+  searchedUnits: {
+    fetching: false,
+    fetched: false,
+    data: [],
+    meta: null,
+  },
   createApplianceCategory: {
+    creating: false,
+    created: false,
+    data: {},
+    errors: {},
+  },
+  createParameter: {
     creating: false,
     created: false,
     data: {},
@@ -87,6 +102,36 @@ export default function settingsReducer(state = initialState, { type, payload = 
       return {
         ...state,
         justCreated: !!payload,
+      };
+    case settingsConstants.SEARCH_UNITS_REQUEST:
+      return {
+        ...state,
+        searchedUnits: {
+          ...state.searchedUnits,
+          fetching: true,
+          fetched: false,
+        },
+      };
+    case settingsConstants.SEARCH_UNITS_SUCCESS:
+      return {
+        ...state,
+        searchedUnits: {
+          ...state.searchedUnits,
+          fetching: false,
+          fetched: true,
+          data,
+          meta,
+        },
+      };
+    case settingsConstants.SEARCH_UNITS_ERROR:
+      return {
+        ...state,
+        searchedUnits: {
+          ...state.searchedUnits,
+          fetching: false,
+          fetched: false,
+          data: [],
+        },
       };
     case settingsConstants.FETCH_UNITS_REQUEST:
       return {
@@ -213,6 +258,44 @@ export default function settingsReducer(state = initialState, { type, payload = 
         ...state,
         createApplianceCategory: {
           ...state.createApplianceCategory,
+          creating: false,
+          created: false,
+          data: {},
+          errors: payload.errors,
+        },
+      };
+    case settingsConstants.CREATE_PARAMETERS_REQUEST:
+      return {
+        ...state,
+        createParameter: {
+          ...state.createParameter,
+          creating: true,
+          created: false,
+          errors: {},
+        },
+      };
+    case settingsConstants.CREATE_PARAMETERS_SUCCESS:
+      return {
+        ...state,
+        createParameter: {
+          ...state.createParameter,
+          creating: false,
+          created: true,
+          data,
+          errors: {},
+        },
+        parameters: {
+          ...state.parameters,
+          fetching: false,
+          fetched: false,
+          data: [data, ...state.parameters.data],
+        },
+      };
+    case settingsConstants.CREATE_PARAMETERS_ERROR:
+      return {
+        ...state,
+        createParameter: {
+          ...state.createParameter,
           creating: false,
           created: false,
           data: {},

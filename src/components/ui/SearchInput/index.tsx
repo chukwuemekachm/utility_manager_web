@@ -5,7 +5,10 @@ import styled from '@emotion/styled';
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
 
-import { GAINS_BORO, WHITE_SMOKE, GRAY } from 'settings/__color';
+import Input, { SharedInputProps } from 'components/ui/Input';
+import InputErrors from 'components/ui/InputErrors';
+import { BRAND_PRIMARY, GAINS_BORO } from 'settings/__color';
+
 interface SearchInputItemProps {
   children: React.ReactNode;
   value: string | number;
@@ -14,64 +17,81 @@ interface SearchInputItemProps {
   itemSelected?: boolean;
 }
 
-export function SearchInputItem(props: SearchInputItemProps) {
-  const { children, value, onClick } = props;
-
-  return (
-    <SearchInputItem.Wrapper onClick={() => onClick(value, children)}>
-      <input type="radio" className="radio" />
-      <label> {children}</label>
-    </SearchInputItem.Wrapper>
-  );
-}
-
-SearchInputItem.Wrapper = styled.div`
-  padding: ${__spacing.small};
-  cursor: pointer;
-  label {
-    color: black;
-    font-size: ${__spacing.normal};
-  }
-  &:hover {
-    background: ${WHITE_SMOKE};
-  }
-
-  input[type='radio'] {
-    display: none;
-  }
-  label {
-    cursor: pointer;
-  }
-`;
-
 interface ChildrenProps {
-  handleClick: (value: string | number, text: React.ReactNode) => void;
+  handleClick: (e, value: string | number, text: React.ReactNode) => void;
 }
 
-interface SearchInputProps {
+interface SearchInputProps extends SharedInputProps {
   children: (props: ChildrenProps) => React.ReactNode;
-  label?: string;
   placeholder?: string;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleTextInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export default function SearchInput({ children, label = '', placeholder = '' }: SearchInputProps) {
+export default function SearchInput(props: SearchInputProps) {
+  const {
+    name,
+    errorFeedback,
+    children,
+    title = '',
+    placeholder = 'Enter Value',
+    tabIndex,
+    handleChange,
+    handleTextInputChange,
+    required,
+  } = props;
+
   const [active, setActive] = useState(false);
   const [itemSelected, setItemSelected] = useState(false);
+  const [showInput, setShowInput] = useState(true);
+  const [autoFocus, setAutoFocus] = useState(false);
   const [currentValue, setCurrentValue] = useState('');
-  const handleClick = (value: string | number, node: any): void => {
-    setCurrentValue(node);
+  const [currentChildNode, setCurrentChildNode] = useState();
+
+  const handleClick = (e, value: string | number, node: any): void => {
+    setCurrentChildNode(node);
     setActive(false);
     setItemSelected(true);
+    setShowInput(false);
+    setCurrentValue('');
+    setAutoFocus(true);
+    e.target.name = name;
+    e.target.value = value;
+    handleChange(e);
   };
-  const handleChange = e => {
-    console.log(e.target.value);
+  const onChange = e => {
+    setAutoFocus(true);
     setCurrentValue(e.target.value);
     if (e.target.value.length > 0) {
       setActive(true);
     } else {
       setActive(false);
     }
+    handleTextInputChange(e);
   };
+
+  function onClear(e) {
+    setCurrentChildNode(<SearchInput.Placeholder>{placeholder}</SearchInput.Placeholder>);
+    e.target.name = name;
+    e.target.value = '';
+    setCurrentValue('');
+    setItemSelected(false);
+    handleChange(e);
+  }
+  function blurHandler(e) {
+    if (!itemSelected) {
+      setCurrentChildNode(<SearchInput.Placeholder>{placeholder}</SearchInput.Placeholder>);
+    }
+    setAutoFocus(true);
+    setShowInput(false);
+  }
+
+  function contentClickHandler(e) {
+    e.preventDefault();
+    setShowInput(true);
+    setAutoFocus(true);
+  }
   function composeProps(): ChildrenProps {
     return {
       handleClick,
@@ -79,19 +99,49 @@ export default function SearchInput({ children, label = '', placeholder = '' }: 
   }
 
   return (
-    <SearchInput.Wrapper>
-      <label>{label}</label>
+    <Input.Container tabIndex={tabIndex}>
+      <Input.Label required={required}>{title}</Input.Label>
       <SearchInput.SelectBox itemSelected={itemSelected}>
         <SearchInput.OptionContainer active={active}>{children(composeProps())}</SearchInput.OptionContainer>
-        <SearchInput.SearchBox>
-          <input type="text" onChange={handleChange} value={currentValue} placeholder={placeholder} />
-        </SearchInput.SearchBox>
+        <SearchInput.Content onBlur={blurHandler} onClick={contentClickHandler}>
+          {showInput && (
+            <input
+              autoFocus={autoFocus}
+              type="text"
+              onChange={onChange}
+              value={currentValue}
+              placeholder={placeholder}
+            />
+          )}
+          {!showInput && <SearchInput.SearchBox>{currentChildNode}</SearchInput.SearchBox>}
+        </SearchInput.Content>
       </SearchInput.SelectBox>
-    </SearchInput.Wrapper>
+      {itemSelected && <SearchInput.Clear onClick={onClear}>Clear</SearchInput.Clear>}
+      <InputErrors errorFeedback={errorFeedback}></InputErrors>
+    </Input.Container>
   );
 }
 
+SearchInput.Clear = styled.div`
+  font-size: ${fontSizes.small};
+  color: ${BRAND_PRIMARY};
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+SearchInput.Placeholder = styled.div`
+  color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 SearchInput.SearchBox = styled.div`
+  height: 100%;
+  padding: ${__spacing.small};
+`;
+
+SearchInput.Content = styled.div`
   border: 1px solid ${GAINS_BORO};
   border-radius: 3px;
   margin: ${__spacing.xSmall} 0;
@@ -157,15 +207,4 @@ SearchInput.Selected = styled.div<Pick<SearchInputItemProps, 'active'>>`
   order: 0;
   padding: ${__spacing.small};
   cursor: pointer;
-`;
-SearchInput.Wrapper = styled.div`
-  label {
-    font-size: ${fontSizes.small};
-    color: ${GRAY};
-  }
-  margin-bottom: ${__spacing.medium};
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 `;

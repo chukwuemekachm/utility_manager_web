@@ -1,8 +1,10 @@
 import React from 'react';
-import SearchInput, { SearchInputItem } from '.';
+import SearchInput from '.';
 import Icon from 'components/ui/Icon';
 
 import { text } from '@storybook/addon-knobs';
+import DropdownItem from 'components/ui/DropdownItem';
+import { action } from '@storybook/addon-actions';
 
 export default {
   component: SearchInput,
@@ -10,21 +12,28 @@ export default {
 };
 
 export const searchInput = (): React.ReactElement<{}> => (
-  <SearchInput label={text('label', 'Unit Id')} placeholder={text('placeholder', 'I am a placeholder')}>
+  <SearchInput
+    value=""
+    handleTextInputChange={action('handleChange!!')}
+    handleChange={action('handleChange!!')}
+    name="unitId"
+    title={text('title', 'Unit Id')}
+    placeholder={text('placeholder', 'I am a placeholder')}
+  >
     {({ handleClick }) => (
       <>
-        <SearchInputItem onClick={handleClick} value={1}>
+        <DropdownItem onClick={handleClick} value={1}>
           <Icon iconType="md-star" color="INFO" /> Music
-        </SearchInputItem>
-        <SearchInputItem onClick={handleClick} value={2}>
+        </DropdownItem>
+        <DropdownItem onClick={handleClick} value={2}>
           Science & Technology
-        </SearchInputItem>
-        <SearchInputItem onClick={handleClick} value={3}>
+        </DropdownItem>
+        <DropdownItem onClick={handleClick} value={3}>
           Film & Animation
-        </SearchInputItem>
-        <SearchInputItem onClick={handleClick} value={4}>
+        </DropdownItem>
+        <DropdownItem onClick={handleClick} value={4}>
           Film
-        </SearchInputItem>
+        </DropdownItem>
       </>
     )}
   </SearchInput>
