@@ -1,6 +1,7 @@
 import React from 'react';
 import Dropdown, { DropdownItem } from '.';
 import Icon from 'components/ui/Icon';
+import { text } from '@storybook/addon-knobs';
 
 export default {
   component: Dropdown,
@@ -8,7 +9,7 @@ export default {
 };
 
 export const dropdown = (): React.ReactElement<{}> => (
-  <Dropdown>
+  <Dropdown placeholder={text('placeholder', 'Select from me')}>
     {({ handleClick }) => (
       <>
         <DropdownItem onClick={handleClick} value={1}>

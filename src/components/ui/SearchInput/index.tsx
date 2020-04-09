@@ -5,8 +5,8 @@ import styled from '@emotion/styled';
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
 
-import { GAINS_BORO, WHITE_SMOKE } from 'settings/__color';
-interface DropdownItemProps {
+import { GAINS_BORO, WHITE_SMOKE, GRAY } from 'settings/__color';
+interface SearchInputItemProps {
   children: React.ReactNode;
   value: string | number;
   onClick: (value: string | number, children: React.ReactNode) => void;
@@ -14,20 +14,24 @@ interface DropdownItemProps {
   itemSelected?: boolean;
 }
 
-export function DropdownItem(props: DropdownItemProps) {
+export function SearchInputItem(props: SearchInputItemProps) {
   const { children, value, onClick } = props;
 
   return (
-    <DropdownItem.Wrapper onClick={() => onClick(value, children)}>
+    <SearchInputItem.Wrapper onClick={() => onClick(value, children)}>
       <input type="radio" className="radio" />
       <label> {children}</label>
-    </DropdownItem.Wrapper>
+    </SearchInputItem.Wrapper>
   );
 }
 
-DropdownItem.Wrapper = styled.div`
+SearchInputItem.Wrapper = styled.div`
   padding: ${__spacing.small};
   cursor: pointer;
+  label {
+    color: black;
+    font-size: ${__spacing.normal};
+  }
   &:hover {
     background: ${WHITE_SMOKE};
   }
@@ -44,22 +48,30 @@ interface ChildrenProps {
   handleClick: (value: string | number, text: React.ReactNode) => void;
 }
 
-interface DropdownProps {
+interface SearchInputProps {
   children: (props: ChildrenProps) => React.ReactNode;
+  label?: string;
   placeholder?: string;
 }
 
-export default function Dropdown({ children, placeholder = 'Select an Item' }: DropdownProps) {
+export default function SearchInput({ children, label = '', placeholder = '' }: SearchInputProps) {
   const [active, setActive] = useState(false);
   const [itemSelected, setItemSelected] = useState(false);
-  const [currentValue, setCurrentValue] = useState(<div>{placeholder}</div>);
-
+  const [currentValue, setCurrentValue] = useState('');
   const handleClick = (value: string | number, node: any): void => {
     setCurrentValue(node);
     setActive(false);
     setItemSelected(true);
   };
-
+  const handleChange = e => {
+    console.log(e.target.value);
+    setCurrentValue(e.target.value);
+    if (e.target.value.length > 0) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  };
   function composeProps(): ChildrenProps {
     return {
       handleClick,
@@ -67,24 +79,34 @@ export default function Dropdown({ children, placeholder = 'Select an Item' }: D
   }
 
   return (
-    <Dropdown.Wrapper>
-      <Dropdown.SelectBox itemSelected={itemSelected}>
-        <Dropdown.OptionContainer active={active}>{children(composeProps())}</Dropdown.OptionContainer>
-
-        <Dropdown.Selected
-          active={active}
-          onClick={() => {
-            setActive(!active);
-          }}
-        >
-          {currentValue}
-        </Dropdown.Selected>
-      </Dropdown.SelectBox>
-    </Dropdown.Wrapper>
+    <SearchInput.Wrapper>
+      <label>{label}</label>
+      <SearchInput.SelectBox itemSelected={itemSelected}>
+        <SearchInput.OptionContainer active={active}>{children(composeProps())}</SearchInput.OptionContainer>
+        <SearchInput.SearchBox>
+          <input type="text" onChange={handleChange} value={currentValue} placeholder={placeholder} />
+        </SearchInput.SearchBox>
+      </SearchInput.SelectBox>
+    </SearchInput.Wrapper>
   );
 }
 
-Dropdown.SelectBox = styled.div<Pick<DropdownItemProps, 'itemSelected'>>`
+SearchInput.SearchBox = styled.div`
+  border: 1px solid ${GAINS_BORO};
+  border-radius: 3px;
+  margin: ${__spacing.xSmall} 0;
+  display: flex;
+  align-items: center;
+  input {
+    width: 100%;
+    height: 100%;
+    font-size: ${fontSizes.normal};
+    padding: ${__spacing.small};
+    border: none;
+    outline: none;
+  }
+`;
+SearchInput.SelectBox = styled.div<Pick<SearchInputItemProps, 'itemSelected'>>`
   font-size: ${fontSizes.small};
   display: flex;
   width: 100%;
@@ -98,7 +120,7 @@ Dropdown.SelectBox = styled.div<Pick<DropdownItemProps, 'itemSelected'>>`
   `}
 `;
 
-Dropdown.OptionContainer = styled.div<Pick<DropdownItemProps, 'active'>>`
+SearchInput.OptionContainer = styled.div<Pick<SearchInputItemProps, 'active'>>`
   position: absolute;
   top: 100%;
   width: 100%;
@@ -128,34 +150,19 @@ Dropdown.OptionContainer = styled.div<Pick<DropdownItemProps, 'active'>>`
     overflow-y: scroll;
   `}
 `;
-Dropdown.Selected = styled.div<Pick<DropdownItemProps, 'active'>>`
+SearchInput.Selected = styled.div<Pick<SearchInputItemProps, 'active'>>`
   border: 1px solid ${GAINS_BORO};
   border-radius: 3px;
   position: relative;
   order: 0;
   padding: ${__spacing.small};
   cursor: pointer;
-  &::after {
-    content: '\f3d0';
-    font-family: 'Ionicons';
-    font-size: 20px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    position: absolute;
-    height: 100%;
-    right: 10px;
-    top: 5px;
-
-    transition: all 0.4s;
-    ${props =>
-      props.active &&
-      `
-   transform: rotateX(180deg);
-    top: -6px;
-  `}
-  }
 `;
-Dropdown.Wrapper = styled.div`
+SearchInput.Wrapper = styled.div`
+  label {
+    font-size: ${fontSizes.small};
+    color: ${GRAY};
+  }
   margin-bottom: ${__spacing.medium};
 
   &:last-child {
