@@ -43,6 +43,11 @@ function getOrganisationRoutes(path: string): RouteProps[] {
       component: withSuspense({ page: 'OrganisationPortal/Logs' }),
       exact: true,
     },
+    {
+      path: `${path}/appliance-category/:categoryId`,
+      component: withSuspense({ page: 'OrganisationPortal/ApplianceCategory' }),
+      exact: true,
+    },
   ];
 }
 
