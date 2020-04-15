@@ -5,6 +5,7 @@ import OrganizationHeader from 'components/ui/OrganizationHeader';
 import OrganizationSideBar, { SideBarItem } from 'components/ui/OrganizationSideBar';
 import Icon from 'components/ui/Icon';
 import { fontSizes, fontWeights } from 'settings/__fonts';
+import __spacing from 'settings/__spacing';
 
 interface NavigationLayoutProps {
   currentDisplay: string;
@@ -56,7 +57,7 @@ export default function OrgPortalLayout(props: NavigationLayoutProps) {
 OrgPortalHeading.Content = styled.h1`
   font-size: ${fontSizes.large};
   font-weight: ${fontWeights.bold};
-  margin-bottom: 5%;
+  margin-bottom: ${__spacing.normal};
 `;
 
 OrgPortalLayout.Wrapper = styled.div`

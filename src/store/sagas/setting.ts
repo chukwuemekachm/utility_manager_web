@@ -15,12 +15,35 @@ import {
   fetchParametersError,
   searchUnitsError,
   searchUnitsSuccess,
+  fetchSingleApplianceCategorySuccess,
+  fetchSingleApplianceCategoryError,
 } from 'store/actions/setting';
 import { errorHandler, successHandler } from 'store/helpers';
 import api, { applianceCategoryRequest, parametersRequest, unitsRequest } from 'services/api';
 import { settingsConstants } from 'store/actions/setting';
-import { signUpSuccess } from '../actions/auth';
 
+function* callFetchSingleApplianceCategory(action) {
+  try {
+    const orgId = action.payload.params.orgId;
+    let categoryURL = applianceCategoryRequest.SINGLE.replace(':orgId', orgId);
+    categoryURL = categoryURL.replace(':categoryId', action.payload.params.categoryId);
+    const applianceURL = `${categoryURL}/appliances`;
+    const {
+      data: { data: categoriesData },
+    } = yield call([api, 'get'], categoryURL);
+    const {
+      data: { data: appliancesData },
+    } = yield call([api, 'get'], applianceURL);
+    yield put(
+      fetchSingleApplianceCategorySuccess({
+        categoriesData,
+        appliancesData,
+      }),
+    );
+  } catch (error) {
+    yield fork(errorHandler, error, fetchSingleApplianceCategoryError);
+  }
+}
 function* callFetchApplianceCategory(action) {
   try {
     const orgId = action.payload.params.orgId;
@@ -95,6 +118,7 @@ function* callSearchUnits(action) {
 }
 export default function* settingsSaga() {
   yield takeLatest(settingsConstants.FETCH_UNITS_REQUEST, callFetchUnits);
+  yield takeLatest(settingsConstants.FETCH_SINGLE_APPLIANCE_CATEGORY_REQUEST, callFetchSingleApplianceCategory);
   yield takeLatest(settingsConstants.FETCH_APPLIANCE_CATEGORY_REQUEST, callFetchApplianceCategory);
   yield takeLatest(settingsConstants.FETCH_PARAMETERS_REQUEST, callFetchParameters);
   yield takeLatest(settingsConstants.CREATE_APPLIANCE_CATEGORY_REQUEST, callCreateApplianceCategory);

@@ -19,6 +19,11 @@ export interface SettingObjectType {
   errors?: Record<string, unknown[]>;
 }
 
+export interface SingleApplianceCategory {
+  fetching: boolean;
+  fetched: boolean;
+  data: Record<string, any>;
+}
 export interface CreateObjectType {
   creating: boolean;
   created: boolean;
@@ -30,6 +35,7 @@ interface StateType {
   orgId: string;
   parameters: SettingObjectType;
   applianceCategory: SettingObjectType;
+  singleApplianceCategory: SingleApplianceCategory;
   units: SettingObjectType;
   searchedUnits: SettingObjectType;
   appliance: SettingObjectType;
@@ -40,6 +46,20 @@ interface StateType {
 
 const initialState: StateType = {
   orgId: '',
+  singleApplianceCategory: {
+    fetching: false,
+    fetched: false,
+    data: {
+      id: '',
+      name: '',
+      description: '',
+      editable: false,
+      createdAt: '',
+      updatedAt: '',
+      suggestedParameters: [],
+      createdBy: {},
+    },
+  },
   parameters: {
     fetching: false,
     fetched: false,
@@ -92,6 +112,8 @@ const defaultPayload = {
     orgId: '',
   },
   meta: null,
+  categoriesData: undefined,
+  appliancesData: undefined,
   errors: {},
 };
 
@@ -102,6 +124,41 @@ export default function settingsReducer(state = initialState, { type, payload = 
       return {
         ...state,
         justCreated: !!payload,
+      };
+    case settingsConstants.FETCH_SINGLE_APPLIANCE_CATEGORY_REQUEST:
+      return {
+        ...state,
+        singleApplianceCategory: {
+          ...state.singleApplianceCategory,
+          fetching: true,
+          fetched: false,
+        },
+      };
+    case settingsConstants.FETCH_SINGLE_APPLIANCE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        singleApplianceCategory: {
+          ...state.singleApplianceCategory,
+          fetching: false,
+          fetched: true,
+          data: payload.categoriesData,
+        },
+        appliance: {
+          ...state.appliance,
+          fetching: false,
+          fetched: true,
+          data: payload.appliancesData,
+        },
+      };
+    case settingsConstants.FETCH_SINGLE_APPLIANCE_CATEGORY_ERROR:
+      return {
+        ...state,
+        singleApplianceCategory: {
+          ...state.singleApplianceCategory,
+          fetching: false,
+          fetched: false,
+          data: {},
+        },
       };
     case settingsConstants.SEARCH_UNITS_REQUEST:
       return {
