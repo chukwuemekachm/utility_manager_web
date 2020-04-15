@@ -29,4 +29,9 @@ export default {
     name: 'required|min:3',
     description: 'required|min:10',
   },
+  createParameter: {
+    name: 'required|min:4',
+    valueType: 'required|in:NUMERIC,STRING',
+    unitId: 'min:19',
+  },
 };

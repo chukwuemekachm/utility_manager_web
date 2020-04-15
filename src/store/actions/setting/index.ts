@@ -19,6 +19,9 @@ const {
   CREATE_PARAMETERS_SUCCESS,
   CREATE_UNITS_SUCCESS,
   JUST_CREATED_DATA,
+  SEARCH_UNITS_SUCCESS,
+  SEARCH_UNITS_ERROR,
+  SEARCH_UNITS_REQUEST,
 } = settingsConstants;
 
 export const fetchApplianceCategory = (payload): Action => ({
@@ -111,6 +114,20 @@ export const createParametersSuccess = (payload): Action => ({
 
 export const createUnitsSuccess = (payload): Action => ({
   type: CREATE_UNITS_SUCCESS,
+  payload,
+});
+
+export const searchUnits = (payload): Action => ({
+  type: SEARCH_UNITS_REQUEST,
+  payload,
+});
+
+export const searchUnitsSuccess = (payload): Action => ({
+  type: SEARCH_UNITS_SUCCESS,
+  payload,
+});
+export const searchUnitsError = (payload): Action => ({
+  type: SEARCH_UNITS_ERROR,
   payload,
 });
 

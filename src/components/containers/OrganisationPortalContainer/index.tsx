@@ -6,8 +6,13 @@ export default function withOrganisationPortalContainer(WrappedComponent) {
     function handleSubmit(trigger: string) {
       return async function(values: Record<string, any>): Promise<void> {
         switch (trigger) {
-          default:
-            props.callCreateApplianceCategory({
+          case 'CREATE_CATEGORY':
+            return props.callCreateApplianceCategory({
+              params: props.match.params,
+              data: values,
+            });
+          case 'CREATE_PARAMETER':
+            return props.callCreateParameter({
               params: props.match.params,
               data: values,
             });

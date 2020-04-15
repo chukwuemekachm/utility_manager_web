@@ -1,7 +1,7 @@
 import React from 'react';
 import Input, { InputType, InputProps } from '.';
 import { action } from '@storybook/addon-actions';
-import { select, text, array } from '@storybook/addon-knobs';
+import { select, text, array, boolean } from '@storybook/addon-knobs';
 
 export default {
   component: Input,
@@ -19,6 +19,7 @@ export const input = (): React.ReactElement<InputProps> => {
   const currentValue = 'First Name';
   return (
     <Input
+      required={boolean('required', true)}
       type={select('type', typeOptions, 'text') as InputType}
       name={text('name', 'firstName')}
       title={text('title', 'First Name')}

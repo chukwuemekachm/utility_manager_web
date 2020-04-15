@@ -4,21 +4,25 @@ import Icon from 'components/ui/Icon';
 import InputErrors from 'components/ui/InputErrors';
 import { fontSizes } from 'settings/__fonts';
 import __spacing from 'settings/__spacing';
-import { GAINS_BORO, GRAY, CRIMSON } from 'settings/__color';
+import { GAINS_BORO, GRAY, RED_ORANGE, WHITE_SMOKE } from 'settings/__color';
 
 export type InputType = 'text' | 'number' | 'email' | 'password';
 
-export interface InputProps {
-  type?: InputType;
+export interface SharedInputProps {
   name: string;
   title: string;
-  value: string;
+  value: string | number;
   autoComplete?: string;
   errorFeedback?: string[];
+  placeholder?: string;
+  tabIndex?: number;
+  required?: boolean;
+}
+export interface InputProps extends SharedInputProps {
+  type?: InputType;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   iconLabel?: string;
-  placeholder?: string;
 }
 
 export default function Input(props: InputProps): React.ReactElement<InputProps> {
@@ -33,11 +37,13 @@ export default function Input(props: InputProps): React.ReactElement<InputProps>
     errorFeedback = [],
     iconLabel = '',
     placeholder = '',
+    tabIndex,
+    required = false,
   } = props;
   return (
     <Input.Container>
-      <label>{title}</label>
-      <Input.IconAndInputGroup>
+      <Input.Label required={required}>{title}</Input.Label>
+      <Input.Content>
         {iconLabel && (
           <Input.IconLabel>
             <Icon iconType={iconLabel} size="NORMAL" />
@@ -45,6 +51,7 @@ export default function Input(props: InputProps): React.ReactElement<InputProps>
         )}
         <Input.Wrapper>
           <input
+            tabIndex={tabIndex}
             autoComplete={autoComplete}
             value={value}
             name={name}
@@ -54,13 +61,28 @@ export default function Input(props: InputProps): React.ReactElement<InputProps>
             placeholder={placeholder}
           />
         </Input.Wrapper>
-      </Input.IconAndInputGroup>
+      </Input.Content>
       <InputErrors errorFeedback={errorFeedback} />
     </Input.Container>
   );
 }
 
-Input.IconAndInputGroup = styled.div`
+Input.Label = styled.label<Pick<SharedInputProps, 'required'>>`
+  font-size: ${fontSizes.small};
+  color: ${GRAY};
+  position: relative;
+  &::after {
+    display: ${props => (props.required ? 'inline' : 'none')};
+    content: '*';
+    color: ${RED_ORANGE};
+    position: absolute;
+    top: 0;
+    font-size: ${fontSizes.medium};
+    margin-left: ${__spacing.xSmall};
+  }
+`;
+
+Input.Content = styled.div`
   border: 1px solid ${GAINS_BORO};
   border-radius: 3px;
   margin: ${__spacing.xSmall} 0;
@@ -73,6 +95,11 @@ Input.IconAndInputGroup = styled.div`
     border: none;
     outline: none;
   }
+
+  &:focus {
+    background-color: ${WHITE_SMOKE};
+  }
+  outline: none;
 `;
 Input.Wrapper = styled.div`
   width: 100%;
@@ -91,20 +118,5 @@ Input.Container = styled.div`
   &:last-child {
     margin-bottom: 0;
   }
-
-  label {
-    font-size: ${fontSizes.small};
-    color: ${GRAY};
-  }
-
-  .input-error-feedback {
-    font-size: ${fontSizes.small};
-    font-weight: 300;
-    color: ${CRIMSON};
-    margin-bottom: ${__spacing.xSmall};
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
+  outline: none;
 `;
