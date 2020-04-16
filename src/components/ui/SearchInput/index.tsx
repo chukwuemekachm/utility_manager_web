@@ -6,6 +6,7 @@ import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
 
 import Input, { SharedInputProps } from 'components/ui/Input';
+import InputQuickAction from 'components/ui/InputQuickAction';
 import InputErrors from 'components/ui/InputErrors';
 import { BRAND_PRIMARY, GAINS_BORO } from 'settings/__color';
 
@@ -116,20 +117,11 @@ export default function SearchInput(props: SearchInputProps) {
           {!showInput && <SearchInput.SearchBox>{currentChildNode}</SearchInput.SearchBox>}
         </SearchInput.Content>
       </SearchInput.SelectBox>
-      {itemSelected && <SearchInput.Clear onClick={onClear}>Clear</SearchInput.Clear>}
+      {itemSelected && <InputQuickAction onClick={onClear}>Clear</InputQuickAction>}
       <InputErrors errorFeedback={errorFeedback}></InputErrors>
     </Input.Container>
   );
 }
-
-SearchInput.Clear = styled.div`
-  font-size: ${fontSizes.small};
-  color: ${BRAND_PRIMARY};
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-`;
 SearchInput.Placeholder = styled.div`
   color: grey;
   display: flex;

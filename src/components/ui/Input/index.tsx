@@ -9,7 +9,7 @@ import { GAINS_BORO, GRAY, RED_ORANGE, WHITE_SMOKE } from 'settings/__color';
 export type InputType = 'text' | 'number' | 'email' | 'password';
 
 export interface SharedInputProps {
-  name: string;
+  name?: string;
   title: string;
   value: string | number;
   autoComplete?: string;

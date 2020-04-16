@@ -59,7 +59,7 @@ export default function ApplianceCategoryPageLayout(props: CategoryLayoutProps) 
 
         <ApplianceCategoryPageLayout.NewItem>
           <Button type="button" isLoading={false} disabled={false} handleClick={handleCreateBtnClicked}>
-            Create New
+            Add Appliance
           </Button>
         </ApplianceCategoryPageLayout.NewItem>
       </ApplianceCategoryPageLayout.ControlsWrapper>

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 
-import { DARK_GRAY, BRAND_WHITE, LIGHT_SEA_GREEN, CRIMSON, ORANGE } from 'settings/__color';
+import { DARK_GRAY, BRAND_WHITE, LIGHT_SEA_GREEN, CRIMSON, ORANGE, BRAND_PRIMARY } from 'settings/__color';
 import { fontSizes } from 'settings/__fonts';
 
-export type Color = 'WHITE' | 'GREY' | 'SUCCESS' | 'ERROR' | 'INFO' | string;
+export type Color = 'WHITE' | 'GREY' | 'SUCCESS' | 'ERROR' | 'INFO' | string | 'BLUE';
 export type Size = 'NORMAL' | 'LARGE';
 
 export interface IconProps {
@@ -43,6 +43,8 @@ function colorSelector({ color }): string {
       return CRIMSON;
     case 'INFO':
       return ORANGE;
+    case 'BLUE':
+      return BRAND_PRIMARY;
     default:
       return DARK_GRAY;
   }
