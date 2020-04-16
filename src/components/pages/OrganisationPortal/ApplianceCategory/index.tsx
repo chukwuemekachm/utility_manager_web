@@ -28,7 +28,6 @@ export function ApplianceCategory(props: CategoryProps) {
     category,
     categoryAppliances,
   } = props;
-  console.log('props====>', props);
   const [showModal, setShowModal] = React.useState(false);
   function toggleModal(show: boolean): React.EventHandler<React.SyntheticEvent> {
     return function(e) {
@@ -59,15 +58,13 @@ export function ApplianceCategory(props: CategoryProps) {
         <AddAppliance
           hideModal={toggleModal(false)}
           handleSubmit={handleSubmit}
+          categoryName={category.data.name}
           // apiErrors={createApplianceCategory.errors}
         />
       )}
     </div>
   );
 }
-ApplianceCategory.Wraapper = styled.div`
-  // padding-right: 10%;
-`;
 const mapStateToProps = ({ setting: { singleApplianceCategory, appliance } }) => ({
   category: singleApplianceCategory,
   categoryAppliances: appliance,

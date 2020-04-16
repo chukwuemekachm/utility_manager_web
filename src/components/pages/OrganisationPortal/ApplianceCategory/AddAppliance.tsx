@@ -4,15 +4,17 @@ import ModalCard from 'components/ui/Modal/ModalCard';
 import Form from 'components/ui/Form';
 import Input from 'components/ui/Input';
 import { pickErrors } from 'helpers';
+import KeyValueInput from '../../../ui/KeyValueInput';
 
 const { Fragment } = React;
 interface CreateCategoryProps {
   handleSubmit: (trigger: string) => (values: Record<string, any>) => void;
   hideModal: React.EventHandler<React.SyntheticEvent>;
   apiErrors?: Record<string, unknown>;
+  categoryName: string;
 }
 export default function CreateCategory(props: CreateCategoryProps) {
-  const { handleSubmit, hideModal, apiErrors = {} } = props;
+  const { handleSubmit, hideModal, apiErrors = {}, categoryName = 'category' } = props;
   const defaultValues = {
     label: '',
     specs: {},
@@ -20,7 +22,7 @@ export default function CreateCategory(props: CreateCategoryProps) {
   };
   return (
     <Modal>
-      <ModalCard cardTitle="Add Appliance to CategoryName" handleToggleModal={hideModal}>
+      <ModalCard cardTitle={`Add Appliance to ${categoryName}`} handleToggleModal={hideModal}>
         <Form
           submitButtonLabel="Add Appliance"
           handleSubmit={handleSubmit('ADD_APPLIANCE')}
@@ -30,8 +32,8 @@ export default function CreateCategory(props: CreateCategoryProps) {
           {({ handleChange, errors, values, handleBlur }): React.ReactNode => (
             <Fragment>
               <Input
-                name="name"
-                title="label"
+                name="label"
+                title="Appliance Unique Identifier"
                 autoComplete="off"
                 value={values.name}
                 handleChange={handleChange}
@@ -47,13 +49,11 @@ export default function CreateCategory(props: CreateCategoryProps) {
                 handleBlur={handleBlur}
                 errorFeedback={pickErrors(errors, apiErrors).name}
               />
-              <Input
+              <KeyValueInput
                 name="specs"
-                title="specs"
-                autoComplete="off"
-                value={values.name}
+                title="Specs"
+                value={values.specs}
                 handleChange={handleChange}
-                handleBlur={handleBlur}
                 errorFeedback={pickErrors(errors, apiErrors).name}
               />
             </Fragment>
