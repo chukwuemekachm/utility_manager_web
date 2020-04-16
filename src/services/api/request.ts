@@ -24,7 +24,7 @@ export const unitsRequest = {
 
 export const applianceCategoryRequest = {
   APPLIANCE_CATEGORY: '/org/:orgId/appliance-category',
-  SINGLE: '/org/:orgId/appliance-category/{{category-id}}',
+  SINGLE: '/org/:orgId/appliance-category/:categoryId',
 };
 
 export default {

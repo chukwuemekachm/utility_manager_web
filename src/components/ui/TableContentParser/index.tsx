@@ -2,13 +2,13 @@ import * as React from 'react';
 import Table, { TableCard, TableItem } from 'components/ui/Table';
 
 interface TableContentParserProps {
-  data: object[];
+  data?: object[];
   children: (obj: Record<string, any>) => React.ReactNode;
   onClick?: (obj: object) => void;
 }
 
 export default function TableContentParser(props: TableContentParserProps) {
-  const { data, onClick, children } = props;
+  const { data = [], onClick, children } = props;
   if (data.length === 0) {
     return (
       <Table>
@@ -28,7 +28,7 @@ export default function TableContentParser(props: TableContentParserProps) {
   return (
     <Table>
       {data.map((obj, index) => (
-        <TableCard key={index} onClick={onClickHandler(obj)}>
+        <TableCard key={index} onClick={onClick && onClickHandler(obj)}>
           {children(obj)}
         </TableCard>
       ))}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { BRAND_PRIMARY } from 'settings/__color';
-import { fontSizes } from '../../../settings/__fonts';
+import { fontSizes } from 'settings/__fonts';
 
 interface ReadMoreDivsProps {
   showMore: boolean;
@@ -13,6 +13,7 @@ interface ReadMoreProps {
     0: string;
     1: string;
   };
+  showDisplay?: boolean;
 }
 
 export default function ReadMore(props: ReadMoreProps) {
@@ -20,7 +21,7 @@ export default function ReadMore(props: ReadMoreProps) {
     0: 'Show More',
     1: 'Show Less',
   };
-  const { children, caption = defaultCaption } = props;
+  const { children, caption = defaultCaption, showDisplay = true } = props;
   const [showMore, setShowMore] = React.useState(false);
   function handleClick() {
     setShowMore(!showMore);
@@ -28,12 +29,14 @@ export default function ReadMore(props: ReadMoreProps) {
   return (
     <div>
       <ReadMore.Wrapper showMore={showMore}>{children}</ReadMore.Wrapper>
-      <ReadMore.ShowMore onClick={handleClick}>{caption[+showMore]}</ReadMore.ShowMore>
+      <ReadMore.ShowMore showDisplay={showDisplay} onClick={handleClick}>
+        {caption[+showMore]}
+      </ReadMore.ShowMore>
     </div>
   );
 }
 
-ReadMore.ShowMore = styled.div`
+ReadMore.ShowMore = styled.div<Pick<ReadMoreProps, 'showDisplay'>>`
   text-align: center;
   color: ${BRAND_PRIMARY};
   cursor: pointer;
@@ -43,6 +46,7 @@ ReadMore.ShowMore = styled.div`
   &:hover {
     text-decoration: underline;
   }
+  display: ${props => (props.showDisplay ? 'block' : 'none')};
 `;
 
 ReadMore.Wrapper = styled.p<ReadMoreDivsProps>`

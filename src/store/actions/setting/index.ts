@@ -1,6 +1,9 @@
 import * as settingsConstants from './constants';
 const {
   FETCH_APPLIANCE_CATEGORY_REQUEST,
+  FETCH_SINGLE_APPLIANCE_CATEGORY_REQUEST,
+  FETCH_SINGLE_APPLIANCE_CATEGORY_ERROR,
+  FETCH_SINGLE_APPLIANCE_CATEGORY_SUCCESS,
   FETCH_APPLIANCE_CATEGORY_ERROR,
   FETCH_PARAMETERS_REQUEST,
   FETCH_PARAMETERS_ERROR,
@@ -26,6 +29,11 @@ const {
 
 export const fetchApplianceCategory = (payload): Action => ({
   type: FETCH_APPLIANCE_CATEGORY_REQUEST,
+  payload,
+});
+
+export const fetchSingleApplianceCategory = (payload): Action => ({
+  type: FETCH_SINGLE_APPLIANCE_CATEGORY_REQUEST,
   payload,
 });
 
@@ -57,6 +65,11 @@ export const fetchApplianceCategorySuccess = (payload): Action => ({
   payload,
 });
 
+export const fetchSingleApplianceCategorySuccess = (payload): Action => ({
+  type: FETCH_SINGLE_APPLIANCE_CATEGORY_SUCCESS,
+  payload,
+});
+
 export const fetchParametersSuccess = (payload): Action => ({
   type: FETCH_PARAMETERS_SUCCESS,
   payload,
@@ -84,6 +97,11 @@ export const createParameters = (payload): Action => ({
 
 export const createUnits = (payload): Action => ({
   type: CREATE_UNITS_REQUEST,
+  payload,
+});
+
+export const fetchSingleApplianceCategoryError = (payload): Action => ({
+  type: FETCH_SINGLE_APPLIANCE_CATEGORY_ERROR,
   payload,
 });
 

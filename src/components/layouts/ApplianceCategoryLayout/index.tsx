@@ -1,16 +1,16 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import TableContentParser from 'components/ui/TableContentParser';
-import Input from '../../ui/Input';
+import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
-import ReadMore from '../../ui/ReadMore';
-import { BRAND_PRIMARY } from '../../../settings/__color';
-import { fontSizes } from '../../../settings/__fonts';
-import { TableItem } from '../../ui/Table';
-import { parseText } from '../../../helpers';
+import ReadMore from 'components/ui/ReadMore';
+import { BRAND_PRIMARY } from 'settings/__color';
+import { fontSizes } from 'settings/__fonts';
+import { TableItem } from 'components/ui/Table';
+import __spacing from 'settings/__spacing';
 
 interface CategoryLayoutProps {
-  appliances?: Record<string, unknown>[];
+  appliances?: Record<string, any>[];
   applianceCategory: Record<string, string>;
   values: {
     search: string;
@@ -29,24 +29,18 @@ function getApplianceItem(appliance) {
   );
 }
 export default function ApplianceCategoryPageLayout(props: CategoryLayoutProps) {
-  const sampleAppliances = [{ label: 'KTA 50 101' }, { label: 'KTA 70 101' }];
-  const {
-    appliances = sampleAppliances,
-    values,
-    handleChange,
-    applianceCategory,
-    handleObjectClicked,
-    handleCreateBtnClicked,
-  } = props;
+  const { appliances, values, handleChange, applianceCategory, handleObjectClicked, handleCreateBtnClicked } = props;
 
   const caption = {
     0: 'Show full description',
     1: 'Show less',
   };
-
+  const lengthLimit = applianceCategory.description.split(' ').length;
   return (
     <ApplianceCategoryPageLayout.Wrapper>
-      <ReadMore caption={caption}>{applianceCategory.description}</ReadMore>
+      <ReadMore showDisplay={lengthLimit > 70} caption={caption}>
+        {applianceCategory.description}
+      </ReadMore>
 
       <ApplianceCategoryPageLayout.ControlsWrapper>
         <ApplianceCategoryPageLayout.Heading>Appliances</ApplianceCategoryPageLayout.Heading>
@@ -91,7 +85,7 @@ ApplianceCategoryPageLayout.ControlsWrapper = styled.div`
       padding-left: 0;
     }
   }
-  margin-top: 4%;
+  margin-top: ${__spacing.xLarge};
   flex: space-between;
 `;
 

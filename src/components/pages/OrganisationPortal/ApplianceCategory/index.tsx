@@ -5,13 +5,30 @@ import ApplianceCategoryLayout from 'components/layouts/ApplianceCategoryLayout'
 import { OrgPortalProps } from 'components/pages/OrganisationPortal';
 import AddAppliance from './AddAppliance';
 import { connect } from 'react-redux';
+import { match } from 'react-router';
 import withOrganisationPortalContainer from 'components/containers/OrganisationPortalContainer';
+import { fetchSingleApplianceCategory } from 'store/actions/setting';
 
 interface CategoryProps extends OrgPortalProps {
   handleSubmit: (trigger: string) => (values: Record<string, any>) => void;
+  match: match<{
+    orgId: string;
+    categoryId: string;
+  }>;
+  fetchSingleApplianceCategory: Function;
+  category: Record<string, any>;
+  categoryAppliances: Record<string, any>;
 }
+
 export function ApplianceCategory(props: CategoryProps) {
-  const { handleSubmit } = props;
+  const {
+    handleSubmit,
+    match: { params },
+    fetchSingleApplianceCategory,
+    category,
+    categoryAppliances,
+  } = props;
+  console.log('props====>', props);
   const [showModal, setShowModal] = React.useState(false);
   function toggleModal(show: boolean): React.EventHandler<React.SyntheticEvent> {
     return function(e) {
@@ -19,44 +36,22 @@ export function ApplianceCategory(props: CategoryProps) {
       setShowModal(show);
     };
   }
-
+  React.useEffect(function(): void {
+    fetchSingleApplianceCategory({ params });
+  }, []);
   function handleChange() {
     console.log('Wwould add operation here');
   }
-  const sampleApplianceCategory = {
-    name: 'Generator',
-    description: `
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid atque dolorum eum nobis obcaecati, perferendis
-        praesentium quis rerum? A culpa cum error incidunt nemo neque quaerat quas quasi quo voluptates! Eos fuga modi
-        molestiae, mollitia necessitatibus nulla quasi quod sint suscipit vitae! Eum id numquam quaerat quidem vero!
-        Alias animi aut dolores eligendi excepturi harum minima quam rem tenetur voluptatem. Aliquam distinctio ea eos
-        ex impedit quia quisquam vero voluptatum! Assumenda blanditiis commodi dicta dolores eaque fugiat ipsa laborum
-        odio rerum unde? Doloribus illo inventore officiis possimus reprehenderit similique soluta! Assumenda cum
-        cupiditate dolorum hic illo, itaque labore magnam maxime non perferendis, ratione recusandae reprehenderit ullam
-        veniam voluptatem. A ad asperiores beatae dolore doloremque ex harum ipsam magni numquam perspiciatis! Culpa
-        dicta et in minus nisi, praesentium quis ullam vero! Autem corporis earum labore magnam modi obcaecati
-        temporibus. Amet distinctio dolore non quam velit! Autem ipsam maxime optio saepe tempora! Lorem ipsum dolor sit
-        amet, consectetur adipisicing elit. Aliquid atque dolorum eum nobis obcaecati, perferendis praesentium quis
-        rerum? A culpa cum error incidunt nemo neque quaerat quas quasi quo voluptates! Eos fuga modi molestiae,
-        mollitia necessitatibus nulla quasi quod sint suscipit vitae! Eum id numquam quaerat quidem vero! Alias animi
-        aut dolores eligendi excepturi harum minima quam rem tenetur voluptatem. Aliquam distinctio ea eos ex impedit
-        quia quisquam vero voluptatum! Assumenda blanditiis commodi dicta dolores eaque fugiat ipsa laborum odio rerum
-        unde? Doloribus illo inventore officiis possimus reprehenderit similique soluta! Assumenda cum cupiditate
-        dolorum hic illo, itaque labore magnam maxime non perferendis, ratione recusandae reprehenderit ullam veniam
-        voluptatem. A ad asperiores beatae dolore doloremque ex harum ipsam magni numquam perspiciatis! Culpa dicta et
-        in minus nisi, praesentium quis ullam vero! Autem corporis earum labore magnam modi obcaecati temporibus. Amet
-        distinctio dolore non quam velit! Autem ipsam maxime optio saepe tempora!
-    `,
-  };
   const values = {
     search: '',
   };
   return (
     <div>
-      <OrgPortalHeading>Generator</OrgPortalHeading>
+      <OrgPortalHeading>{category.data.name}</OrgPortalHeading>
       <ApplianceCategoryLayout
         handleCreateBtnClicked={toggleModal(true)}
-        applianceCategory={sampleApplianceCategory}
+        applianceCategory={category.data}
+        appliances={categoryAppliances.data}
         values={values}
         handleChange={handleChange}
       />
@@ -73,5 +68,12 @@ export function ApplianceCategory(props: CategoryProps) {
 ApplianceCategory.Wraapper = styled.div`
   // padding-right: 10%;
 `;
+const mapStateToProps = ({ setting: { singleApplianceCategory, appliance } }) => ({
+  category: singleApplianceCategory,
+  categoryAppliances: appliance,
+});
+const mapDispatchToProps = dispatch => ({
+  fetchSingleApplianceCategory: (payload): void => dispatch(fetchSingleApplianceCategory(payload)),
+});
 
-export default connect(null, null)(withOrganisationPortalContainer(ApplianceCategory));
+export default connect(mapStateToProps, mapDispatchToProps)(withOrganisationPortalContainer(ApplianceCategory));

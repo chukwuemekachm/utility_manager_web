@@ -40,10 +40,12 @@ TableCard.Wrapper = styled.div<Pick<ItemProps, 'mouseCursor'>>`
   color: black;
   align-items: center;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
-  &:hover {
+  ${props =>
+    props.mouseCursor &&
+    ` &:hover {
     background-color: ${GAINS_BORO};
-    cursor: ${props => props.mouseCursor && 'pointer'};
-  }
+    cursor: pointer;
+  `}
 `;
 
 function Table({ children }: Pick<ItemProps, 'children'>) {
