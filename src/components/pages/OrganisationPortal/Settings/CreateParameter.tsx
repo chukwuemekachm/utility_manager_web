@@ -9,6 +9,7 @@ import DropdownItem from 'components/ui/DropdownItem';
 import { connect } from 'react-redux';
 import { searchUnits } from 'store/actions/setting';
 import { SettingObjectType } from 'store/reducers/setting';
+import { pickErrors } from 'helpers';
 
 interface CreateParameterProps {
   handleSubmit: (trigger: string) => (values: Record<string, any>) => void;
@@ -59,14 +60,14 @@ export function CreateParameter(props: CreateParameterProps) {
                 autoComplete="off"
                 value={values.name}
                 handleChange={handleChange}
-                errorFeedback={errors.name}
+                errorFeedback={pickErrors(errors, apiErrors).name}
                 handleBlur={handleBlur}
                 tabIndex={1}
                 placeholder="Name"
                 required
               />
               <SelectInput
-                errorFeedback={errors.valueType}
+                errorFeedback={pickErrors(errors, apiErrors).valueType}
                 tabIndex={2}
                 title="Value Type"
                 name="valueType"
@@ -88,7 +89,7 @@ export function CreateParameter(props: CreateParameterProps) {
               </SelectInput>
               {values.valueType === 'NUMERIC' && (
                 <SearchInput
-                  errorFeedback={errors.unitId}
+                  errorFeedback={pickErrors(errors, apiErrors).unitId}
                   tabIndex={3}
                   title="Unit"
                   name="unitId"

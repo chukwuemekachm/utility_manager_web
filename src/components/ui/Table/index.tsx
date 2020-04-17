@@ -10,6 +10,9 @@ interface ItemProps {
   mouseCursor?: boolean;
 }
 
+interface CardProps extends Pick<ItemProps, 'children' | 'onClick'> {
+  lastRef?: string;
+}
 export function TableItem(props: ItemProps): React.ReactElement {
   const { children, flexValue = 1, textAlign = 'left' } = props;
   return (
@@ -18,9 +21,10 @@ export function TableItem(props: ItemProps): React.ReactElement {
     </TableItem.Wrapper>
   );
 }
-export function TableCard({ children, onClick }: Pick<ItemProps, 'children' | 'onClick'>): React.ReactElement {
+export function TableCard(props: CardProps): React.ReactElement {
+  const { children, onClick, lastRef = null } = props;
   return (
-    <TableCard.Wrapper mouseCursor={!!onClick} onClick={onClick}>
+    <TableCard.Wrapper ref={lastRef} mouseCursor={!!onClick} onClick={onClick}>
       {children}
     </TableCard.Wrapper>
   );

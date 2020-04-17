@@ -41,7 +41,7 @@ OrganizationHeader.Wrapper = styled.nav`
   padding: 0 1rem;
   position: sticky;
   top: 0;
-
+  z-index: 1;
   ul {
     list-style-type: none;
     display: -webkit-box;

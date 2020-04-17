@@ -12,6 +12,15 @@ const handleChange = () => true;
 export const emptyStructure = () => {
   const values = { search: '', tabSelected: 0 };
 
+  const settingsObject = {
+    fetching: false,
+    fetched: true,
+    data: [],
+    meta: null,
+  };
+  const params = {
+    orgId: '',
+  };
   return (
     <SettingsPageLayout
       values={values}
@@ -20,42 +29,15 @@ export const emptyStructure = () => {
       currentWindow={number('currentWindow', 0)}
       handleObjectClicked={() => action('objectClicked')}
       handleCreateBtnClicked={action('create New')}
+      settingsObjects={settingsObject}
+      type="UNIT"
+      fetchData={action('Fetching')}
+      params={params}
     />
   );
 };
 
 export const layoutWithContnent = () => {
-  const applianceCategories = [
-    {
-      id: '-M3hBI_hEXj8MZtnuYdc',
-      name: 'Generator',
-      description:
-        "This category encompasses all the generators in this organistion. I hope we don't log irrelevant data into this one.",
-    },
-    {
-      id: '-M3hGTj0rb5IcGWPxDei',
-      name: 'Air Conditioner',
-      description:
-        'This category groups all the air conditioners that exists in this application. It removes the need for future',
-    },
-    {
-      id: '-M3hGTj0rb5IcGWPxDeu',
-      name: 'Lifts',
-      description: 'This category groups all the lifts that exists in this application. It removes the need for future',
-    },
-  ];
-  const parameters = [
-    {
-      id: '-M3jpXEUVYCXAchlMwdW',
-      name: 'Energy Consumed',
-      valueType: 'NUMERIC',
-    },
-    {
-      id: '-M3jpXEUVYCXAchlMwdW',
-      name: 'Current',
-      valueType: 'NUMERIC',
-    },
-  ];
   const units = [
     {
       id: '-Ls3N32e3WL3iqV4SHNW',
@@ -109,15 +91,25 @@ export const layoutWithContnent = () => {
     },
   ];
 
+  const settingsObject = {
+    fetching: false,
+    fetched: true,
+    data: units,
+    meta: null,
+  };
+  const params = {
+    orgId: '',
+  };
   const values = { search: '', tabSelected: 0 };
   return (
     <SettingsPageLayout
       handleChange={handleChange}
       handleTabChange={handleTabChange}
-      units={units}
+      settingsObjects={settingsObject}
       values={values}
-      applianceCategories={applianceCategories}
-      parameters={parameters}
+      type="UNIT"
+      fetchData={action('Fetching')}
+      params={params}
       currentWindow={number('currentWindow', 0)}
       handleObjectClicked={() => action('objectClicked')}
       handleCreateBtnClicked={action('create New')}

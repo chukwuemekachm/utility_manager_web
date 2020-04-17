@@ -18,13 +18,14 @@ import CreateParameter from './CreateParameter';
 
 interface SettingsProps extends OrgPortalProps {
   applianceCategory: SettingObjectType;
-  fetchApplianceCategory: Function;
-  fetchUnits: Function;
-  fetchParameters: Function;
+  fetchApplianceCategory: (payload) => void;
+  fetchUnits: (payload) => void;
+  fetchParameters: (payload) => void;
   parameters: SettingObjectType;
   searchedUnits: SettingObjectType;
   units: SettingObjectType;
   createApplianceCategory: CreateObjectType;
+  createParameter: CreateObjectType;
   justCreated: boolean;
   handleSubmit: (trigger: string) => (values: Record<string, any>) => void;
 }
@@ -37,6 +38,7 @@ function Settings(props: SettingsProps) {
     parameters,
     units,
     createApplianceCategory,
+    createParameter,
     justCreated,
     match: { params },
     handleSubmit,
@@ -81,13 +83,13 @@ function Settings(props: SettingsProps) {
   }
 
   function handleObjectClicked(type: string) {
-    //  TODO: This is where we ought to handle click events of the table rows
-    //        The type here would be one of units | paramters | applianceCategory
-    //        We are supposed to either move to another page or perform some other operation here
-    //        You can log this to be sure
-    return function(obj: Record<string, string>) {
-      moveToNextPage({ nextPageRoute: `appliance-category/${obj.id}` });
-    };
+    if (type === 'CATEGORY') {
+      return function(obj: Record<string, string>) {
+        moveToNextPage({ nextPageRoute: `appliance-category/${obj.id}` });
+      };
+    }
+
+    return null;
   }
 
   // TODO: The image here is supposed to the retrieved from organisation data in the store
@@ -103,19 +105,30 @@ function Settings(props: SettingsProps) {
       }
     };
   }
+  let data, type;
+  if (currentWindow === 0) {
+    data = applianceCategory;
+    type = 'CATEGORY';
+  } else if (currentWindow === 1) {
+    data = parameters;
+    type = 'PARAMETER';
+  } else if (currentWindow === 2) {
+    data = units;
+    type = 'UNIT';
+  }
   return (
     <div>
-      <OrgPortalHeading>Settings</OrgPortalHeading>
       <SettingsPageLayout
         handleChange={handleChange}
         currentWindow={currentWindow}
         handleTabChange={handleTabChange}
         values={values}
-        applianceCategories={applianceCategory.data}
-        units={units.data}
-        parameters={parameters.data}
+        settingsObjects={data}
+        type={type}
         handleObjectClicked={handleObjectClicked}
         handleCreateBtnClicked={toggleModal(true)}
+        params={params}
+        fetchData={currentWindow === 0 ? fetchApplianceCategory : currentWindow === 1 ? fetchParameters : fetchUnits}
       />
       {!justCreated && currentModal === 1 && (
         <CreateCategory
@@ -131,6 +144,7 @@ function Settings(props: SettingsProps) {
           defaultValues={defaultCreateParameterValues}
           handleSubmit={handleSubmit}
           params={params}
+          apiErrors={createParameter.errors}
         />
       )}
     </div>
@@ -138,12 +152,13 @@ function Settings(props: SettingsProps) {
 }
 
 const mapStateToProps = ({
-  setting: { justCreated, applianceCategory, parameters, units, createApplianceCategory },
+  setting: { justCreated, applianceCategory, parameters, units, createApplianceCategory, createParameter },
 }) => ({
   applianceCategory,
   parameters,
   units,
   createApplianceCategory,
+  createParameter,
   justCreated,
 });
 

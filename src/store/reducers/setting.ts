@@ -206,7 +206,7 @@ export default function settingsReducer(state = initialState, { type, payload = 
           ...state.units,
           fetching: false,
           fetched: true,
-          data,
+          data: [...state.units.data, ...data],
           meta,
         },
       };
@@ -238,7 +238,7 @@ export default function settingsReducer(state = initialState, { type, payload = 
           ...state.applianceCategory,
           fetching: false,
           fetched: true,
-          data,
+          data: [...state.applianceCategory.data, ...data],
           meta,
         },
       };
@@ -269,7 +269,7 @@ export default function settingsReducer(state = initialState, { type, payload = 
           ...state.parameters,
           fetching: false,
           fetched: true,
-          data,
+          data: [...state.parameters.data, ...data],
           meta,
         },
       };

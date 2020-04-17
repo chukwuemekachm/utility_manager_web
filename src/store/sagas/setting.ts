@@ -47,7 +47,9 @@ function* callFetchSingleApplianceCategory(action) {
 function* callFetchApplianceCategory(action) {
   try {
     const orgId = action.payload.params.orgId;
-    const url = applianceCategoryRequest.APPLIANCE_CATEGORY.replace(':orgId', orgId);
+    const pageNumber = action.payload.params.pageNumber;
+    let url = applianceCategoryRequest.APPLIANCE_CATEGORY.replace(':orgId', orgId);
+    url = `${url}?page=${pageNumber}`;
     const { data } = yield call([api, 'get'], url, action.payload);
     yield put(fetchApplianceCategorySuccess(data));
   } catch (error) {
@@ -86,7 +88,9 @@ function* callCreateParameter(action) {
 function* callFetchUnits(action) {
   try {
     const orgId = action.payload.params.orgId;
-    const url = unitsRequest.UNITS.replace(':orgId', orgId);
+    const pageNumber = action.payload.params.pageNumber;
+    let url = unitsRequest.UNITS.replace(':orgId', orgId);
+    url = `${url}?page=${pageNumber}`;
     const { data } = yield call([api, 'get'], url, action.payload);
     yield put(fetchUnitsSuccess(data));
   } catch (error) {
@@ -97,7 +101,9 @@ function* callFetchUnits(action) {
 function* callFetchParameters(action) {
   try {
     const orgId = action.payload.params.orgId;
-    const url = parametersRequest.PARAMETER.replace(':orgId', orgId);
+    const pageNumber = action.payload.params.pageNumber;
+    let url = parametersRequest.PARAMETER.replace(':orgId', orgId);
+    url = `${url}?page=${pageNumber}`;
     const { data } = yield call([api, 'get'], url, action.payload);
     yield put(fetchParametersSuccess(data));
   } catch (error) {
