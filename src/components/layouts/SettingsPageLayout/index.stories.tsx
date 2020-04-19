@@ -11,12 +11,19 @@ const handleTabChange = () => true;
 const handleChange = () => true;
 export const emptyStructure = () => {
   const values = { search: '', tabSelected: 0 };
-
+  const defaultMeta = {
+    currentPage: 0,
+    nextPage: null,
+    previousPage: null,
+    totalObjects: 0,
+    totalPages: 1,
+    maxObjectsPerPage: 0,
+  };
   const settingsObject = {
     fetching: false,
     fetched: true,
     data: [],
-    meta: null,
+    meta: defaultMeta,
   };
   const params = {
     orgId: '',
@@ -42,60 +49,64 @@ export const layoutWithContnent = () => {
     {
       id: '-Ls3N32e3WL3iqV4SHNW',
       name: 'Ampere',
-      letterSymbol: 'A',
+      symbol: 'A',
     },
     {
       id: '-LrsZYnoZ7aK729tvFkn',
       name: 'Atmosphere',
-      letterSymbol: 'atm',
+      symbol: 'atm',
     },
     {
       id: '-LsDg17oyhU4atfTIrz1',
       name: 'Becquerel',
-      letterSymbol: 'Bq',
+      symbol: 'Bq',
     },
     {
       id: '-LrsZYnoa9cM94BvxHmp',
       name: 'Calories',
-      letterSymbol: 'Cal',
+      symbol: 'Cal',
     },
     {
       id: '-LsDg17k4aww265nBAyX',
       name: 'Coulomb',
-      letterSymbol: 'C',
-      greekSymbol: null,
+      symbol: 'C',
     },
     {
       id: '-Ls3N32fCSwaqsz00Hrm',
       name: 'Decibels',
-      letterSymbol: 'Db',
-      greekSymbol: null,
+      symbol: 'Db',
     },
     {
       id: '-LsDg17nnRABjB45Qq4K',
       name: 'Degree Celsius',
-      letterSymbol: 'degC',
-      greekSymbol: null,
+      symbol: 'degC',
     },
     {
       id: '-LsDg17lPaQfexBpsue_',
       name: 'Farad',
-      letterSymbol: 'F',
+      symbol: 'F',
     },
     {
       id: '-LrsZYnpSwOVOfeeD5_7',
 
       name: 'Feet',
-      letterSymbol: 'ft',
-      greekSymbol: null,
+      symbol: 'ft',
     },
   ];
 
+  const defaultMeta = {
+    currentPage: 0,
+    nextPage: null,
+    previousPage: null,
+    totalObjects: 0,
+    totalPages: 1,
+    maxObjectsPerPage: 0,
+  };
   const settingsObject = {
     fetching: false,
     fetched: true,
     data: units,
-    meta: null,
+    meta: defaultMeta,
   };
   const params = {
     orgId: '',

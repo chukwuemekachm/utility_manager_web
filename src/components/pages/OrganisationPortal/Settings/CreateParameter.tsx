@@ -103,7 +103,9 @@ export function CreateParameter(props: CreateParameterProps) {
                     <>
                       {units.data.map((unit, index) => (
                         <DropdownItem key={index} onClick={handleClick} value={unit.id}>
-                          <div>{unit.name}</div>
+                          <div>
+                            {unit.name}({unit.symbol})
+                          </div>
                         </DropdownItem>
                       ))}
                     </>

@@ -12,7 +12,6 @@ import {
 import { SettingObjectType, CreateObjectType } from 'store/reducers/setting';
 import { OrgPortalProps } from '../index';
 import withOrganisationPortalContainer from 'components/containers/OrganisationPortalContainer';
-import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
 import { moveToNextPage } from 'store/actions/navigation';
 import CreateParameter from './CreateParameter';
 
@@ -40,10 +39,10 @@ function Settings(props: SettingsProps) {
     createApplianceCategory,
     createParameter,
     justCreated,
-    match: { params },
     handleSubmit,
     moveToNextPage,
   } = props;
+  type fetchDataType = (payload) => void;
   const defaultValues = {
     search: '',
     tabSelected: 0,
@@ -57,10 +56,29 @@ function Settings(props: SettingsProps) {
     valueType: '',
     unitId: '',
   };
-
+  const params = { ...props.match.params, searchValue: '' };
+  const [debounceId, setDebounceId] = React.useState<number>(0);
   const [values, setValues] = React.useState(defaultValues);
   const [currentModal, setCurrentModal] = React.useState(0);
   const [currentWindow, setWindow] = React.useState(0);
+
+  let data, type: string, fetchData;
+  type = '';
+  fetchData = applianceCategory;
+
+  if (currentWindow === 0) {
+    data = applianceCategory;
+    type = 'CATEGORY';
+    fetchData = fetchApplianceCategory;
+  } else if (currentWindow === 1) {
+    data = parameters;
+    type = 'PARAMETER';
+    fetchData = fetchParameters;
+  } else if (currentWindow === 2) {
+    data = units;
+    type = 'UNIT';
+    fetchData = fetchUnits;
+  }
 
   React.useEffect(function(): void {
     fetchApplianceCategory({ params });
@@ -80,6 +98,19 @@ function Settings(props: SettingsProps) {
       target: { value, name },
     } = event;
     setValues(prevState => ({ ...prevState, [name]: value }));
+
+    if (debounceId) {
+      clearTimeout(debounceId);
+    }
+    const newId = +setTimeout(() => {
+      fetchData({
+        params: {
+          ...params,
+          searchValue: value,
+        },
+      });
+    }, 800);
+    setDebounceId(newId);
   }
 
   function handleObjectClicked(type: string) {
@@ -105,17 +136,7 @@ function Settings(props: SettingsProps) {
       }
     };
   }
-  let data, type;
-  if (currentWindow === 0) {
-    data = applianceCategory;
-    type = 'CATEGORY';
-  } else if (currentWindow === 1) {
-    data = parameters;
-    type = 'PARAMETER';
-  } else if (currentWindow === 2) {
-    data = units;
-    type = 'UNIT';
-  }
+
   return (
     <div>
       <SettingsPageLayout
@@ -127,8 +148,11 @@ function Settings(props: SettingsProps) {
         type={type}
         handleObjectClicked={handleObjectClicked}
         handleCreateBtnClicked={toggleModal(true)}
-        params={params}
-        fetchData={currentWindow === 0 ? fetchApplianceCategory : currentWindow === 1 ? fetchParameters : fetchUnits}
+        params={{
+          ...params,
+          searchValue: values.search,
+        }}
+        fetchData={fetchData}
       />
       {!justCreated && currentModal === 1 && (
         <CreateCategory

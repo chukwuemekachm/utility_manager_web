@@ -9,13 +9,11 @@ interface Paginator {
   maxObjectsPerPage: number;
 }
 
-type MetaType = Paginator | null;
-
 export interface SettingObjectType {
   fetching: boolean;
   fetched: boolean;
   data: Record<string, any>[];
-  meta: MetaType;
+  meta: Paginator;
   errors?: Record<string, unknown[]>;
 }
 
@@ -44,6 +42,14 @@ interface StateType {
   justCreated: boolean;
 }
 
+const defaultMeta = {
+  currentPage: 0,
+  nextPage: null,
+  previousPage: null,
+  totalObjects: 0,
+  totalPages: 1,
+  maxObjectsPerPage: 0,
+};
 const initialState: StateType = {
   orgId: '',
   singleApplianceCategory: {
@@ -64,31 +70,31 @@ const initialState: StateType = {
     fetching: false,
     fetched: false,
     data: [],
-    meta: null,
+    meta: defaultMeta,
   },
   applianceCategory: {
     fetching: false,
     fetched: false,
     data: [],
-    meta: null,
+    meta: defaultMeta,
   },
   appliance: {
     fetching: false,
     fetched: false,
     data: [],
-    meta: null,
+    meta: defaultMeta,
   },
   units: {
     fetching: false,
     fetched: false,
     data: [],
-    meta: null,
+    meta: defaultMeta,
   },
   searchedUnits: {
     fetching: false,
     fetched: false,
     data: [],
-    meta: null,
+    meta: defaultMeta,
   },
   createApplianceCategory: {
     creating: false,
@@ -111,7 +117,7 @@ const defaultPayload = {
   params: {
     orgId: '',
   },
-  meta: null,
+  meta: defaultMeta,
   categoriesData: undefined,
   appliancesData: undefined,
   errors: {},
@@ -119,6 +125,7 @@ const defaultPayload = {
 
 export default function settingsReducer(state = initialState, { type, payload = defaultPayload }) {
   const { data, meta } = payload;
+  let finalData;
   switch (type) {
     case settingsConstants.JUST_CREATED_DATA:
       return {
@@ -200,13 +207,17 @@ export default function settingsReducer(state = initialState, { type, payload = 
         },
       };
     case settingsConstants.FETCH_UNITS_SUCCESS:
+      finalData = data;
+      if (meta.currentPage > 1) {
+        finalData = [...state.units.data, ...data];
+      }
       return {
         ...state,
         units: {
           ...state.units,
           fetching: false,
           fetched: true,
-          data: [...state.units.data, ...data],
+          data: finalData,
           meta,
         },
       };
@@ -232,13 +243,17 @@ export default function settingsReducer(state = initialState, { type, payload = 
         },
       };
     case settingsConstants.FETCH_APPLIANCE_CATEGORY_SUCCESS:
+      finalData = data;
+      if (meta.currentPage > 1) {
+        finalData = [...state.applianceCategory.data, ...data];
+      }
       return {
         ...state,
         applianceCategory: {
           ...state.applianceCategory,
           fetching: false,
           fetched: true,
-          data: [...state.applianceCategory.data, ...data],
+          data: finalData,
           meta,
         },
       };
@@ -263,13 +278,17 @@ export default function settingsReducer(state = initialState, { type, payload = 
         },
       };
     case settingsConstants.FETCH_PARAMETERS_SUCCESS:
+      finalData = data;
+      if (meta.currentPage > 1) {
+        finalData = [...state.parameters.data, ...data];
+      }
       return {
         ...state,
         parameters: {
           ...state.parameters,
           fetching: false,
           fetched: true,
-          data: [...state.parameters.data, ...data],
+          data: finalData,
           meta,
         },
       };
