@@ -24,9 +24,9 @@ import { settingsConstants } from 'store/actions/setting';
 
 function* callFetchSingleApplianceCategory(action) {
   try {
-    const orgId = action.payload.params.orgId;
+    const { orgId, categoryId } = action.payload.params;
     let categoryURL = applianceCategoryRequest.SINGLE.replace(':orgId', orgId);
-    categoryURL = categoryURL.replace(':categoryId', action.payload.params.categoryId);
+    categoryURL = categoryURL.replace(':categoryId', categoryId);
     const applianceURL = `${categoryURL}/appliances`;
     const {
       data: { data: categoriesData },
@@ -46,10 +46,9 @@ function* callFetchSingleApplianceCategory(action) {
 }
 function* callFetchApplianceCategory(action) {
   try {
-    const orgId = action.payload.params.orgId;
-    const pageNumber = action.payload.params.pageNumber;
+    const { orgId, pageNumber, searchValue } = action.payload.params;
     let url = applianceCategoryRequest.APPLIANCE_CATEGORY.replace(':orgId', orgId);
-    url = `${url}?page=${pageNumber}`;
+    url = `${url}?page=${pageNumber}&name_search=${searchValue}`;
     const { data } = yield call([api, 'get'], url, action.payload);
     yield put(fetchApplianceCategorySuccess(data));
   } catch (error) {
@@ -59,7 +58,7 @@ function* callFetchApplianceCategory(action) {
 
 function* callCreateApplianceCategory(action) {
   try {
-    const orgId = action.payload.params.orgId;
+    const { orgId } = action.payload.params;
     const url = applianceCategoryRequest.APPLIANCE_CATEGORY.replace(':orgId', orgId);
 
     const response = yield call([api, 'post'], url, action.payload.data);
@@ -87,11 +86,10 @@ function* callCreateParameter(action) {
 
 function* callFetchUnits(action) {
   try {
-    const orgId = action.payload.params.orgId;
-    const pageNumber = action.payload.params.pageNumber;
+    const { orgId, pageNumber = 1, searchValue } = action.payload.params;
     let url = unitsRequest.UNITS.replace(':orgId', orgId);
-    url = `${url}?page=${pageNumber}`;
-    const { data } = yield call([api, 'get'], url, action.payload);
+    url = `${url}?page=${pageNumber}&name_search=${searchValue}`;
+    const { data } = yield call([api, 'get'], url);
     yield put(fetchUnitsSuccess(data));
   } catch (error) {
     yield fork(errorHandler, error, fetchUnitsError);
@@ -100,10 +98,9 @@ function* callFetchUnits(action) {
 
 function* callFetchParameters(action) {
   try {
-    const orgId = action.payload.params.orgId;
-    const pageNumber = action.payload.params.pageNumber;
+    const { orgId, pageNumber = 1, searchValue } = action.payload.params;
     let url = parametersRequest.PARAMETER.replace(':orgId', orgId);
-    url = `${url}?page=${pageNumber}`;
+    url = `${url}?page=${pageNumber}&name_search=${searchValue}`;
     const { data } = yield call([api, 'get'], url, action.payload);
     yield put(fetchParametersSuccess(data));
   } catch (error) {

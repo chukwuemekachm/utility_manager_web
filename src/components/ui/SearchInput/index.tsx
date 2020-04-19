@@ -16,6 +16,7 @@ interface SearchInputItemProps {
   onClick: (value: string | number, children: React.ReactNode) => void;
   active?: boolean;
   itemSelected?: boolean;
+  autoFocus?: boolean;
 }
 
 interface ChildrenProps {
@@ -103,7 +104,9 @@ export default function SearchInput(props: SearchInputProps) {
     <Input.Container tabIndex={tabIndex}>
       <Input.Label required={required}>{title}</Input.Label>
       <SearchInput.SelectBox itemSelected={itemSelected}>
-        <SearchInput.OptionContainer active={active}>{children(composeProps())}</SearchInput.OptionContainer>
+        <SearchInput.OptionContainer autoFocus active={active}>
+          {children(composeProps())}
+        </SearchInput.OptionContainer>
         <SearchInput.Content onBlur={blurHandler} onClick={contentClickHandler}>
           {showInput && (
             <input
@@ -162,7 +165,7 @@ SearchInput.SelectBox = styled.div<Pick<SearchInputItemProps, 'itemSelected'>>`
   `}
 `;
 
-SearchInput.OptionContainer = styled.div<Pick<SearchInputItemProps, 'active'>>`
+SearchInput.OptionContainer = styled.div<Pick<SearchInputItemProps, 'autoFocus' | 'active'>>`
   position: absolute;
   top: 100%;
   width: 100%;

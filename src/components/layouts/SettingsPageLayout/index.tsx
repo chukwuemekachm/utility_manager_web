@@ -13,7 +13,7 @@ import StickyContent from 'components/ui/StickyContent';
 
 interface SettingsLayoutProps {
   settingsObjects: SettingObjectType;
-  type: 'CATEGORY' | 'UNIT' | 'PARAMETER';
+  type: 'CATEGORY' | 'UNIT' | 'PARAMETER' | string;
   children?: React.ReactNode;
   params: Record<string, any>;
   currentWindow: number;
@@ -48,7 +48,7 @@ function objectToComponent(type: string) {
       case 'UNIT':
         return (
           <>
-            <TableItem flexValue={2}>{obj.letterSymbol}</TableItem>
+            <TableItem flexValue={2}>{obj.symbol}</TableItem>
             <TableItem flexValue={10}>{parseText(obj.name, 80)}</TableItem>
           </>
         );
