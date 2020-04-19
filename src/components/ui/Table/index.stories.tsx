@@ -2,7 +2,7 @@ import React from 'react';
 import Table, { TableCard, TableItem } from '.';
 import Checkbox from '../Checkbox';
 import { action } from '@storybook/addon-actions';
-import Icon from '../Icon';
+import Icon from 'components/ui/Icon';
 import { text, boolean } from '@storybook/addon-knobs';
 
 export default {

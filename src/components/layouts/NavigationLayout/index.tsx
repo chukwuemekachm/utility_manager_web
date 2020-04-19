@@ -63,6 +63,6 @@ OrgPortalHeading.Content = styled.h1`
 OrgPortalLayout.Wrapper = styled.div`
   main {
     margin-left: 5rem;
-    padding: 3% 7% 0;
+    padding: 1% 7% 0;
   }
 `;

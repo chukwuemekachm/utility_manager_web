@@ -1,25 +1,30 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import Tab, { TabItem } from 'components/ui/Tab';
-import Input from '../../ui/Input';
+import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
 import TableContentParser from 'components/ui/TableContentParser';
-import { TableItem } from '../../ui/Table';
+import { TableItem } from 'components/ui/Table';
 import { parseText } from 'helpers';
+import { SettingObjectType } from 'store/reducers/setting';
+import InfiniteScroll from 'components/ui/InfiniteScroll';
+import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
+import StickyContent from 'components/ui/StickyContent';
 
 interface SettingsLayoutProps {
-  units?: Record<string, unknown>[];
-  parameters?: Record<string, unknown>[];
-  applianceCategories?: Record<string, unknown>[];
+  settingsObjects: SettingObjectType;
+  type: 'CATEGORY' | 'UNIT' | 'PARAMETER';
   children?: React.ReactNode;
+  params: Record<string, any>;
   currentWindow: number;
   values: {
     search: string;
     tabSelected: number;
   };
-  handleTabChange;
+  fetchData: (payload) => void;
+  handleTabChange: Function;
   handleChange: React.EventHandler<React.SyntheticEvent>;
-  handleObjectClicked: (type: string) => (obj: Record<string, any>) => void;
+  handleObjectClicked: (type: string) => ((obj: Record<string, string>) => void) | null;
   handleCreateBtnClicked: React.EventHandler<React.SyntheticEvent>;
 }
 
@@ -55,69 +60,72 @@ function objectToComponent(type: string) {
 
 export default function SettingsPageLayout(props: SettingsLayoutProps) {
   const {
-    units = [],
-    parameters = [],
-    applianceCategories = [],
-    currentWindow,
+    settingsObjects,
     values,
     handleTabChange,
     handleChange,
     handleObjectClicked,
     handleCreateBtnClicked,
+    fetchData,
+    params,
+    type,
   } = props;
+  const onTableItemClick = handleObjectClicked(type) || undefined;
 
   return (
-    <SettingsPageLayout.Wrapper>
-      <SettingsPageLayout.ControlsWrapper>
-        <SettingsPageLayout.Tabs>
-          <Tab onTabChange={handleTabChange}>
-            {({ setTab, tab }): React.ReactNode => (
-              <>
-                <TabItem itemValue={0} currentValue={tab} setTab={setTab}>
-                  Appliance Category
-                </TabItem>
-                <TabItem itemValue={1} currentValue={tab} setTab={setTab}>
-                  Parameters
-                </TabItem>
-                <TabItem itemValue={2} currentValue={tab} setTab={setTab}>
-                  Units
-                </TabItem>
-              </>
-            )}
-          </Tab>
-        </SettingsPageLayout.Tabs>
+    <>
+      <StickyContent>
+        <OrgPortalHeading>Settings</OrgPortalHeading>
+        <SettingsPageLayout.ControlsWrapper>
+          <SettingsPageLayout.Tabs>
+            <Tab onTabChange={handleTabChange}>
+              {({ setTab, tab }): React.ReactNode => (
+                <>
+                  <TabItem itemValue={0} currentValue={tab} setTab={setTab}>
+                    Appliance Category
+                  </TabItem>
+                  <TabItem itemValue={1} currentValue={tab} setTab={setTab}>
+                    Parameters
+                  </TabItem>
+                  <TabItem itemValue={2} currentValue={tab} setTab={setTab}>
+                    Units
+                  </TabItem>
+                </>
+              )}
+            </Tab>
+          </SettingsPageLayout.Tabs>
 
-        <SettingsPageLayout.Search>
-          <Input
-            iconLabel="md-search"
-            type="text"
-            name="search"
-            title=""
-            value={values.search}
-            errorFeedback={[]}
-            handleChange={handleChange}
-            placeholder="Search"
-          />
-        </SettingsPageLayout.Search>
+          <SettingsPageLayout.Search>
+            <Input
+              iconLabel="md-search"
+              type="text"
+              name="search"
+              title=""
+              value={values.search}
+              errorFeedback={[]}
+              handleChange={handleChange}
+              placeholder="Search"
+            />
+          </SettingsPageLayout.Search>
 
-        <SettingsPageLayout.NewItem>
-          <Button type="button" isLoading={false} disabled={false} handleClick={handleCreateBtnClicked}>
-            Create New
-          </Button>
-        </SettingsPageLayout.NewItem>
-      </SettingsPageLayout.ControlsWrapper>
+          <SettingsPageLayout.NewItem>
+            <Button type="button" isLoading={false} disabled={false} handleClick={handleCreateBtnClicked}>
+              Create New
+            </Button>
+          </SettingsPageLayout.NewItem>
+        </SettingsPageLayout.ControlsWrapper>
+      </StickyContent>
       <div>
-        {currentWindow == 0 ? (
-          <TableContentParser data={applianceCategories} onClick={handleObjectClicked('CATEGORY')}>
-            {objectToComponent('CATEGORY')}
-          </TableContentParser>
-        ) : currentWindow == 1 ? (
-          <TableContentParser data={parameters}>{objectToComponent('PARAMETER')}</TableContentParser>
-        ) : (
-          <TableContentParser data={units}>{objectToComponent('UNIT')}</TableContentParser>
-        )}
+        <InfiniteScroll params={params} retrievedData={settingsObjects} fetchData={fetchData}>
+          {({ lastItemRef, data }) => (
+            <TableContentParser lastRef={lastItemRef} data={data} onClick={onTableItemClick}>
+              {objectToComponent(type)}
+            </TableContentParser>
+          )}
+        </InfiniteScroll>
+        {}
       </div>
-    </SettingsPageLayout.Wrapper>
+    </>
   );
 }
 
@@ -145,5 +153,3 @@ SettingsPageLayout.Tabs = styled.div`
   flex: 8;
   padding-left: 0;
 `;
-
-SettingsPageLayout.Wrapper = styled.div``;

@@ -8,6 +8,8 @@ import { BRAND_PRIMARY } from 'settings/__color';
 import { fontSizes } from 'settings/__fonts';
 import { TableItem } from 'components/ui/Table';
 import __spacing from 'settings/__spacing';
+import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
+import StickyContent from 'components/ui/StickyContent';
 
 interface CategoryLayoutProps {
   appliances?: Record<string, any>[];
@@ -37,36 +39,39 @@ export default function ApplianceCategoryPageLayout(props: CategoryLayoutProps) 
   };
   const lengthLimit = applianceCategory.description.split(' ').length;
   return (
-    <ApplianceCategoryPageLayout.Wrapper>
-      <ReadMore showDisplay={lengthLimit > 70} caption={caption}>
-        {applianceCategory.description}
-      </ReadMore>
+    <>
+      <StickyContent>
+        <OrgPortalHeading>{applianceCategory.name}</OrgPortalHeading>
+        <ReadMore showDisplay={lengthLimit > 70} caption={caption}>
+          {applianceCategory.description}
+        </ReadMore>
 
-      <ApplianceCategoryPageLayout.ControlsWrapper>
-        <ApplianceCategoryPageLayout.Heading>Appliances</ApplianceCategoryPageLayout.Heading>
-        <ApplianceCategoryPageLayout.Search>
-          <Input
-            iconLabel="md-search"
-            type="text"
-            name="search"
-            title=""
-            errorFeedback={[]}
-            handleChange={handleChange}
-            placeholder="Search"
-            value={values.search}
-          />
-        </ApplianceCategoryPageLayout.Search>
+        <ApplianceCategoryPageLayout.ControlsWrapper>
+          <ApplianceCategoryPageLayout.Heading>Appliances</ApplianceCategoryPageLayout.Heading>
+          <ApplianceCategoryPageLayout.Search>
+            <Input
+              iconLabel="md-search"
+              type="text"
+              name="search"
+              title=""
+              errorFeedback={[]}
+              handleChange={handleChange}
+              placeholder="Search"
+              value={values.search}
+            />
+          </ApplianceCategoryPageLayout.Search>
 
-        <ApplianceCategoryPageLayout.NewItem>
-          <Button type="button" isLoading={false} disabled={false} handleClick={handleCreateBtnClicked}>
-            Add Appliance
-          </Button>
-        </ApplianceCategoryPageLayout.NewItem>
-      </ApplianceCategoryPageLayout.ControlsWrapper>
+          <ApplianceCategoryPageLayout.NewItem>
+            <Button type="button" isLoading={false} disabled={false} handleClick={handleCreateBtnClicked}>
+              Add Appliance
+            </Button>
+          </ApplianceCategoryPageLayout.NewItem>
+        </ApplianceCategoryPageLayout.ControlsWrapper>
+      </StickyContent>
       <div>
         <TableContentParser data={appliances}>{getApplianceItem}</TableContentParser>
       </div>
-    </ApplianceCategoryPageLayout.Wrapper>
+    </>
   );
 }
 
@@ -98,5 +103,3 @@ ApplianceCategoryPageLayout.Heading = styled.h2`
   font-size: ${fontSizes.medium};
   flex: 7;
 `;
-
-ApplianceCategoryPageLayout.Wrapper = styled.div``;

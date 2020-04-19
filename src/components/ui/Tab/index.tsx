@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
-import { GAINS_BORO } from '../../../settings/__color';
+import { GAINS_BORO } from 'settings/__color';
 
 export interface TabItemProps {
   children: React.ReactNode;

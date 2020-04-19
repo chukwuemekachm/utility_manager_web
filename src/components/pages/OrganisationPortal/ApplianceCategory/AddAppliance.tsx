@@ -4,7 +4,7 @@ import ModalCard from 'components/ui/Modal/ModalCard';
 import Form from 'components/ui/Form';
 import Input from 'components/ui/Input';
 import { pickErrors } from 'helpers';
-import KeyValueInput from '../../../ui/KeyValueInput';
+import KeyValueInput from 'components/ui/KeyValueInput';
 
 const { Fragment } = React;
 interface CreateCategoryProps {

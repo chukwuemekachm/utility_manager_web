@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from '@emotion/styled';
+import StickyContent from 'components/ui/StickyContent';
 import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
 import ApplianceCategoryLayout from 'components/layouts/ApplianceCategoryLayout';
 import { OrgPortalProps } from 'components/pages/OrganisationPortal';
@@ -46,7 +46,6 @@ export function ApplianceCategory(props: CategoryProps) {
   };
   return (
     <div>
-      <OrgPortalHeading>{category.data.name}</OrgPortalHeading>
       <ApplianceCategoryLayout
         handleCreateBtnClicked={toggleModal(true)}
         applianceCategory={category.data}
