@@ -8,7 +8,7 @@ import { fontSizes } from 'settings/__fonts';
 import Input, { SharedInputProps } from 'components/ui/Input';
 import InputQuickAction from 'components/ui/InputQuickAction';
 import InputErrors from 'components/ui/InputErrors';
-import { BRAND_PRIMARY, GAINS_BORO } from 'settings/__color';
+import { GAINS_BORO } from 'settings/__color';
 
 interface SearchInputItemProps {
   children: React.ReactNode;
