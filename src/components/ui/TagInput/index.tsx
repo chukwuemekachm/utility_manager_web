@@ -3,64 +3,83 @@ import styled from '@emotion/styled';
 
 import { fontSizes } from 'settings/__fonts';
 import __spacing from 'settings/__spacing';
-import DropdownItem from 'components/ui/DropdownItem';
+import { DropdownItemContainer } from 'components/ui/DropdownItem';
+import Input, { SharedInputProps } from 'components/ui/Input';
 import Tag from './Tag';
+import InputErrors from 'components/ui/InputErrors';
+import { useDropdownSelectedNodeHandlers } from 'helpers/customHooks';
 
-export interface TagInputProps {
+export interface TagInputProps extends SharedInputProps {
   active?: boolean;
-  dropdown: string[];
+  children: (composedProps) => React.ReactNode;
+  handleChange: React.EventHandler<React.SyntheticEvent>;
+  handleBlur: React.EventHandler<React.SyntheticEvent>;
+  handleSearchValue: (value: string) => void;
 }
 
 export default function TagInput(props: TagInputProps) {
-  const { dropdown } = props;
-  const [active, setActive] = useState(false);
-  const [value, setValue] = useState('');
-  const [selectedItems, setSelectedItems] = useState<any[]>([]);
-  const onChange = e => {
-    setValue(e.target.value);
+  const {
+    name = '',
+    children,
+    required,
+    handleSearchValue,
+    errorFeedback,
+    title,
+    placeholder = 'Add Item...',
+    handleChange,
+    handleBlur,
+  } = props;
 
-    if (e.target.value.length > 0) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
+  const defaultValues = {
+    active: false,
+    node: [],
+    itemSelected: false,
+    value: [],
   };
 
-  const handleClick = item => {
-    setActive(false);
-    setSelectedItems([...selectedItems, item]);
-    setValue('');
+  const handlers = {
+    handleBlur,
+    handleChange,
+    handleSearchValue,
+    selectedItemHandler: (prevNode, newNode) => [...prevNode, newNode],
+    setValueHandler: (prevValue, newValue) => [...prevValue, newValue],
   };
+
+  const [dropdownValues, dropdownHandlers, setValues] = useDropdownSelectedNodeHandlers(name, defaultValues, handlers);
+  const { onBlur, handleClick, onSearchChange } = dropdownHandlers;
+  const { active, node: selectedItems, searchText } = dropdownValues;
+
   const handleDelete = index => {
-    setSelectedItems([...selectedItems.slice(0, index), ...selectedItems.slice(index + 1)]);
+    const newNode = [...selectedItems.slice(0, index), ...selectedItems.slice(index + 1)];
+    setValues(prevState => ({ ...prevState, node: newNode }));
   };
+
+  const composeProps = () => ({
+    handleClick,
+  });
   return (
-    <TagInput.Wrapper>
-      {selectedItems.map((tag, index) => {
-        return <Tag key={index} tagValue={tag} handleClick={() => handleDelete(index)} />;
-      })}
-      <input type="text" placeholder="Add Items..." value={value} onChange={onChange} />
-      <TagInput.OptionContainer active={active}>
-        {dropdown.map(item => {
-          return (
-            <DropdownItem key={item} value={item} onClick={() => handleClick(item)}>
-              {item}
-            </DropdownItem>
-          );
-        })}
-      </TagInput.OptionContainer>
-    </TagInput.Wrapper>
+    <Input.Container onBlur={onBlur}>
+      <Input.Label required={required}>{title}</Input.Label>
+      <Input.Content>
+        <TagInput.Wrapper>
+          {selectedItems.map((tag, index) => {
+            return <Tag key={index} tagValue={tag} handleClick={() => handleDelete(index)} />;
+          })}
+          <input type="text" placeholder={placeholder} value={searchText} onChange={onSearchChange} />
+          <DropdownItemContainer active={active}> {children(composeProps())}</DropdownItemContainer>
+        </TagInput.Wrapper>
+      </Input.Content>
+      <InputErrors errorFeedback={errorFeedback} />
+    </Input.Container>
   );
 }
 
 TagInput.Wrapper = styled.div`
-  border: 2px solid #ccc;
   padding: ${__spacing.xSmall};
-  border-radius: ${__spacing.xSmall};
   display: flex;
   flex-wrap: wrap;
   position: relative;
-
+  width: 100%;
   input {
     flex: 1;
     font-size: ${fontSizes.small};
@@ -68,37 +87,10 @@ TagInput.Wrapper = styled.div`
     outline: none;
     border: 0;
   }
-`;
 
-TagInput.OptionContainer = styled.div<Pick<TagInputProps, 'active'>>`
-  position: absolute;
-  top: 110%;
-  width: 100%;
-  left: 0;
-  transition: all 0.4s;
-  overflow: hidden;
-  font-size: ${fontSizes.small};
-  background: #fff;
-  color: black;
-  z-index: 1;
-  display: none;
-  box-shadow: 11px 22px 28px -9px rgba(0, 0, 0, 0.31);
+  margin-bottom: ${__spacing.medium};
 
-  &::-webkit-scrollbar {
-    width: 4px;
-    background: white;
+  &:last-child {
+    margin-bottom: 0;
   }
-
-  &::-webkit-scrollbar-thumb {
-    background: #525861;
-    border-radius: 8px;
-  }
-
-  ${props =>
-    props.active &&
-    `
-    display: block;
-    max-height: 240px;
-    overflow-y: scroll;
-  `}
 `;

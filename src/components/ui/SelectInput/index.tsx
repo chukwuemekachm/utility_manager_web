@@ -5,8 +5,8 @@ import Input, { SharedInputProps } from 'components/ui/Input';
 import InputErrors from 'components/ui/InputErrors';
 import __spacing from 'settings/__spacing';
 import { fontSizes } from 'settings/__fonts';
-import { DropdownItemProps } from 'components/ui/DropdownItem';
-
+import { DropdownItemContainer, DropdownItemProps } from 'components/ui/DropdownItem';
+import { useDropdownSelectedNodeHandlers } from 'helpers/customHooks';
 interface ChildrenProps {
   handleClick: (e, value: string | number, text: React.ReactNode) => void;
 }
@@ -17,69 +17,58 @@ interface SearchInputProps extends SharedInputProps {
   handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export default function SearchInput(props: SearchInputProps) {
+export default function SelectInput(props: SearchInputProps) {
   const {
     children,
     handleChange,
     title,
-    name,
+    name = '',
     handleBlur,
     tabIndex,
     errorFeedback,
     placeholder = 'Select an Item',
     required = false,
   } = props;
-  const [active, setActive] = useState(false);
-  const [itemSelected, setItemSelected] = useState(false);
-  const [currentChildNode, setCurrentChildNode] = useState(<div>{placeholder}</div>);
-
-  const handleClick = (e, value: string | number | Record<string, any>, node: any): void => {
-    e.preventDefault();
-    setCurrentChildNode(node);
-    setActive(false);
-    setItemSelected(true);
-    e.target.name = name;
-    e.target.value = value;
-    handleChange(e);
+  const defaultNode = <div>{placeholder}</div>;
+  const defaultValues = {
+    active: false,
+    node: defaultNode,
+    itemSelected: false,
+    value: '',
   };
+
+  const handlers = {
+    handleBlur,
+    handleChange,
+  };
+
+  const [dropdownValues, dropdownHandlers] = useDropdownSelectedNodeHandlers(name, defaultValues, handlers);
+  const { onBlur, toggleActive, handleClick, onKeyDown } = dropdownHandlers;
+  const { active, node: currentChildNode, itemSelected } = dropdownValues;
   function composeProps(): ChildrenProps {
     return {
       handleClick,
     };
-  }
-  function onBlur(e) {
-    e.preventDefault();
-    handleBlur && handleBlur(e);
-    setActive(false);
-  }
-  function toggleActive() {
-    setActive(!active);
-  }
-  function onKeyDown(e) {
-    e.preventDefault();
-    if (e.keyCode === 32 || e.keyCode === 13) {
-      toggleActive();
-    }
   }
 
   return (
     <Input.Container onBlur={onBlur} onKeyDown={onKeyDown}>
       <Input.Label required={required}>{title}</Input.Label>
       <Input.Content tabIndex={tabIndex}>
-        <SearchInput.SelectBox itemSelected={itemSelected}>
-          <SearchInput.OptionContainer active={active}>{children(composeProps())}</SearchInput.OptionContainer>
+        <SelectInput.SelectBox itemSelected={itemSelected}>
+          <DropdownItemContainer active={active}>{children(composeProps())}</DropdownItemContainer>
 
-          <SearchInput.Selected active={active} onClick={toggleActive} onKeyPress={toggleActive}>
+          <SelectInput.Selected active={active} onClick={toggleActive} onKeyPress={toggleActive}>
             {currentChildNode}
-          </SearchInput.Selected>
-        </SearchInput.SelectBox>
+          </SelectInput.Selected>
+        </SelectInput.SelectBox>
       </Input.Content>
       <InputErrors errorFeedback={errorFeedback} />
     </Input.Container>
   );
 }
 
-SearchInput.SelectBox = styled.div<Pick<DropdownItemProps, 'itemSelected'>>`
+SelectInput.SelectBox = styled.div<Pick<DropdownItemProps, 'itemSelected'>>`
   font-size: ${fontSizes.small};
   display: flex;
   width: 100%;
@@ -93,7 +82,7 @@ SearchInput.SelectBox = styled.div<Pick<DropdownItemProps, 'itemSelected'>>`
   `}
 `;
 
-SearchInput.OptionContainer = styled.div<Pick<DropdownItemProps, 'active'>>`
+SelectInput.OptionContainer = styled.div<Pick<DropdownItemProps, 'active'>>`
   position: absolute;
   top: 100%;
   width: 100%;
@@ -123,7 +112,7 @@ SearchInput.OptionContainer = styled.div<Pick<DropdownItemProps, 'active'>>`
     overflow-y: scroll;
   `}
 `;
-SearchInput.Selected = styled.div<Pick<DropdownItemProps, 'active'>>`
+SelectInput.Selected = styled.div<Pick<DropdownItemProps, 'active'>>`
   border-radius: 3px;
   order: 0;
   padding: ${__spacing.small};

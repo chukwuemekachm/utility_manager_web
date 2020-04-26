@@ -10,7 +10,7 @@ export default {
   title: 'components/ui/SelectInput',
 };
 
-export const searchInput = (): React.ReactElement<{}> => (
+export const selectInput = (): React.ReactElement<{}> => (
   <SelectInput
     placeholder={text('placeholder', 'Select from me')}
     value={''}

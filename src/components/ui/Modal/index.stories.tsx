@@ -9,6 +9,7 @@ import Dropdown from 'components/ui/SelectInput';
 import DropdownItem from 'components/ui/DropdownItem';
 import Icon from 'components/ui/Icon';
 import { action } from '@storybook/addon-actions';
+import SearchInput from 'components/ui/SearchInput';
 export default {
   component: Modal,
   title: 'components/ui/Modal',
@@ -87,13 +88,31 @@ export const CreateParameter = () => (
                 </>
               )}
             </Dropdown>
-            <Input
+            <SearchInput
               name="valueType"
               title="Unit Id"
               autoComplete="on"
               value={text('unitId', '-LrsZYnoW4YH4-6qsChk')}
               handleChange={e => true}
-            />
+              handleTextInputChange={action('Text Changed')}
+            >
+              {({ handleClick }) => (
+                <>
+                  <DropdownItem onClick={handleClick} value={1}>
+                    <Icon iconType="md-star" color="INFO"></Icon> Music
+                  </DropdownItem>
+                  <DropdownItem onClick={handleClick} value={2}>
+                    Science & Technology
+                  </DropdownItem>
+                  <DropdownItem onClick={handleClick} value={3}>
+                    Film & Animation
+                  </DropdownItem>
+                  <DropdownItem onClick={handleClick} value={4}>
+                    Film
+                  </DropdownItem>
+                </>
+              )}
+            </SearchInput>
           </Fragment>
         )}
       </Form>

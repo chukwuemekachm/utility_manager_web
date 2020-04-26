@@ -16,6 +16,11 @@ export default function withOrganisationPortalContainer(WrappedComponent) {
               params: props.match.params,
               data: values,
             });
+          case 'ADD_APPLIANCE':
+            return props.callCreateAppliance({
+              params: props.match.params,
+              data: values,
+            });
         }
       };
     }

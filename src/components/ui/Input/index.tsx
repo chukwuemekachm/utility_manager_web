@@ -11,7 +11,7 @@ export type InputType = 'text' | 'number' | 'email' | 'password';
 export interface SharedInputProps {
   name?: string;
   title: string;
-  value: string | number;
+  value?: string | number;
   autoComplete?: string;
   errorFeedback?: string[];
   placeholder?: string;

@@ -48,10 +48,17 @@ function Form(props: FormProps): React.ReactElement<FormProps> {
   const [values, setValues] = React.useState(defaultValues);
   const [errors, setErrors] = React.useState({});
 
-  function handleChange(event): void {
-    const {
-      target: { value, name },
+  function handleChange(event, nonStringValue?: any): void {
+    let {
+      target: { value },
     } = event;
+    const {
+      target: { name },
+    } = event;
+    if (nonStringValue) {
+      value = nonStringValue;
+    }
+
     setValues(prevState => ({ ...prevState, [name]: name == 'showPassword' ? !values.showPassword : value }));
   }
 

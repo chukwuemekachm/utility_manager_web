@@ -34,4 +34,9 @@ export default {
     valueType: 'required|in:NUMERIC,STRING',
     unitId: 'min:19',
   },
+  addAppliance: {
+    parameters: 'required|array|min:1',
+    specs: 'required',
+    label: 'required|min:2',
+  },
 };

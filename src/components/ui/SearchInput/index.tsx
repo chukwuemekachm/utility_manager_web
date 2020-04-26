@@ -8,7 +8,10 @@ import { fontSizes } from 'settings/__fonts';
 import Input, { SharedInputProps } from 'components/ui/Input';
 import InputQuickAction from 'components/ui/InputQuickAction';
 import InputErrors from 'components/ui/InputErrors';
+import { DropdownItemContainer } from 'components/ui/DropdownItem';
+
 import { GAINS_BORO } from 'settings/__color';
+import { useDropdownSelectedNodeHandlers } from 'helpers/customHooks';
 
 interface SearchInputItemProps {
   children: React.ReactNode;
@@ -33,7 +36,7 @@ interface SearchInputProps extends SharedInputProps {
 
 export default function SearchInput(props: SearchInputProps) {
   const {
-    name,
+    name = '',
     errorFeedback,
     children,
     title = '',
@@ -41,53 +44,42 @@ export default function SearchInput(props: SearchInputProps) {
     tabIndex,
     handleChange,
     handleTextInputChange,
+    handleBlur,
     required,
   } = props;
 
-  const [active, setActive] = useState(false);
-  const [itemSelected, setItemSelected] = useState(false);
+  const defaultNode = <SearchInput.Placeholder>{placeholder}</SearchInput.Placeholder>;
+
   const [showInput, setShowInput] = useState(true);
   const [autoFocus, setAutoFocus] = useState(false);
-  const [currentValue, setCurrentValue] = useState('');
-  const [currentChildNode, setCurrentChildNode] = useState();
-
-  const handleClick = (e, value: string | number, node: any): void => {
-    setCurrentChildNode(node);
-    setActive(false);
-    setItemSelected(true);
+  const endOfClick = () => {
     setShowInput(false);
-    setCurrentValue('');
     setAutoFocus(true);
-    e.target.name = name;
-    e.target.value = value;
-    handleChange(e);
   };
+
+  const defaultValues = {
+    active: false,
+    node: defaultNode,
+    itemSelected: false,
+    value: '',
+  };
+
+  const handlers = {
+    handleBlur,
+    handleChange,
+    endOfClick,
+    endOfBlur: endOfClick,
+    handleSearchValue: handleTextInputChange,
+  };
+
+  const [dropdownValues, dropdownHandlers] = useDropdownSelectedNodeHandlers(name, defaultValues, handlers);
+  const { handleClick, onClear, onBlur, onSearchChange } = dropdownHandlers;
+  const { active, node, itemSelected, searchText } = dropdownValues;
+
   const onChange = e => {
     setAutoFocus(true);
-    setCurrentValue(e.target.value);
-    if (e.target.value.length > 0) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-    handleTextInputChange(e);
+    onSearchChange(e);
   };
-
-  function onClear(e) {
-    setCurrentChildNode(<SearchInput.Placeholder>{placeholder}</SearchInput.Placeholder>);
-    e.target.name = name;
-    e.target.value = '';
-    setCurrentValue('');
-    setItemSelected(false);
-    handleChange(e);
-  }
-  function blurHandler(e) {
-    if (!itemSelected) {
-      setCurrentChildNode(<SearchInput.Placeholder>{placeholder}</SearchInput.Placeholder>);
-    }
-    setAutoFocus(true);
-    setShowInput(false);
-  }
 
   function contentClickHandler(e) {
     e.preventDefault();
@@ -101,23 +93,15 @@ export default function SearchInput(props: SearchInputProps) {
   }
 
   return (
-    <Input.Container tabIndex={tabIndex}>
+    <Input.Container tabIndex={tabIndex} onBlur={onBlur}>
       <Input.Label required={required}>{title}</Input.Label>
       <SearchInput.SelectBox itemSelected={itemSelected}>
-        <SearchInput.OptionContainer autoFocus active={active}>
-          {children(composeProps())}
-        </SearchInput.OptionContainer>
-        <SearchInput.Content onBlur={blurHandler} onClick={contentClickHandler}>
+        <DropdownItemContainer active={active}>{children(composeProps())}</DropdownItemContainer>
+        <SearchInput.Content onClick={contentClickHandler}>
           {showInput && (
-            <input
-              autoFocus={autoFocus}
-              type="text"
-              onChange={onChange}
-              value={currentValue}
-              placeholder={placeholder}
-            />
+            <input autoFocus={autoFocus} type="text" onChange={onChange} value={searchText} placeholder={placeholder} />
           )}
-          {!showInput && <SearchInput.SearchBox>{currentChildNode}</SearchInput.SearchBox>}
+          {!showInput && <SearchInput.SearchBox>{node}</SearchInput.SearchBox>}
         </SearchInput.Content>
       </SearchInput.SelectBox>
       {itemSelected && <InputQuickAction onClick={onClear}>Clear</InputQuickAction>}
@@ -195,6 +179,7 @@ SearchInput.OptionContainer = styled.div<Pick<SearchInputItemProps, 'autoFocus' 
     overflow-y: scroll;
   `}
 `;
+
 SearchInput.Selected = styled.div<Pick<SearchInputItemProps, 'active'>>`
   border: 1px solid ${GAINS_BORO};
   border-radius: 3px;
