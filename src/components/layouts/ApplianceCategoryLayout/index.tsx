@@ -10,16 +10,20 @@ import { TableItem } from 'components/ui/Table';
 import __spacing from 'settings/__spacing';
 import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
 import StickyContent from 'components/ui/StickyContent';
+import InfiniteScroll from 'components/ui/InfiniteScroll';
+import { SettingObjectType } from 'store/reducers/setting';
 
 interface CategoryLayoutProps {
-  appliances?: Record<string, any>[];
+  appliances: SettingObjectType;
   applianceCategory: Record<string, string>;
   values: {
     search: string;
   };
-  handleChange: React.EventHandler<React.SyntheticEvent>;
+  handleSearchAppliance: React.EventHandler<React.SyntheticEvent>;
   handleObjectClicked?: (type: string, obj: object) => void; //should be compulsory later
   handleCreateBtnClicked: React.EventHandler<React.SyntheticEvent>;
+  fetchData: (payload: any) => void;
+  params: Record<string, any>;
 }
 
 function getApplianceItem(appliance) {
@@ -31,7 +35,16 @@ function getApplianceItem(appliance) {
   );
 }
 export default function ApplianceCategoryPageLayout(props: CategoryLayoutProps) {
-  const { appliances, values, handleChange, applianceCategory, handleObjectClicked, handleCreateBtnClicked } = props;
+  const {
+    appliances,
+    handleSearchAppliance,
+    values,
+    applianceCategory,
+    handleObjectClicked,
+    fetchData,
+    handleCreateBtnClicked,
+    params,
+  } = props;
 
   const caption = {
     0: 'Show full description',
@@ -55,7 +68,7 @@ export default function ApplianceCategoryPageLayout(props: CategoryLayoutProps) 
               name="search"
               title=""
               errorFeedback={[]}
-              handleChange={handleChange}
+              handleChange={handleSearchAppliance}
               placeholder="Search"
               value={values.search}
             />
@@ -69,7 +82,13 @@ export default function ApplianceCategoryPageLayout(props: CategoryLayoutProps) 
         </ApplianceCategoryPageLayout.ControlsWrapper>
       </StickyContent>
       <div>
-        <TableContentParser data={appliances}>{getApplianceItem}</TableContentParser>
+        <InfiniteScroll params={params} retrievedData={appliances} fetchData={fetchData}>
+          {({ lastItemRef, data }) => (
+            <TableContentParser lastRef={lastItemRef} data={data}>
+              {getApplianceItem}
+            </TableContentParser>
+          )}
+        </InfiniteScroll>
       </div>
     </>
   );

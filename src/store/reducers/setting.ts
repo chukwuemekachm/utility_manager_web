@@ -1,4 +1,5 @@
 import { settingsConstants } from 'store/actions/setting';
+import { updateStateOnCreate, updateStateOnFetch } from 'helpers/reducerHelpers';
 
 interface Paginator {
   currentPage: number;
@@ -39,16 +40,31 @@ interface StateType {
   appliance: SettingObjectType;
   createApplianceCategory: CreateObjectType;
   createParameter: CreateObjectType;
+  createAppliance: CreateObjectType;
+
   justCreated: boolean;
 }
 
-const defaultMeta = {
+export const defaultMeta = {
   currentPage: 0,
   nextPage: null,
   previousPage: null,
   totalObjects: 0,
   totalPages: 1,
   maxObjectsPerPage: 0,
+};
+
+const defaultFetchData = {
+  fetching: false,
+  fetched: false,
+  data: [],
+  meta: defaultMeta,
+};
+const defaultCreateData = {
+  creating: false,
+  created: false,
+  data: {},
+  errors: {},
 };
 const initialState: StateType = {
   orgId: '',
@@ -66,48 +82,14 @@ const initialState: StateType = {
       createdBy: {},
     },
   },
-  parameters: {
-    fetching: false,
-    fetched: false,
-    data: [],
-    meta: defaultMeta,
-  },
-  applianceCategory: {
-    fetching: false,
-    fetched: false,
-    data: [],
-    meta: defaultMeta,
-  },
-  appliance: {
-    fetching: false,
-    fetched: false,
-    data: [],
-    meta: defaultMeta,
-  },
-  units: {
-    fetching: false,
-    fetched: false,
-    data: [],
-    meta: defaultMeta,
-  },
-  searchedUnits: {
-    fetching: false,
-    fetched: false,
-    data: [],
-    meta: defaultMeta,
-  },
-  createApplianceCategory: {
-    creating: false,
-    created: false,
-    data: {},
-    errors: {},
-  },
-  createParameter: {
-    creating: false,
-    created: false,
-    data: {},
-    errors: {},
-  },
+  parameters: defaultFetchData,
+  applianceCategory: defaultFetchData,
+  appliance: defaultFetchData,
+  units: defaultFetchData,
+  searchedUnits: defaultFetchData,
+  createApplianceCategory: defaultCreateData,
+  createParameter: defaultCreateData,
+  createAppliance: defaultCreateData,
   justCreated: false,
 };
 
@@ -124,14 +106,40 @@ const defaultPayload = {
 };
 
 export default function settingsReducer(state = initialState, { type, payload = defaultPayload }) {
-  const { data, meta } = payload;
-  let finalData;
+  const { data } = payload;
   switch (type) {
+    case settingsConstants.RESET_SETTING_STATUS:
+      return {
+        ...state,
+        parameters: {
+          ...state.parameters,
+          fetched: false,
+          fetching: false,
+        },
+        applianceCategory: {
+          ...state.applianceCategory,
+          fetched: false,
+          fetching: false,
+        },
+        units: {
+          ...state.units,
+          fetched: false,
+          fetching: false,
+        },
+      };
     case settingsConstants.JUST_CREATED_DATA:
       return {
         ...state,
         justCreated: !!payload,
       };
+
+    case settingsConstants.FETCH_APPLIANCES_REQUEST:
+      return updateStateOnFetch('REQUEST', 'appliance', state, payload);
+    case settingsConstants.FETCH_APPLIANCES_SUCCESS:
+      return updateStateOnFetch('SUCCESS', 'appliance', state, payload);
+    case settingsConstants.FETCH_APPLIANCES_ERROR:
+      return updateStateOnFetch('ERROR', 'appliance', state, payload);
+
     case settingsConstants.FETCH_SINGLE_APPLIANCE_CATEGORY_REQUEST:
       return {
         ...state,
@@ -148,13 +156,7 @@ export default function settingsReducer(state = initialState, { type, payload = 
           ...state.singleApplianceCategory,
           fetching: false,
           fetched: true,
-          data: payload.categoriesData,
-        },
-        appliance: {
-          ...state.appliance,
-          fetching: false,
-          fetched: true,
-          data: payload.appliancesData,
+          data,
         },
       };
     case settingsConstants.FETCH_SINGLE_APPLIANCE_CATEGORY_ERROR:
@@ -168,216 +170,48 @@ export default function settingsReducer(state = initialState, { type, payload = 
         },
       };
     case settingsConstants.SEARCH_UNITS_REQUEST:
-      return {
-        ...state,
-        searchedUnits: {
-          ...state.searchedUnits,
-          fetching: true,
-          fetched: false,
-        },
-      };
+      return updateStateOnFetch(type, 'searchedUnits', state, payload);
     case settingsConstants.SEARCH_UNITS_SUCCESS:
-      return {
-        ...state,
-        searchedUnits: {
-          ...state.searchedUnits,
-          fetching: false,
-          fetched: true,
-          data,
-          meta,
-        },
-      };
+      return updateStateOnFetch(type, 'searchedUnits', state, payload);
     case settingsConstants.SEARCH_UNITS_ERROR:
-      return {
-        ...state,
-        searchedUnits: {
-          ...state.searchedUnits,
-          fetching: false,
-          fetched: false,
-          data: [],
-        },
-      };
+      return updateStateOnFetch(type, 'searchedUnits', state, payload);
     case settingsConstants.FETCH_UNITS_REQUEST:
-      return {
-        ...state,
-        units: {
-          ...state.units,
-          fetching: true,
-          fetched: false,
-        },
-      };
+      return updateStateOnFetch(type, 'units', state, payload);
     case settingsConstants.FETCH_UNITS_SUCCESS:
-      finalData = data;
-      if (meta.currentPage > 1) {
-        finalData = [...state.units.data, ...data];
-      }
-      return {
-        ...state,
-        units: {
-          ...state.units,
-          fetching: false,
-          fetched: true,
-          data: finalData,
-          meta,
-        },
-      };
+      return updateStateOnFetch(type, 'units', state, payload);
     case settingsConstants.FETCH_UNITS_ERROR:
-      return {
-        ...state,
-        units: {
-          ...state.units,
-          fetching: false,
-          fetched: false,
-          data: [],
-        },
-      };
-
+      return updateStateOnFetch(type, 'units', state, payload);
     case settingsConstants.FETCH_APPLIANCE_CATEGORY_REQUEST:
-      return {
-        ...state,
-        orgId: payload.params.orgId,
-        applianceCategory: {
-          ...state.applianceCategory,
-          fetching: true,
-          fetched: false,
-        },
-      };
+      return updateStateOnFetch(type, 'applianceCategory', state, payload);
     case settingsConstants.FETCH_APPLIANCE_CATEGORY_SUCCESS:
-      finalData = data;
-      if (meta.currentPage > 1) {
-        finalData = [...state.applianceCategory.data, ...data];
-      }
-      return {
-        ...state,
-        applianceCategory: {
-          ...state.applianceCategory,
-          fetching: false,
-          fetched: true,
-          data: finalData,
-          meta,
-        },
-      };
+      return updateStateOnFetch(type, 'applianceCategory', state, payload);
     case settingsConstants.FETCH_APPLIANCE_CATEGORY_ERROR:
-      return {
-        ...state,
-        applianceCategory: {
-          ...state.applianceCategory,
-          fetching: false,
-          fetched: false,
-          data: [],
-        },
-      };
-
+      return updateStateOnFetch(type, 'applianceCategory', state, payload);
     case settingsConstants.FETCH_PARAMETERS_REQUEST:
-      return {
-        ...state,
-        parameters: {
-          ...state.parameters,
-          fetching: true,
-          fetched: false,
-        },
-      };
+      return updateStateOnFetch(type, 'parameters', state, payload);
     case settingsConstants.FETCH_PARAMETERS_SUCCESS:
-      finalData = data;
-      if (meta.currentPage > 1) {
-        finalData = [...state.parameters.data, ...data];
-      }
-      return {
-        ...state,
-        parameters: {
-          ...state.parameters,
-          fetching: false,
-          fetched: true,
-          data: finalData,
-          meta,
-        },
-      };
+      return updateStateOnFetch(type, 'parameters', state, payload);
     case settingsConstants.FETCH_PARAMETERS_ERROR:
-      return {
-        ...state,
-        parameters: {
-          ...state.parameters,
-          fetching: false,
-          fetched: false,
-          data: [],
-        },
-      };
+      return updateStateOnFetch(type, 'parameters', state, payload);
     case settingsConstants.CREATE_APPLIANCE_CATEGORY_REQUEST:
-      return {
-        ...state,
-        createApplianceCategory: {
-          ...state.createApplianceCategory,
-          creating: true,
-          created: false,
-          errors: {},
-        },
-      };
+      return updateStateOnCreate(type, 'createApplianceCategory', state, payload);
     case settingsConstants.CREATE_APPLIANCE_CATEGORY_SUCCESS:
-      return {
-        ...state,
-        createApplianceCategory: {
-          ...state.createApplianceCategory,
-          creating: false,
-          created: true,
-          data,
-          errors: {},
-        },
-        applianceCategory: {
-          ...state.applianceCategory,
-          fetching: false,
-          fetched: false,
-          data: [data, ...state.applianceCategory.data],
-        },
-      };
+      return updateStateOnCreate(type, 'createApplianceCategory', state, payload, 'applianceCategory');
     case settingsConstants.CREATE_APPLIANCE_CATEGORY_ERROR:
-      return {
-        ...state,
-        createApplianceCategory: {
-          ...state.createApplianceCategory,
-          creating: false,
-          created: false,
-          data: {},
-          errors: payload.errors,
-        },
-      };
+      return updateStateOnCreate(type, 'createApplianceCategory', state, payload);
+    case settingsConstants.CREATE_APPLIANCE_REQUEST:
+      return updateStateOnCreate(type, 'createAppliance', state, payload);
+    case settingsConstants.CREATE_APPLIANCE_SUCCESS:
+      return updateStateOnCreate(type, 'createAppliance', state, payload, 'appliance');
+    case settingsConstants.CREATE_APPLIANCE_ERROR:
+      return updateStateOnCreate(type, 'createAppliance', state, payload, 'appliance');
     case settingsConstants.CREATE_PARAMETERS_REQUEST:
-      return {
-        ...state,
-        createParameter: {
-          ...state.createParameter,
-          creating: true,
-          created: false,
-          errors: {},
-        },
-      };
+      return updateStateOnCreate(type, 'createParameter', state, payload);
     case settingsConstants.CREATE_PARAMETERS_SUCCESS:
-      return {
-        ...state,
-        createParameter: {
-          ...state.createParameter,
-          creating: false,
-          created: true,
-          data,
-          errors: {},
-        },
-        parameters: {
-          ...state.parameters,
-          fetching: false,
-          fetched: false,
-          data: [data, ...state.parameters.data],
-        },
-      };
+      return updateStateOnCreate(type, 'createParameter', state, payload, 'parameters');
     case settingsConstants.CREATE_PARAMETERS_ERROR:
-      return {
-        ...state,
-        createParameter: {
-          ...state.createParameter,
-          creating: false,
-          created: false,
-          data: {},
-          errors: payload.errors,
-        },
-      };
+      return updateStateOnCreate(type, 'createParameter', state, payload, 'parameters');
+
     default:
       return state;
   }

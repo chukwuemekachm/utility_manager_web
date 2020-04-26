@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { searchUnits } from 'store/actions/setting';
 import { SettingObjectType } from 'store/reducers/setting';
 import { pickErrors } from 'helpers';
+import { useSearchDebounce } from 'helpers/customHooks';
 
 interface CreateParameterProps {
   handleSubmit: (trigger: string) => (values: Record<string, any>) => void;
@@ -26,22 +27,10 @@ interface CreateParameterProps {
 }
 export function CreateParameter(props: CreateParameterProps) {
   const { params, handleSubmit, hideModal, defaultValues, callSearchUnits, apiErrors, units } = props;
-  const [debounceId, setDebounceId] = React.useState<number>(0);
-  const [searchTextValue, setSearchTextValue] = React.useState('');
+  const [searchUnits] = useSearchDebounce(callSearchUnits, params);
+
   function handleTextInputChange(e) {
-    if (debounceId) {
-      clearTimeout(debounceId);
-    }
-    setSearchTextValue(e.target.value);
-    const newId = +setTimeout(() => {
-      callSearchUnits({
-        params: {
-          ...params,
-          searchValue: searchTextValue,
-        },
-      });
-    }, 800);
-    setDebounceId(newId);
+    searchUnits(e.target.value);
   }
   return (
     <Modal>

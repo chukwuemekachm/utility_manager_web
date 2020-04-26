@@ -8,12 +8,14 @@ import {
   createParameters,
   fetchParameters,
   fetchUnits,
+  resetSettingsStatus,
 } from 'store/actions/setting';
 import { SettingObjectType, CreateObjectType } from 'store/reducers/setting';
 import { OrgPortalProps } from '../index';
 import withOrganisationPortalContainer from 'components/containers/OrganisationPortalContainer';
 import { moveToNextPage } from 'store/actions/navigation';
 import CreateParameter from './CreateParameter';
+import { useSearchDebounce } from 'helpers/customHooks';
 
 interface SettingsProps extends OrgPortalProps {
   applianceCategory: SettingObjectType;
@@ -27,6 +29,7 @@ interface SettingsProps extends OrgPortalProps {
   createParameter: CreateObjectType;
   justCreated: boolean;
   handleSubmit: (trigger: string) => (values: Record<string, any>) => void;
+  resetStatus: () => void;
 }
 function Settings(props: SettingsProps) {
   const {
@@ -41,8 +44,8 @@ function Settings(props: SettingsProps) {
     justCreated,
     handleSubmit,
     moveToNextPage,
+    resetStatus,
   } = props;
-  type fetchDataType = (payload) => void;
   const defaultValues = {
     search: '',
     tabSelected: 0,
@@ -57,7 +60,6 @@ function Settings(props: SettingsProps) {
     unitId: '',
   };
   const params = { ...props.match.params, searchValue: '' };
-  const [debounceId, setDebounceId] = React.useState<number>(0);
   const [values, setValues] = React.useState(defaultValues);
   const [currentModal, setCurrentModal] = React.useState(0);
   const [currentWindow, setWindow] = React.useState(0);
@@ -79,8 +81,10 @@ function Settings(props: SettingsProps) {
     type = 'UNIT';
     fetchData = fetchUnits;
   }
+  const [searchValue] = useSearchDebounce(fetchData, params);
 
   React.useEffect(function(): void {
+    resetStatus();
     fetchApplianceCategory({ params });
   }, []);
 
@@ -98,19 +102,7 @@ function Settings(props: SettingsProps) {
       target: { value, name },
     } = event;
     setValues(prevState => ({ ...prevState, [name]: value }));
-
-    if (debounceId) {
-      clearTimeout(debounceId);
-    }
-    const newId = +setTimeout(() => {
-      fetchData({
-        params: {
-          ...params,
-          searchValue: value,
-        },
-      });
-    }, 800);
-    setDebounceId(newId);
+    searchValue(value);
   }
 
   function handleObjectClicked(type: string) {
@@ -193,6 +185,7 @@ const mapDispatchToProps = dispatch => ({
   callCreateApplianceCategory: (payload): void => dispatch(createApplianceCategory(payload)),
   moveToNextPage: (payload): void => dispatch(moveToNextPage(payload)),
   callCreateParameter: (payload): void => dispatch(createParameters(payload)),
+  resetStatus: (payload): void => dispatch(resetSettingsStatus(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withOrganisationPortalContainer(Settings));

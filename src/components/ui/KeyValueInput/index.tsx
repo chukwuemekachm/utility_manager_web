@@ -5,16 +5,18 @@ import Icon from 'components/ui/Icon';
 import InputQuickAction from 'components/ui/InputQuickAction';
 import __spacing from 'settings/__spacing';
 import { WHITE_SMOKE } from 'settings/__color';
+import InputErrors from 'components/ui/InputErrors';
 
 interface KeyValueProps extends SharedInputProps {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>, values?: object) => void;
 }
 
 export default function KeyValueInput(props: KeyValueProps) {
-  const { name, title, required, handleChange } = props;
-  const [values, setValues] = React.useState<object[]>([{}]);
+  const { name, title, required, handleChange, errorFeedback } = props;
+  const [values, setValues] = React.useState<object[]>([{ '': '' }]);
   function changeHandler(inputIdentifier: string) {
     return function(e) {
+      e.preventDefault();
       const [index, keyrValue] = inputIdentifier.split('-');
       const newValues = [...values];
       const item = newValues[+index];
@@ -28,14 +30,21 @@ export default function KeyValueInput(props: KeyValueProps) {
         };
       }
       e.target.name = name;
-      e.target.values = newValues;
-      handleChange && handleChange(e);
+      e.target.value = newValues;
+      const changeValues = newValues.reduce(
+        (prevValue, currentValue) => ({
+          ...prevValue,
+          [Object.keys(currentValue)[0]]: Object.values(currentValue)[0],
+        }),
+        {},
+      );
+      handleChange && handleChange(e, changeValues);
       setValues(newValues);
     };
   }
 
   function addItemHandler(e) {
-    setValues(prevState => [...prevState, {}]);
+    setValues(prevState => [...prevState, { '': '' }]);
   }
 
   function removeItemHandler(index: number) {
@@ -72,6 +81,7 @@ export default function KeyValueInput(props: KeyValueProps) {
       <InputQuickAction onClick={addItemHandler}>
         <Icon iconType="ios-add-circle-outline" color="BLUE" /> Add Item
       </InputQuickAction>
+      <InputErrors errorFeedback={errorFeedback} />
     </Input.Container>
   );
 }

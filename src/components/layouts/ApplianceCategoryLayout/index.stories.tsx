@@ -1,22 +1,30 @@
 import * as React from 'react';
 import ApplianceCategoryLayout from '.';
-import { number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import { defaultMeta } from 'store/reducers/setting';
 export default {
   component: ApplianceCategoryLayout,
   title: 'components/layouts/ApplianceCategoryLayout',
 };
-const handleChange = () => true;
+
 export const emptyStructure = () => {
   const values = { search: '', tabSelected: 0 };
   const applianceCategory = {
     name: 'Generator',
     description: 'A beautiful Genset gropuer',
   };
+  const appliances = {
+    data: [],
+    fetching: false,
+    fetched: true,
+    meta: defaultMeta,
+  };
   return (
     <ApplianceCategoryLayout
-      handleChange={handleChange}
+      appliances={appliances}
+      handleSearchAppliance={action('Searching Appliance')}
+      fetchData={action('Fetching...')}
+      params={{}}
       values={values}
       applianceCategory={applianceCategory}
       handleObjectClicked={action('objectClicked')}
@@ -53,9 +61,18 @@ export const layoutWithContnent = () => {
   };
 
   const values = { search: '', tabSelected: 0 };
+  const appliances = {
+    data: [],
+    fetching: false,
+    fetched: true,
+    meta: defaultMeta,
+  };
   return (
     <ApplianceCategoryLayout
-      handleChange={handleChange}
+      appliances={appliances}
+      handleSearchAppliance={action('Searching Appliance')}
+      fetchData={action('Fetching...')}
+      params={{}}
       values={values}
       applianceCategory={applianceCategory}
       handleObjectClicked={action('objectClicked')}
