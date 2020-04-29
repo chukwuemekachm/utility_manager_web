@@ -6,10 +6,14 @@ interface TableContentParserProps {
   children: (obj: Record<string, any>) => React.ReactNode;
   onClick?: Function;
   lastRef?: string;
+  headerConfig?: {
+    text: string;
+    flexValue: number;
+  }[];
 }
 
 export default function TableContentParser(props: TableContentParserProps) {
-  const { data = [], onClick, children, lastRef } = props;
+  const { data = [], onClick, children, lastRef, headerConfig } = props;
   if (data.length === 0) {
     return (
       <Table>
@@ -28,6 +32,16 @@ export default function TableContentParser(props: TableContentParserProps) {
 
   return (
     <Table>
+      {headerConfig && (
+        <TableCard isHeader>
+          {headerConfig.map((header, index) => (
+            <TableItem key={index} flexValue={header.flexValue}>
+              {header.text}
+            </TableItem>
+          ))}
+        </TableCard>
+      )}
+
       {data.map((obj, index) =>
         index == data.length - 1 ? (
           <TableCard lastRef={lastRef} key={index} onClick={onClick && onClickHandler(obj)}>

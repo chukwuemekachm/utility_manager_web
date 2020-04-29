@@ -7,11 +7,12 @@ interface ItemProps {
   children: React.ReactNode | string;
   textAlign?: string;
   onClick?: React.EventHandler<React.SyntheticEvent>;
-  mouseCursor?: boolean;
 }
 
 interface CardProps extends Pick<ItemProps, 'children' | 'onClick'> {
   lastRef?: string;
+  isHeader?: boolean;
+  mouseCursor?: boolean;
 }
 export function TableItem(props: ItemProps): React.ReactElement {
   const { children, flexValue = 1, textAlign = 'left' } = props;
@@ -22,9 +23,9 @@ export function TableItem(props: ItemProps): React.ReactElement {
   );
 }
 export function TableCard(props: CardProps): React.ReactElement {
-  const { children, onClick, lastRef = null } = props;
+  const { children, onClick, lastRef = null, isHeader = false } = props;
   return (
-    <TableCard.Wrapper ref={lastRef} mouseCursor={!!onClick} onClick={onClick}>
+    <TableCard.Wrapper isHeader={isHeader} ref={lastRef} mouseCursor={!!onClick} onClick={onClick}>
       {children}
     </TableCard.Wrapper>
   );
@@ -36,7 +37,7 @@ TableItem.Wrapper = styled.div<Pick<ItemProps, 'flexValue' | 'textAlign'>>`
   padding-left: 2%;
   width: 100%;
 `;
-TableCard.Wrapper = styled.div<Pick<ItemProps, 'mouseCursor'>>`
+TableCard.Wrapper = styled.div<CardProps>`
   display: flex;
   height: 3.125em;
   background-color: ${SECONDARY_LIGHT_SMOKE};
@@ -50,6 +51,8 @@ TableCard.Wrapper = styled.div<Pick<ItemProps, 'mouseCursor'>>`
     background-color: ${GAINS_BORO};
     cursor: pointer;
   `}
+
+  font-weight: ${props => (props.isHeader ? 'bold' : 'inherit')} ;
 `;
 
 function Table({ children }: Pick<ItemProps, 'children'>) {

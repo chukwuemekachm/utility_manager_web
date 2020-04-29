@@ -79,3 +79,38 @@ export const TableWithIcons = (): React.ReactElement<{}> => (
     </TableCard>
   </Table>
 );
+
+export const TableWithHeaders = (): React.ReactElement<{}> => (
+  <Table>
+    <TableCard isHeader>
+      <TableItem flexValue={1}>Date Logged</TableItem>
+      <TableItem flexValue={2}>Energy Consumed</TableItem>
+      <TableItem flexValue={2}>Power Rating</TableItem>
+      <TableItem flexValue={2}>Engine Speed</TableItem>
+    </TableCard>
+    <TableCard>
+      <TableItem flexValue={1}>21/01/2020 17:57</TableItem>
+      <TableItem flexValue={2}>379J</TableItem>
+      <TableItem flexValue={2}>3.5KVA</TableItem>
+      <TableItem flexValue={2}>21km/h</TableItem>
+    </TableCard>
+    <TableCard>
+      <TableItem flexValue={1}>21/01/2020 17:57</TableItem>
+      <TableItem flexValue={2}>379J</TableItem>
+      <TableItem flexValue={2}>3.5KVA</TableItem>
+      <TableItem flexValue={2}>21km/h</TableItem>
+    </TableCard>
+    <TableCard>
+      <TableItem flexValue={1}>21/01/2020 17:57</TableItem>
+      <TableItem flexValue={2}>379J</TableItem>
+      <TableItem flexValue={2}>3.5KVA</TableItem>
+      <TableItem flexValue={2}>21km/h</TableItem>
+    </TableCard>
+    <TableCard>
+      <TableItem flexValue={1}>21/01/2020 17:57</TableItem>
+      <TableItem flexValue={2}>379J</TableItem>
+      <TableItem flexValue={2}>3.5KVA</TableItem>
+      <TableItem flexValue={2}>21km/h</TableItem>
+    </TableCard>
+  </Table>
+);
