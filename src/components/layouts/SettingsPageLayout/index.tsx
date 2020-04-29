@@ -6,13 +6,12 @@ import Button from 'components/ui/Button';
 import TableContentParser from 'components/ui/TableContentParser';
 import { TableItem } from 'components/ui/Table';
 import { parseText } from 'helpers';
-import { SettingObjectType } from 'store/reducers/setting';
 import InfiniteScroll from 'components/ui/InfiniteScroll';
 import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
 import StickyContent from 'components/ui/StickyContent';
 
 interface SettingsLayoutProps {
-  settingsObjects: SettingObjectType;
+  settingsObjects: FetchDataType;
   type: 'CATEGORY' | 'UNIT' | 'PARAMETER' | string;
   children?: React.ReactNode;
   params: Record<string, any>;

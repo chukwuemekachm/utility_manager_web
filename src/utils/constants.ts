@@ -3,5 +3,29 @@ export enum STORAGE_KEYS {
 }
 
 export enum ImageOptions {
-  AVATAR = 'q_40',
+  AVATAR = 'w_300',
 }
+
+export const defaultMeta = {
+  currentPage: 0,
+  nextPage: null,
+  previousPage: null,
+  totalObjects: 0,
+  totalPages: 1,
+  maxObjectsPerPage: 0,
+};
+
+export const defaultFetchState = {
+  fetching: false,
+  fetched: false,
+  data: [],
+  meta: defaultMeta,
+  errors: {},
+};
+
+export const defaultCreateData = {
+  creating: false,
+  created: false,
+  data: {},
+  errors: {},
+};

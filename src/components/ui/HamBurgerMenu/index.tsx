@@ -1,65 +1,48 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import __spacing from 'settings/__spacing';
 import { fontSizes, fontWeights } from 'settings/__fonts';
 import Logo from 'components/ui/Logo';
 import { BRAND_WHITE, BLACK, BRAND_PRIMARY } from 'settings/__color';
 import { hideNavigationMenu } from 'store/actions/navigation';
 import { logout } from 'store/actions/auth';
+import { moveToNextPage } from 'store/actions/navigation';
 
 interface HamBurgerMenuProps {
   shouldNavMenuShow: boolean;
   hideNavMenu: () => void;
   callLogout: () => void;
+  moveToNextPage: (page: string) => void;
+  active?: boolean;
 }
 
 export function HamBurgerMenu({
   shouldNavMenuShow,
   hideNavMenu,
   callLogout,
+  moveToNextPage,
 }: HamBurgerMenuProps): React.ReactElement<{}> {
+  type ReturnType = {
+    active: boolean;
+    onClick: (e) => void;
+  };
+
   const handleLogout = (): void => {
     callLogout();
     hideNavMenu();
   };
 
-  function showActiveNav(pathname: string): void {
-    switch (pathname) {
-      case '/dashboard':
-        HamBurgerMenu.Item = styled.p`
-          #dashboard {
-            color: ${BRAND_PRIMARY};
-          }
-        `;
-        return;
-      case '/dashboard/profile':
-        HamBurgerMenu.Item = styled.p`
-          #profile {
-            color: ${BRAND_PRIMARY};
-          }
-        `;
-        return;
-      case '/dashboard/organisation':
-        HamBurgerMenu.Item = styled.p`
-          #organisation {
-            color: ${BRAND_PRIMARY};
-          }
-        `;
-        return;
-      case '/dashboard/password':
-        HamBurgerMenu.Item = styled.p`
-          #password {
-            color: ${BRAND_PRIMARY};
-          }
-        `;
-        return;
-    }
+  function retrieveProps(itemRoute): ReturnType {
+    const active = itemRoute == window.location.pathname;
+    return {
+      active,
+      onClick: e => {
+        !active && moveToNextPage(itemRoute);
+        !active && hideNavMenu();
+      },
+    };
   }
-
-  showActiveNav(window.location.pathname);
 
   return (
     <HamBurgerMenu.Wrapper>
@@ -69,33 +52,13 @@ export function HamBurgerMenu({
             <i className="icon ion-ios-close" onClick={(): void => hideNavMenu()} />
           </HamBurgerMenu.CloseContainer>
           <HamBurgerMenu.Content>
-            <HamBurgerMenu.Item onClick={(): void => hideNavMenu()}>
-              {' '}
-              <Link to="/dashboard" id="dashboard">
-                {' '}
-                Dashboard{' '}
-              </Link>{' '}
+            <HamBurgerMenu.Item {...retrieveProps('/dashboard')}>Dashboard</HamBurgerMenu.Item>
+
+            <HamBurgerMenu.Item {...retrieveProps('/dashboard/profile')}>Update Profile</HamBurgerMenu.Item>
+            <HamBurgerMenu.Item {...retrieveProps('/dashboard/organisation')}>
+              Create New User Organization
             </HamBurgerMenu.Item>
-            <HamBurgerMenu.Item onClick={(): void => hideNavMenu()}>
-              {' '}
-              <Link to="/dashboard/profile" id="profile">
-                {' '}
-                Update Profile{' '}
-              </Link>
-            </HamBurgerMenu.Item>
-            <HamBurgerMenu.Item onClick={(): void => hideNavMenu()}>
-              {' '}
-              <Link to="/dashboard/organisation" id="organisation">
-                Create New User Organization{' '}
-              </Link>
-            </HamBurgerMenu.Item>
-            <HamBurgerMenu.Item onClick={(): void => hideNavMenu()}>
-              {' '}
-              <Link to="/dashboard/password" id="password">
-                {' '}
-                Update Password{' '}
-              </Link>
-            </HamBurgerMenu.Item>
+            <HamBurgerMenu.Item {...retrieveProps('/dashboard/password')}>Update Password</HamBurgerMenu.Item>
             <HamBurgerMenu.Item onClick={(): void => handleLogout()}> Logout </HamBurgerMenu.Item>
           </HamBurgerMenu.Content>
           <HamBurgerMenu.Footer>
@@ -134,7 +97,6 @@ HamBurgerMenu.ContentWrapper = styled.div`
     from {
       right: -${__spacing.xxxLg};
     }
-
     to {
       right: 0;
     }
@@ -163,7 +125,9 @@ HamBurgerMenu.Content = styled.div`
   }
 `;
 
-HamBurgerMenu.Item = styled.p``;
+HamBurgerMenu.Item = styled.p<Pick<HamBurgerMenuProps, 'active'>>`
+  ${props => props.active && `color: ${BRAND_PRIMARY}; `}
+`;
 
 HamBurgerMenu.Footer = styled.div`
   position: relative;
@@ -180,6 +144,7 @@ HamBurgerMenu.LogoContainer = styled.div`
 const mapDispatchToProps = dispatch => ({
   hideNavMenu: (): void => dispatch(hideNavigationMenu()),
   callLogout: (): string => dispatch(logout({ showNotification: true })),
+  moveToNextPage: (nextPageRoute): void => dispatch(moveToNextPage({ nextPageRoute })),
 });
 
 const mapStateToProps = (state): Pick<HamBurgerMenuProps, 'shouldNavMenuShow'> => ({

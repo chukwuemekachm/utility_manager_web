@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { SettingObjectType } from 'store/reducers/setting';
 const { useCallback, useRef } = React;
 
 interface InfiniteScrollPrpos {
   children: (composedProps) => React.ReactNode;
-  retrievedData: SettingObjectType;
+  retrievedData: FetchDataType;
   fetchData: (payload) => void;
   params: Record<string, any>;
 }

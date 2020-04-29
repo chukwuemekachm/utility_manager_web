@@ -29,19 +29,6 @@ declare interface AuthState {
   message: string;
 }
 
-interface DashBoardState {
-  organisations: Array<unknown>;
-  meta: Record<string, any>;
-  status: {
-    isOrganisationFetched: boolean;
-    isOrganisationPending: boolean;
-    isOrganisationCreating: boolean;
-    isOrganisationCreated: boolean;
-    hasError: boolean;
-  };
-  message: string;
-}
-
 interface NavigationState {
   data: Record<string, any>;
   nextPageRoute: string;
@@ -71,4 +58,28 @@ declare interface AppState {
   navigation: NavigationState;
   dashboard: DashBoardState;
   router: Reducer<RouterState<any>, LocationChangeAction<any>>;
+}
+
+interface PaginatorMeta {
+  currentPage: number;
+  nextPage: number | null;
+  previousPage: number | null;
+  totalObjects: number;
+  totalPages: number;
+  maxObjectsPerPage: number;
+}
+
+interface FetchDataType {
+  fetching: boolean;
+  fetched: boolean;
+  data: Record<string, any>[];
+  meta: PaginatorMeta;
+  errors?: Record<string, unknown[]>;
+}
+
+interface CreateObjectType {
+  creating: boolean;
+  created: boolean;
+  data: Record<string, unknown>;
+  errors: Record<string, unknown[]>;
 }

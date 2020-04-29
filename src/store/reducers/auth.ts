@@ -163,7 +163,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         data: {},
       };
 
-    case authConstants.FETCH_PROFILE_REQUEST:
+    case authConstants.FETCH_USER_PROFILE_REQUEST:
       return {
         ...state,
         status: {
@@ -173,7 +173,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         },
       };
 
-    case authConstants.FETCH_PROFILE_ERROR:
+    case authConstants.FETCH_USER_PROFILE_ERROR:
       return {
         ...state,
         error: {
@@ -188,7 +188,7 @@ export default function authReducer(state: AuthState = initialState, { type, pay
         message: payload.message,
       };
 
-    case authConstants.FETCH_PROFILE_SUCCESS:
+    case authConstants.FETCH_USER_PROFILE_SUCCESS:
       return {
         ...state,
         profile: {

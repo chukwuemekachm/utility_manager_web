@@ -41,7 +41,7 @@ function* callCreateOrganisation(action) {
 }
 
 export function* watchCallFetchMyOrganisations() {
-  yield takeLatest(dashboardConstants.ORGANISATION_REQUEST, callFetchMyOrganisations);
+  yield takeLatest(dashboardConstants.FETCH_ORGANISATION_REQUEST, callFetchMyOrganisations);
 }
 
 export function* watchCallCreateOrganisations() {

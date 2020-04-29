@@ -10,7 +10,6 @@ import {
   fetchUnits,
   resetSettingsStatus,
 } from 'store/actions/setting';
-import { SettingObjectType, CreateObjectType } from 'store/reducers/setting';
 import { OrgPortalProps } from '../index';
 import withOrganisationPortalContainer from 'components/containers/OrganisationPortalContainer';
 import { moveToNextPage } from 'store/actions/navigation';
@@ -18,13 +17,13 @@ import CreateParameter from './CreateParameter';
 import { useSearchDebounce } from 'helpers/customHooks';
 
 interface SettingsProps extends OrgPortalProps {
-  applianceCategory: SettingObjectType;
+  applianceCategory: FetchDataType;
   fetchApplianceCategory: (payload) => void;
   fetchUnits: (payload) => void;
   fetchParameters: (payload) => void;
-  parameters: SettingObjectType;
-  searchedUnits: SettingObjectType;
-  units: SettingObjectType;
+  parameters: FetchDataType;
+  searchedUnits: FetchDataType;
+  units: FetchDataType;
   createApplianceCategory: CreateObjectType;
   createParameter: CreateObjectType;
   justCreated: boolean;

@@ -7,14 +7,14 @@ import { pickErrors } from 'helpers';
 import KeyValueInput from 'components/ui/KeyValueInput';
 import TagInput from 'components/ui/TagInput';
 import DropdownItem from 'components/ui/DropdownItem';
-import { SettingObjectType } from 'store/reducers/setting';
+
 interface AddApplianceModalProps {
   handleSubmit: (trigger: string) => (values: Record<string, any>) => void;
   hideModal: React.EventHandler<React.SyntheticEvent>;
   apiErrors?: Record<string, unknown>;
   categoryName: string;
   handleSearchParameters: (searchValue: string) => void;
-  searchedParams: SettingObjectType;
+  searchedParams: FetchDataType;
 }
 export default function AddApplianceModal(props: AddApplianceModalProps) {
   const {
