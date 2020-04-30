@@ -21,6 +21,9 @@ interface DashboardProps {
     verified: string;
     imageURL: string;
   };
+  status: Partial<{
+    isProfileFetched: boolean;
+  }>;
   fetchProfile: () => void;
   match: match<{}>;
   location: Location;
@@ -79,10 +82,13 @@ function Dashboard(props: DashboardProps): React.ReactElement<DashboardProps> {
     hideNavMenu,
     callLogout,
     handleClick,
+    status,
   } = props;
 
   React.useEffect(function(): void {
-    fetchProfile();
+    if (!status.isProfileFetched) {
+      fetchProfile();
+    }
   }, []);
 
   const pageTitle = getPageTitle(pathname);
@@ -107,8 +113,9 @@ function Dashboard(props: DashboardProps): React.ReactElement<DashboardProps> {
   );
 }
 
-const mapStateToProps = (state): Pick<DashboardProps, 'profile'> => ({
+const mapStateToProps = (state): Pick<DashboardProps, 'profile' | 'status'> => ({
   profile: state.auth.profile,
+  status: state.auth.status,
 });
 
 const mapDispatchToProps = (dispatch): Pick<DashboardProps, 'fetchProfile' | 'callLogout' | 'handleClick'> => ({

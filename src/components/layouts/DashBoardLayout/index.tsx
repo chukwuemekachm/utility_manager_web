@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
-
 import NavBar from 'components/ui/NavBar';
-import HamBurgerMenu from 'components/ui/HamBurgerMenu';
 import UserProfileCard from 'components/ui/UserProfileCard';
 import DashBoardTitle from 'components/ui/DashBoardTitle';
 import __spacing from 'settings/__spacing';
 import { WHITE_SMOKE } from 'settings/__color';
+import { transformCloudinaryURL } from 'utils/misc';
+import { ImageOptions } from 'utils/constants';
 
 export interface DashBoardLayoutProps {
   children: React.ReactNode;
@@ -25,11 +25,18 @@ const imgUrl =
 
 export default function DashBoardLayout(props: DashBoardLayoutProps): React.ReactElement<DashBoardLayoutProps> {
   const { children, email, firstName, lastName, imageURL, pageTitle, hideNavMenu, handleClick } = props;
+  const imageWithAvatarWidth = transformCloudinaryURL(imageURL, [ImageOptions.AVATAR]);
+
   return (
     <DashBoardLayout.Wrapper>
       <DashBoardLayout.ProfileWrapper>
         <NavBar handleClick={handleClick} />
-        <UserProfileCard email={email} firstName={firstName} lastName={lastName} imgUrl={imageURL || imgUrl} />
+        <UserProfileCard
+          email={email}
+          firstName={firstName}
+          lastName={lastName}
+          imgUrl={imageWithAvatarWidth || imgUrl}
+        />
       </DashBoardLayout.ProfileWrapper>
       <DashBoardLayout.PageTitleWrapper>
         <DashBoardTitle>{pageTitle}</DashBoardTitle>

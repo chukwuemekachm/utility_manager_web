@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ApplianceCategoryLayout from '.';
 import { action } from '@storybook/addon-actions';
-import { defaultMeta } from 'store/reducers/setting';
+import { defaultMeta } from 'utils/constants';
 export default {
   component: ApplianceCategoryLayout,
   title: 'components/layouts/ApplianceCategoryLayout',

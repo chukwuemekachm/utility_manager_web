@@ -186,7 +186,7 @@ export function* watchChangeUserPassword() {
 }
 
 export function* watchFetchProfile() {
-  yield takeLatest(authConstants.FETCH_PROFILE_REQUEST, fetchProfile);
+  yield takeLatest(authConstants.FETCH_USER_PROFILE_REQUEST, fetchProfile);
 }
 
 export function* watchUpdateProfile() {

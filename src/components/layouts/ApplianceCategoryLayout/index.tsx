@@ -11,10 +11,9 @@ import __spacing from 'settings/__spacing';
 import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
 import StickyContent from 'components/ui/StickyContent';
 import InfiniteScroll from 'components/ui/InfiniteScroll';
-import { SettingObjectType } from 'store/reducers/setting';
 
 interface CategoryLayoutProps {
-  appliances: SettingObjectType;
+  appliances: FetchDataType;
   applianceCategory: Record<string, string>;
   values: {
     search: string;

@@ -1,16 +1,16 @@
 import * as dashboardConstants from './constants';
 
 export const fetchCurrentUserOrganisations = (): Action => ({
-  type: dashboardConstants.ORGANISATION_REQUEST,
+  type: dashboardConstants.FETCH_ORGANISATION_REQUEST,
 });
 
 export const fetchCurrentUserOrganisationsError = (payload): Action => ({
-  type: dashboardConstants.ORGANISATION_ERROR,
+  type: dashboardConstants.FETCH_ORGANISATION_ERROR,
   payload,
 });
 
 export const fetchCurrentUserOrganisationsSuccess = (payload): Action => ({
-  type: dashboardConstants.ORGANISATION_SUCCESS,
+  type: dashboardConstants.FETCH_ORGANISATION_SUCCESS,
   payload,
 });
 

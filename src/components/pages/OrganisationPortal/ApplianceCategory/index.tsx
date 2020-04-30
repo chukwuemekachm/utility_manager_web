@@ -12,7 +12,6 @@ import {
   createAppliance,
   fetchAppliances,
 } from 'store/actions/setting';
-import { SettingObjectType } from 'store/reducers/setting';
 import { useSearchDebounce } from '../../../../helpers/customHooks';
 
 interface CategoryProps extends OrgPortalProps {
@@ -24,8 +23,8 @@ interface CategoryProps extends OrgPortalProps {
   fetchSingleApplianceCategory: Function;
   fetchCategoryAppliances: (payload: any) => void;
   category: Record<string, any>;
-  categoryAppliances: SettingObjectType;
-  parameters: SettingObjectType;
+  categoryAppliances: FetchDataType;
+  parameters: FetchDataType;
   retrieveParameters: (payload) => void;
 }
 

@@ -9,56 +9,37 @@ import { transformCloudinaryURL } from 'utils/misc';
 import { ImageOptions } from 'utils/constants';
 import { moveToNextPage } from 'store/actions/navigation';
 
-interface OrganisationProps {
-  id: string;
-  organisation: {
-    id: string;
-    createdAt: string;
-    name: string;
-    logoUrl: string;
-  };
-  role: {
-    name: string;
-  };
-}
-
 interface MyOrganisationsProps {
   img: string;
   name: string;
   role: { name: string };
   date: string;
-  isOrganisationPending: boolean;
-  isOrganizationFetched: boolean;
-  organisations: OrganisationProps[];
+  userOrgs: FetchDataType;
   fetchCurrentUserOrganisations: () => void;
   moveToNextPage: Function;
 }
 
 export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement<MyOrganisationsProps> {
-  const {
-    fetchCurrentUserOrganisations,
-    organisations,
-    isOrganisationPending,
-    isOrganizationFetched,
-    moveToNextPage,
-  } = props;
+  const { fetchCurrentUserOrganisations, userOrgs, moveToNextPage } = props;
 
   React.useEffect(function(): void {
-    fetchCurrentUserOrganisations();
+    if (!userOrgs.fetched && !userOrgs.fetching) {
+      fetchCurrentUserOrganisations();
+    }
   }, []);
-
-  if (isOrganisationPending) return <MyOrganisations.Message>...Loading</MyOrganisations.Message>;
 
   function navigateToPortal(orgId: string) {
     return function() {
       moveToNextPage(`/organisation/${orgId}/charts`);
     };
   }
+  if (userOrgs.fetching) return <MyOrganisations.Message>...Loading</MyOrganisations.Message>;
+
   return (
     <MyOrganisations.Wrapper>
-      {isOrganizationFetched && organisations.length ? (
+      {!userOrgs.fetching && userOrgs.data.length ? (
         <>
-          {organisations.map(org => (
+          {userOrgs.data.map(org => (
             <MyOrganisations.OrgItem key={org.organisation.id} onClick={navigateToPortal(org.organisation.id)}>
               <OrganisationCard
                 img={transformCloudinaryURL(org.organisation.logoUrl, [ImageOptions.AVATAR])}
@@ -76,12 +57,8 @@ export function MyOrganisations(props: MyOrganisationsProps): React.ReactElement
   );
 }
 
-const mapStateToProps = (
-  state,
-): Pick<MyOrganisationsProps, 'isOrganisationPending' | 'isOrganizationFetched' | 'organisations'> => ({
-  organisations: state.dashboard.organisations,
-  isOrganisationPending: state.dashboard.status.isOrganisationPending,
-  isOrganizationFetched: state.dashboard.status.isOrganisationFetched,
+const mapStateToProps = ({ dashboard: { userOrgs } }): Pick<MyOrganisationsProps, 'userOrgs'> => ({
+  userOrgs: userOrgs,
 });
 
 const mapDispatchToProps = (

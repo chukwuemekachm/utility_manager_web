@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { dashboardConstants } from 'store/actions/dashboard';
+import { defaultFetchState, defaultCreateData } from 'utils/constants';
+import { updateStateOnFetch, updateStateOnCreate } from 'helpers/reducerHelpers';
 
-const initialState = {
-  organisations: [],
-  meta: {},
-  status: {
-    hasError: false,
-    isOrganisationFetched: false,
-    isOrganisationPending: true,
-    isOrganisationCreated: false,
-    isOrganisationCreating: false,
-  },
-  message: '',
+export interface DashboardState {
+  userOrgs: FetchDataType;
+  createOrganisation: CreateObjectType;
+}
+const initialState: DashboardState = {
+  userOrgs: defaultFetchState,
+  createOrganisation: defaultCreateData,
 };
 
 const defaultPayload = {
@@ -22,72 +20,17 @@ const defaultPayload = {
   meta: {},
 };
 
-export default function dashboardReducer(state = initialState, { type, payload = defaultPayload }): DashBoardState {
+export default function dashboardReducer(state = initialState, { type, payload = defaultPayload }): DashboardState {
   switch (type) {
-    case dashboardConstants.ORGANISATION_REQUEST:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          isOrganisationPending: true,
-          hasError: false,
-        },
-      };
+    case dashboardConstants.FETCH_ORGANISATION_REQUEST:
+    case dashboardConstants.FETCH_ORGANISATION_ERROR:
+    case dashboardConstants.FETCH_ORGANISATION_SUCCESS:
+      return updateStateOnFetch(type, 'userOrgs', state, payload);
 
-    case dashboardConstants.ORGANISATION_SUCCESS:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          isOrganisationPending: false,
-          isOrganisationFetched: true,
-          hasError: false,
-        },
-        organisations: payload.data,
-        meta: { ...state.meta, ...payload.meta },
-      };
-
-    case dashboardConstants.ORGANISATION_ERROR:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          isOrganisationPending: false,
-          hasError: true,
-        },
-        message: payload.message,
-      };
     case dashboardConstants.CREATE_ORGANISATION_REQUEST:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          hasError: false,
-          isOrganisationCreated: false,
-          isOrganisationCreating: true,
-        },
-      };
-
-    case dashboardConstants.CREATE_ORGANISATION_SUCCESS:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          hasError: false,
-          isOrganisationCreated: true,
-          isOrganisationCreating: false,
-        },
-      };
     case dashboardConstants.CREATE_ORGANISATION_ERROR:
-      return {
-        ...state,
-        status: {
-          ...state.status,
-          hasError: true,
-          isOrganisationCreated: false,
-          isOrganisationCreating: false,
-        },
-      };
+    case dashboardConstants.CREATE_ORGANISATION_SUCCESS:
+      return updateStateOnCreate(type, 'createOrganisation', state, payload);
 
     default:
       return state;

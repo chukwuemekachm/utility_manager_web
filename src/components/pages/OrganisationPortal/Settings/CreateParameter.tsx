@@ -8,7 +8,6 @@ import SearchInput from 'components/ui/SearchInput';
 import DropdownItem from 'components/ui/DropdownItem';
 import { connect } from 'react-redux';
 import { searchUnits } from 'store/actions/setting';
-import { SettingObjectType } from 'store/reducers/setting';
 import { pickErrors } from 'helpers';
 import { useSearchDebounce } from 'helpers/customHooks';
 
@@ -23,7 +22,7 @@ interface CreateParameterProps {
   params: object;
   apiErrors?: Record<string, unknown>;
   callSearchUnits: (args: Record<string, unknown>) => void;
-  units: SettingObjectType;
+  units: FetchDataType;
 }
 export function CreateParameter(props: CreateParameterProps) {
   const { params, handleSubmit, hideModal, defaultValues, callSearchUnits, apiErrors, units } = props;

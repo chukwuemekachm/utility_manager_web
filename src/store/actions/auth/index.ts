@@ -93,16 +93,16 @@ export const forgotPasswordError = (payload): Action => ({
 });
 
 export const fetchProfile = (): Action => ({
-  type: authConstants.FETCH_PROFILE_REQUEST,
+  type: authConstants.FETCH_USER_PROFILE_REQUEST,
 });
 
 export const fetchProfileError = (payload): Action => ({
-  type: authConstants.FETCH_PROFILE_ERROR,
+  type: authConstants.FETCH_USER_PROFILE_ERROR,
   payload,
 });
 
 export const fetchProfileSuccess = (payload): Action => ({
-  type: authConstants.FETCH_PROFILE_SUCCESS,
+  type: authConstants.FETCH_USER_PROFILE_SUCCESS,
   payload,
 });
 
