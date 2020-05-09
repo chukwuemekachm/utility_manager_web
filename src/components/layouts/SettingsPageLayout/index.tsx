@@ -9,6 +9,7 @@ import { parseText } from 'helpers';
 import InfiniteScroll from 'components/ui/InfiniteScroll';
 import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
 import StickyContent from 'components/ui/StickyContent';
+import TableCell from '@material-ui/core/TableCell';
 
 interface SettingsLayoutProps {
   settingsObjects: FetchDataType;
@@ -27,30 +28,61 @@ interface SettingsLayoutProps {
   handleCreateBtnClicked: React.EventHandler<React.SyntheticEvent>;
 }
 
-function objectToComponent(type: string) {
-  return function Component(obj): React.ReactNode {
+function objectToComponent(type: string, isHeader = false) {
+  return function Component(obj?: any): React.ReactNode {
     switch (type.toUpperCase()) {
       case 'CATEGORY':
-        return (
+        return isHeader ? (
           <>
-            <TableItem flexValue={2}>{obj.name}</TableItem>
-            <TableItem flexValue={10}>{parseText(obj.description, 80)}</TableItem>
+            <th style={{ width: '25%' }} align="left">
+              Name
+            </th>
+            <th align="left">Description</th>
+          </>
+        ) : (
+          <>
+            <td style={{ width: '25%' }} align="left">
+              {obj.name}
+            </td>
+            <td align="left">{parseText(obj.description, 80)}</td>
           </>
         );
+
       case 'PARAMETER':
-        return (
+        return isHeader ? (
           <>
-            <TableItem flexValue={2}>{obj.name}</TableItem>
-            <TableItem flexValue={10}>{obj.valueType}</TableItem>
+            <th style={{ width: '25%' }} align="left">
+              Name
+            </th>
+            <th align="left">Value Type</th>
+          </>
+        ) : (
+          <>
+            <td style={{ width: '25%' }} align="left">
+              {obj.name}
+            </td>
+            <td align="left">{obj.valueType}</td>
           </>
         );
+
       case 'UNIT':
-        return (
+        return isHeader ? (
           <>
-            <TableItem flexValue={2}>{obj.symbol}</TableItem>
-            <TableItem flexValue={10}>{parseText(obj.name, 80)}</TableItem>
+            <th style={{ width: '25%' }} align="left">
+              {' '}
+              Name{' '}
+            </th>
+            <th align="left">Symbol</th>
+          </>
+        ) : (
+          <>
+            <td style={{ width: '25%' }} align="left">
+              {parseText(obj.name, 80)}
+            </td>
+            <td align="left">{obj.symbol}</td>
           </>
         );
+
       default:
         return <div></div>;
     }
@@ -108,7 +140,13 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
           </SettingsPageLayout.Search>
 
           <SettingsPageLayout.NewItem>
-            <Button type="button" isLoading={false} disabled={false} handleClick={handleCreateBtnClicked}>
+            <Button
+              leftIcon="md-add"
+              type="button"
+              isLoading={false}
+              disabled={false}
+              handleClick={handleCreateBtnClicked}
+            >
               Create New
             </Button>
           </SettingsPageLayout.NewItem>
@@ -117,12 +155,16 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
       <div>
         <InfiniteScroll params={params} retrievedData={settingsObjects} fetchData={fetchData}>
           {({ lastItemRef, data }) => (
-            <TableContentParser lastRef={lastItemRef} data={data} onClick={onTableItemClick}>
+            <TableContentParser
+              lastRef={lastItemRef}
+              headerParser={objectToComponent(type, true)}
+              data={data}
+              onClick={onTableItemClick}
+            >
               {objectToComponent(type)}
             </TableContentParser>
           )}
         </InfiniteScroll>
-        {}
       </div>
     </>
   );
@@ -143,6 +185,8 @@ SettingsPageLayout.ControlsWrapper = styled.div`
       padding-left: 0;
     }
   }
+
+  margin-bottom: 3%;
 `;
 
 SettingsPageLayout.NewItem = styled.div`
