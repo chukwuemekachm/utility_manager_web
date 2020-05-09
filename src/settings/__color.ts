@@ -12,3 +12,19 @@ export const WHITE_SMOKE = '#F5F5F5';
 export const LIGHT_SEA_GREEN = '#00BB8F';
 export const ORANGE = '#FEB500';
 export const SECONDARY_LIGHT_SMOKE = '#fafafa';
+
+export default {
+  BRAND_PRIMARY,
+  BRAND_PRIMARY_HOVER,
+  BRAND_WHITE,
+  BLACK,
+  GRAY,
+  LIGHT_GRAY,
+  GAINS_BORO,
+  CRIMSON,
+  RED_ORANGE,
+  WHITE_SMOKE,
+  LIGHT_SEA_GREEN,
+  ORANGE,
+  SECONDARY_LIGHT_SMOKE,
+};

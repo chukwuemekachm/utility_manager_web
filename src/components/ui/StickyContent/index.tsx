@@ -14,8 +14,9 @@ StickyContent.Wrapper = styled.div`
   position: sticky;
   top: 8%;
   padding-top: 2%;
-  padding-bottom: 2%;
+  /* padding-bottom: 2%; */
   background-color: white;
+  z-index: 2;
 `;
 
 export default StickyContent;

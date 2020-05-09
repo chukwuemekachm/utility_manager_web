@@ -10,8 +10,8 @@ export default {
 const contentParserFn = obj => {
   return (
     <>
-      <TableItem flexValue={2}>{obj.name}</TableItem>
-      <TableItem flexValue={10}>{obj.description}</TableItem>
+      <td>{obj.name}</td>
+      <td>{obj.description}</td>
     </>
   );
 };
@@ -42,8 +42,15 @@ export const TableWithHeader = () => {
     { text: 'Name', flexValue: 2 },
     { text: 'Description', flexValue: 10 },
   ];
+
+  const headerParser = () => (
+    <>
+      <th>Name</th>
+      <th>Description</th>
+    </>
+  );
   return (
-    <TableContentParser headerConfig={headerConfig} data={data}>
+    <TableContentParser headerParser={headerParser} data={data}>
       {contentParserFn}
     </TableContentParser>
   );

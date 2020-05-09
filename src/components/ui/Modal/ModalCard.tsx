@@ -7,11 +7,17 @@ export interface ModalCardProps {
   cardTitle: string;
   children: React.ReactNode;
   handleToggleModal: React.EventHandler<React.SyntheticEvent>;
+  size?: string;
 }
 
-function ModalCard({ children, cardTitle, handleToggleModal }: ModalCardProps): React.ReactElement<ModalCardProps> {
+function ModalCard({
+  children,
+  cardTitle,
+  handleToggleModal,
+  size = 'SMALL',
+}: ModalCardProps): React.ReactElement<ModalCardProps> {
   return (
-    <ModalCard.Wrapper>
+    <ModalCard.Wrapper size={size}>
       <ModalCard.Header>{cardTitle}</ModalCard.Header>
       <ModalCard.CancelIcon onClick={handleToggleModal}>&times;</ModalCard.CancelIcon>
       <ModalCard.Body>{children}</ModalCard.Body>
@@ -21,17 +27,18 @@ function ModalCard({ children, cardTitle, handleToggleModal }: ModalCardProps): 
 
 const headerFont = convertFromPixelsToRem(20);
 const paddingSize = convertFromPixelsToRem(20);
-ModalCard.Wrapper = styled.div`
+ModalCard.Wrapper = styled.div<Pick<ModalCardProps, 'size'>>`
   position: relative;
   width: 100%;
-  height: auto;
+  overflow: auto;
+  /* height: auto; */
   background-color: white;
   border-radius: ${convertFromPixelsToRem(3)};
   @media only screen and (min-width: 768px) {
     width: 50%;
   }
   @media only screen and (min-width: 992px) {
-    width: 25%;
+    width: ${props => (props.size === 'NORMAL' ? '50%' : props.size === 'LARGE' ? '75%' : '25%')};
   }
 `;
 ModalCard.Header = styled.span`

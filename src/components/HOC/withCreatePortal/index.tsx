@@ -13,11 +13,12 @@ type ModalRefProp = {
 export default function withCreatePortal(WrappedComponent, elementId: string) {
   return function(props: ComponentProps) {
     const modalRef: ModalRefProp = useRef({}) as React.MutableRefObject<Element>;
-    if (!modalRef.current) {
+    if (!modalRef.current || !Object.keys(modalRef.current).length) {
       modalRef.current = document.createElement('div');
     }
     useEffect(() => {
       const modalRoot = document.getElementById(elementId);
+
       modalRoot && modalRoot.appendChild(modalRef.current);
       return (): void => {
         modalRoot && modalRef.current && modalRoot.removeChild(modalRef.current);

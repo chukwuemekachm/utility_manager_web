@@ -4,8 +4,7 @@ import TableContentParser from 'components/ui/TableContentParser';
 import Input from 'components/ui/Input';
 import Button from 'components/ui/Button';
 import ReadMore from 'components/ui/ReadMore';
-import { BRAND_PRIMARY } from 'settings/__color';
-import { fontSizes } from 'settings/__fonts';
+import Heading from 'components/ui/Heading';
 import { TableItem } from 'components/ui/Table';
 import __spacing from 'settings/__spacing';
 import { OrgPortalHeading } from 'components/layouts/NavigationLayout';
@@ -59,7 +58,9 @@ export default function ApplianceCategoryPageLayout(props: CategoryLayoutProps) 
         </ReadMore>
 
         <ApplianceCategoryPageLayout.ControlsWrapper>
-          <ApplianceCategoryPageLayout.Heading>Appliances</ApplianceCategoryPageLayout.Heading>
+          <Heading type="h2" css="flex: 7;" color="BRAND_PRIMARY" size="medium">
+            Appliances
+          </Heading>
           <ApplianceCategoryPageLayout.Search>
             <Input
               iconLabel="md-search"
@@ -114,10 +115,4 @@ ApplianceCategoryPageLayout.ControlsWrapper = styled.div`
 
 ApplianceCategoryPageLayout.NewItem = styled.div`
   flex: 2;
-`;
-
-ApplianceCategoryPageLayout.Heading = styled.h2`
-  color: ${BRAND_PRIMARY};
-  font-size: ${fontSizes.medium};
-  flex: 7;
 `;

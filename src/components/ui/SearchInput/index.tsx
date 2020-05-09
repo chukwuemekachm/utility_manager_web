@@ -8,6 +8,7 @@ import { fontSizes } from 'settings/__fonts';
 import Input, { SharedInputProps } from 'components/ui/Input';
 import InputQuickAction from 'components/ui/InputQuickAction';
 import InputErrors from 'components/ui/InputErrors';
+import Icon from 'components/ui/Icon';
 import { DropdownItemContainer } from 'components/ui/DropdownItem';
 
 import { GAINS_BORO } from 'settings/__color';
@@ -20,6 +21,7 @@ interface SearchInputItemProps {
   active?: boolean;
   itemSelected?: boolean;
   autoFocus?: boolean;
+  iconLabel?: string;
 }
 
 interface ChildrenProps {
@@ -32,6 +34,7 @@ interface SearchInputProps extends SharedInputProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleTextInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  iconLabel?: string;
 }
 
 export default function SearchInput(props: SearchInputProps) {
@@ -46,6 +49,7 @@ export default function SearchInput(props: SearchInputProps) {
     handleTextInputChange,
     handleBlur,
     required,
+    iconLabel,
   } = props;
 
   const defaultNode = <SearchInput.Placeholder>{placeholder}</SearchInput.Placeholder>;
@@ -96,8 +100,13 @@ export default function SearchInput(props: SearchInputProps) {
     <Input.Container tabIndex={tabIndex} onBlur={onBlur}>
       <Input.Label required={required}>{title}</Input.Label>
       <SearchInput.SelectBox itemSelected={itemSelected}>
-        <DropdownItemContainer active={active}>{children(composeProps())}</DropdownItemContainer>
+        <DropdownItemContainer active={active}>{children && children(composeProps())}</DropdownItemContainer>
         <SearchInput.Content onClick={contentClickHandler}>
+          {iconLabel && (
+            <Input.IconLabel>
+              <Icon iconType={iconLabel} size="NORMAL" />
+            </Input.IconLabel>
+          )}
           {showInput && (
             <input autoFocus={autoFocus} type="text" onChange={onChange} value={searchText} placeholder={placeholder} />
           )}
@@ -123,7 +132,8 @@ SearchInput.SearchBox = styled.div`
 SearchInput.Content = styled.div`
   border: 1px solid ${GAINS_BORO};
   border-radius: 3px;
-  margin: ${__spacing.xSmall} 0;
+  /* margin: ${__spacing.xSmall} 0; */
+  margin-top: ${__spacing.xSmall};
   display: flex;
   align-items: center;
   input {
@@ -134,6 +144,7 @@ SearchInput.Content = styled.div`
     border: none;
     outline: none;
   }
+  width: 100%;
 `;
 SearchInput.SelectBox = styled.div<Pick<SearchInputItemProps, 'itemSelected'>>`
   font-size: ${fontSizes.small};
