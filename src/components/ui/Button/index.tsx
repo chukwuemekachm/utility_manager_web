@@ -18,6 +18,7 @@ export interface ButtonProps {
   leftIcon?: string;
   rightIcon?: string;
   inverted?: boolean;
+  leftIconColor?: string;
 }
 
 function Button(props: ButtonProps): React.ReactElement<ButtonProps> {
@@ -30,23 +31,28 @@ function Button(props: ButtonProps): React.ReactElement<ButtonProps> {
     disabled = false,
     leftIcon,
     rightIcon,
+    leftIconColor = BRAND_PRIMARY,
   } = props;
 
   return (
     <Button.Wrapper>
       {!isLoading ? (
         <>
-          <Button.Component inverted={inverted} type={type} onClick={handleClick} disabled={disabled}>
+          <Button.Component inverted={disabled || inverted} type={type} onClick={handleClick} disabled={disabled}>
             {leftIcon && (
               <div className="left-icon">
-                <Icon color="WHITE" iconType={leftIcon} size="LARGE"></Icon>
+                <Icon
+                  color={disabled ? 'WHITE' : leftIconColor || (inverted ? 'BLUE' : 'WHITE')}
+                  iconType={leftIcon}
+                  size="LARGE"
+                />
               </div>
             )}
             <div>{children}</div>
 
             {rightIcon && (
               <div className="right-icon">
-                <Icon iconType={rightIcon} size="LARGE"></Icon>
+                <Icon color={disabled ? 'WHITE' : inverted ? 'BLUE' : 'WHITE'} iconType={rightIcon} size="LARGE"></Icon>
               </div>
             )}
           </Button.Component>
@@ -69,16 +75,16 @@ Button.Wrapper = styled.div`
   /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1); */
 `;
 
-Button.Component = styled.button<Pick<ButtonProps, 'inverted'>>`
+Button.Component = styled.button<Pick<ButtonProps, 'inverted' | 'disabled'>>`
   height: 100%;
   width: 100%;
   padding: 0;
   text-align: center;
   font-size: ${fontSizes.small};
   font-weight: ${fontWeights.bold};
-  border: ${props => (props.inverted ? 'solid' : 'none')} 1px ${BRAND_PRIMARY};
+  border: ${props => (props.disabled || !props.inverted ? 'none' : 'solid')} 1px ${BRAND_PRIMARY};
   background: ${props => (props.inverted ? BRAND_WHITE : BRAND_PRIMARY)};
-  color: ${props => (props.inverted ? BRAND_PRIMARY : BRAND_WHITE)};
+  color: ${props => (props.disabled ? BRAND_WHITE : props.inverted ? BRAND_PRIMARY : BRAND_WHITE)};
   border-radius: ${convertFromPixelsToRem(3)};
   box-shadow: ${props => !props.inverted && '0px 4px 4px rgba(0, 0, 0, 0.1)'};
   display: flex;

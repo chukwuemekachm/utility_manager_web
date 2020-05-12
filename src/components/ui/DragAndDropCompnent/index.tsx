@@ -38,7 +38,6 @@ export default function DragAndDrop(props: DragAndDropProps) {
     const newValues = draggableElements.map(element => ({
       value: element.dataset.value,
     }));
-
     onChange(
       e,
       newValues.map(item => idToObjectMapper[item.value]),

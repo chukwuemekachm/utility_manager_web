@@ -22,9 +22,18 @@ export const unitsRequest = {
   SINGLE_UNIT: '/org/:orgId/units/:parameterId',
 };
 
+export const logsRequest = {
+  LOGS: '/org/:orgId/logs',
+};
+
 export const applianceCategoryRequest = {
   APPLIANCE_CATEGORY: '/org/:orgId/appliance-category',
   SINGLE: '/org/:orgId/appliance-category/:categoryId',
+};
+
+export const applianceRequest = {
+  APPLIANCE: '/org/:orgId/appliances',
+  SINGLE: '/org/:orgId/appliances/:applianceId',
 };
 
 export default {
@@ -33,4 +42,6 @@ export default {
   parameters: parametersRequest,
   applianceCategory: applianceCategoryRequest,
   units: unitsRequest,
+  logs: logsRequest,
+  appliance: applianceRequest,
 };

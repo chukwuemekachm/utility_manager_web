@@ -6,6 +6,7 @@ import navigation from 'store/reducers/navigation';
 import dashboard from 'store/reducers/dashboard';
 import auth from 'store/reducers/auth';
 import setting from 'store/reducers/setting';
+import logs from 'store/reducers/logs';
 
 export default function createRootReducer(history) {
   return combineReducers({
@@ -14,6 +15,7 @@ export default function createRootReducer(history) {
     navigation,
     dashboard,
     setting,
+    logs,
     router: connectRouter(history),
   });
 }

@@ -10,56 +10,50 @@ import { fontSizes } from 'settings/__fonts';
 import Heading from 'components/ui/Heading';
 import { GAINS_BORO, BRAND_PRIMARY_HOVER } from 'settings/__color';
 import DragAndDropCompnent from 'components/ui/DragAndDropCompnent';
+import { MAX_COLUMNS_IN_TABLE } from 'utils/constants';
 
+export interface ColumnType {
+  children: string;
+  value: string;
+  checked: boolean;
+}
 interface ChooseColumnsModalProps {
   hideModal: (e) => void;
   handleSave: (currentSelectedColumns) => void;
+  initialColumns: ColumnType[];
+  initalDragAndDropValues: ColumnType[];
+  filterColumns: (currentSearchValue) => (column, index?: number) => boolean;
 }
 
 export default function ChooseColumnsModal(props: ChooseColumnsModalProps) {
-  const { hideModal, handleSave } = props;
-  type ColumnType = {
-    children: string;
-    value: string;
-    checked: boolean;
-  };
-  const initalColumns: ColumnType[] = [
-    { children: 'Energy', value: 'id1', checked: false },
-    { children: 'Power Rating', value: 'id2', checked: false },
-    { children: 'Energy Consumed	', value: 'id3', checked: false },
-    { children: 'Engine Speed', value: 'id4', checked: false },
-    { children: 'Energy 1', value: 'id5', checked: false },
-    { children: 'Energy 2', value: 'id6', checked: false },
-    { children: 'Energy 3	', value: 'id7', checked: false },
-    { children: 'Engine Speed 2', value: 'id8', checked: false },
-    { children: 'Energy 4', value: 'id8', checked: false },
-    { children: 'Energy 5', value: 'id9', checked: false },
-  ];
+  const { hideModal, handleSave, initialColumns, initalDragAndDropValues, filterColumns } = props;
 
-  const [columns, setColumns] = React.useState<ColumnType[]>(initalColumns);
+  const [columns, setColumns] = React.useState<ColumnType[]>(initialColumns);
   const [maxColumnHasBeenSelected, setMaxColumnSelected] = React.useState(false);
-  const [dragAndDropValues, setDragAndDropValues] = React.useState<ColumnType[]>([]);
-  const [currentSelectedColumns, setCurrentSelectedColumns] = React.useState<ColumnType[]>([]);
+  const [dragAndDropValues, setDragAndDropValues] = React.useState<ColumnType[]>(initalDragAndDropValues);
+  const [currentSelectedColumns, setCurrentSelectedColumns] = React.useState<ColumnType[]>(initalDragAndDropValues);
+  const [currenSearchValue, setSearchValue] = React.useState('');
+
+  const [filteredColumns, setFilteredColumns] = React.useState(initialColumns);
+
+  React.useEffect(() => {
+    setFilteredColumns(columns.filter(filterColumns(currenSearchValue)));
+  }, [currenSearchValue, columns]);
 
   const onDragChange = (e, newValues: Extract<any, ColumnType>[], removedValue?: Extract<any, ColumnType>) => {
-    console.log('old=>', dragAndDropValues);
-    console.log('new=>', newValues);
-
     if (removedValue) {
       const removedArr = (removedValue ? [removedValue] : []).map(col => ({
         ...col,
         checked: false,
       }));
-      console.log('removed', removedArr, removedValue);
-      setCurrentSelectedColumns([...newValues]);
       setColumns(prevState => [...prevState, ...removedArr]);
       setMaxColumnSelected(false);
     }
+    setCurrentSelectedColumns([...newValues]);
   };
 
   const onSave = e => {
     e.preventDefault();
-    console.log(currentSelectedColumns);
     handleSave(currentSelectedColumns);
   };
   const onMoveToDrag = () => {
@@ -69,14 +63,25 @@ export default function ChooseColumnsModal(props: ChooseColumnsModalProps) {
     setCurrentSelectedColumns(prevState => [...prevState, ...foundColumns]);
   };
 
-  const onCheck = (e, index) => {
-    const newColumns = [...columns];
-    newColumns[index].checked = !newColumns[index].checked;
+  const onCheck = (e, checkedColumn) => {
+    const newColumns = columns.map(column => {
+      if (checkedColumn.value === column.value) {
+        return {
+          ...column,
+          checked: !column.checked,
+        };
+      }
+      return column;
+    });
     const checkedCount = newColumns.reduce((prevValue, currentColumn) => prevValue + +currentColumn.checked, 0);
     setColumns(newColumns);
-    console.log('currentSelectedColumns->', currentSelectedColumns);
-    setMaxColumnSelected(currentSelectedColumns.length + checkedCount >= 5);
+    setMaxColumnSelected(currentSelectedColumns.length + checkedCount >= MAX_COLUMNS_IN_TABLE);
   };
+
+  const onSearchColumns = e => {
+    setSearchValue(e.target.value);
+  };
+
   return (
     <Modal>
       <ModalCard size="NORMAL" cardTitle="Customize Columns" handleToggleModal={hideModal}>
@@ -93,19 +98,20 @@ export default function ChooseColumnsModal(props: ChooseColumnsModalProps) {
                   name=""
                   autoComplete="off"
                   title=""
-                  handleChange={() => console.log('Finding Params...')}
+                  handleChange={onSearchColumns}
                   iconLabel="md-search"
+                  value={currenSearchValue}
                 />
               </div>
 
               <div className="control-wrapper">
                 <ul>
-                  {columns.map((column, index) => (
+                  {filteredColumns.map((column, index) => (
                     <li key={index}>
                       <Checkbox
                         value={column.toString()}
                         checked={column.checked}
-                        handleChange={e => onCheck(e, index)}
+                        handleChange={e => onCheck(e, column)}
                         disabled={maxColumnHasBeenSelected && !column.checked}
                       >
                         {column.children}
@@ -158,7 +164,8 @@ export default function ChooseColumnsModal(props: ChooseColumnsModalProps) {
 
 ChooseColumnsModal.Container = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 80vh;
+  position: relative;
   .header-wrapper {
     margin-bottom: 6%;
   }
@@ -176,6 +183,9 @@ ChooseColumnsModal.Container = styled.div`
         margin-right: 20px;
       }
     }
+    position: absolute;
+    bottom: 0;
+    width: 100%;
   }
 
   .first-item {
@@ -189,16 +199,21 @@ ChooseColumnsModal.Wrapper = styled.div`
   .left,
   .right,
   .move {
-    flex: 5;
+    width: 45%;
   }
   .move {
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: ${fontSizes.large};
-    flex: 1;
+    width: 10%;
     &:hover {
       cursor: pointer;
+    }
+    padding: 1em;
+    > div {
+      position: absolute;
+      top: 40%;
     }
   }
 

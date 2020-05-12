@@ -77,7 +77,7 @@ HamBurgerMenu.Wrapper = styled.div`
   text-align: center;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 4;
 `;
 
 HamBurgerMenu.ContentWrapper = styled.div`
