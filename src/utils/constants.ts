@@ -29,3 +29,5 @@ export const defaultCreateData = {
   data: {},
   errors: {},
 };
+
+export const MAX_COLUMNS_IN_TABLE = 10;

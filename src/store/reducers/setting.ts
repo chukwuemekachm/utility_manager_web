@@ -15,7 +15,7 @@ interface StateType {
   singleApplianceCategory: SingleApplianceCategory;
   units: FetchDataType;
   searchedUnits: FetchDataType;
-  appliance: FetchDataType;
+  appliances: FetchDataType;
   createApplianceCategory: CreateObjectType;
   createParameter: CreateObjectType;
   createAppliance: CreateObjectType;
@@ -41,7 +41,7 @@ const initialState: StateType = {
   },
   parameters: defaultFetchState,
   applianceCategory: defaultFetchState,
-  appliance: defaultFetchState,
+  appliances: defaultFetchState,
   units: defaultFetchState,
   searchedUnits: defaultFetchState,
   createApplianceCategory: defaultCreateData,
@@ -60,10 +60,14 @@ const defaultPayload = {
   categoriesData: undefined,
   appliancesData: undefined,
   errors: {},
+  clearParams: false,
+  clearCategory: false,
+  clearUnits: false,
 };
 
 export default function settingsReducer(state = initialState, { type, payload = defaultPayload }) {
   const { data } = payload;
+  const defaultData = { data: [] };
   switch (type) {
     case settingsConstants.RESET_SETTING_STATUS:
       return {
@@ -72,16 +76,19 @@ export default function settingsReducer(state = initialState, { type, payload = 
           ...state.parameters,
           fetched: false,
           fetching: false,
+          ...(payload.clearParams ? defaultData : {}),
         },
         applianceCategory: {
           ...state.applianceCategory,
           fetched: false,
           fetching: false,
+          ...(payload.clearCategory ? defaultData : {}),
         },
         units: {
           ...state.units,
           fetched: false,
           fetching: false,
+          ...(payload.clearUnits ? defaultData : {}),
         },
       };
     case settingsConstants.JUST_CREATED_DATA:
@@ -123,7 +130,7 @@ export default function settingsReducer(state = initialState, { type, payload = 
     case settingsConstants.FETCH_APPLIANCES_REQUEST:
     case settingsConstants.FETCH_APPLIANCES_SUCCESS:
     case settingsConstants.FETCH_APPLIANCES_ERROR:
-      return updateStateOnFetch(type, 'appliance', state, payload);
+      return updateStateOnFetch(type, 'appliances', state, payload);
 
     case settingsConstants.SEARCH_UNITS_REQUEST:
     case settingsConstants.SEARCH_UNITS_SUCCESS:

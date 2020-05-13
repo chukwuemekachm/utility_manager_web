@@ -65,7 +65,7 @@ TableContentParser.Div = styled.div<Pick<TableContentParserProps, 'top'>>`
   th,
   td {
     /* display: table-cell; */
-    padding: 16px;
+    padding: 1em;
     font-family: 'Fira Sans', sans-serif;
     font-weight: 400;
     line-height: 1.43;

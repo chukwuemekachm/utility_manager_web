@@ -23,7 +23,7 @@ import {
   fetchAppliancesSuccess,
 } from 'store/actions/setting';
 import { errorHandler, successHandler } from 'store/helpers';
-import api, { applianceCategoryRequest, parametersRequest, unitsRequest } from 'services/api';
+import api, { applianceCategoryRequest, parametersRequest, unitsRequest, applianceRequest } from 'services/api';
 import { settingsConstants } from 'store/actions/setting';
 
 function* callFetchSingleApplianceCategory(action) {
@@ -40,10 +40,21 @@ function* callFetchSingleApplianceCategory(action) {
 
 function* callFetchAppliances(action) {
   try {
-    const { orgId, categoryId, pageNumber = 1, searchValue = '' } = action.payload.params;
-    let categoryURL = applianceCategoryRequest.SINGLE.replace(':orgId', orgId);
-    categoryURL = categoryURL.replace(':categoryId', categoryId);
-    const applianceURL = `${categoryURL}/appliances?page=${pageNumber}&label_search=${searchValue}&page_limit=20`;
+    const {
+      orgId,
+      pageNumber = 1,
+      searchValue = '',
+      searchKeys = [],
+      sortKeys = '+category_name',
+    } = action.payload.params;
+    let applianceURL = applianceRequest.APPLIANCE.replace(':orgId', orgId);
+    // let filterStr = `page=${pageNumber}&category_id_search${categoryId}&label_search=${searchValue}&page_limit=20`;
+    let filterStr = `page=${pageNumber}&page_limit=20&sort_keys=${sortKeys}`;
+    for (const searchKey of searchKeys) {
+      filterStr += `&${searchKey}_search=${searchValue}`;
+    }
+    applianceURL = `${applianceURL}?${filterStr}`;
+
     const { data } = yield call([api, 'get'], applianceURL);
     yield put(fetchAppliancesSuccess(data));
   } catch (error) {
@@ -121,11 +132,14 @@ function* callFetchUnits(action) {
 
 function* callFetchParameters(action) {
   try {
-    const { orgId, pageNumber = 1, searchValue } = action.payload.params;
+    const { orgId, pageNumber = 1, searchValue, searchKeys = ['name_search'], pageLimit = 20 } = action.payload.params;
     let url = parametersRequest.PARAMETER.replace(':orgId', orgId);
+    url = `${url}?page=${pageNumber}&page_limit=${pageLimit}`;
+    searchKeys.forEach(key => {
+      url += `&${key}_search=${searchValue}`;
+    });
 
-    url = `${url}?page=${pageNumber}&name_search=${searchValue}&page_limit=20`;
-    const { data } = yield call([api, 'get'], url, action.payload);
+    const { data } = yield call([api, 'get'], url);
     yield put(fetchParametersSuccess(data));
   } catch (error) {
     yield fork(errorHandler, error, fetchParametersError);
@@ -143,6 +157,7 @@ function* callSearchUnits(action) {
     yield fork(errorHandler, error, searchUnitsError);
   }
 }
+
 export default function* settingsSaga() {
   yield takeLatest(settingsConstants.FETCH_UNITS_REQUEST, callFetchUnits);
   yield takeLatest(settingsConstants.FETCH_SINGLE_APPLIANCE_CATEGORY_REQUEST, callFetchSingleApplianceCategory);

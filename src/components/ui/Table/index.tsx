@@ -26,7 +26,6 @@ export function TableItem(props: ItemProps): React.ReactElement {
 }
 export function TableCard(props: CardProps): React.ReactElement {
   const { children, onClick, lastRef = null, isHeader = false, thickness } = props;
-  console.log('thickness', thickness);
   return (
     <TableCard.Wrapper
       thickness={thickness}

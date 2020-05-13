@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import __spacing from 'settings/__spacing';
-import { WHITE_SMOKE } from 'settings/__color';
+import { WHITE_SMOKE, GRAY } from 'settings/__color';
 
 export interface DropdownItemProps {
   children: React.ReactNode;
@@ -62,6 +62,22 @@ export default function DropdownItem(props: DropdownItemProps) {
     </DropdownItem.Wrapper>
   );
 }
+
+interface GroupProps {
+  label: string;
+}
+export function DropdownGroup(props: GroupProps) {
+  const { label } = props;
+
+  return <DropdownGroup.Label>{label}</DropdownGroup.Label>;
+}
+
+DropdownGroup.Label = styled.label`
+  padding-left: ${__spacing.xSmall};
+  margin-top: ${__spacing.small};
+  display: block;
+  color: ${GRAY};
+`;
 
 DropdownItem.Wrapper = styled.div`
   padding: ${__spacing.small};
