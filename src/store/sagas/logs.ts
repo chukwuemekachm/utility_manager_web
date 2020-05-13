@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { takeLatest, fork, call, put } from 'redux-saga/effects';
 
-import { fetchLogsError, fetchLogsSuccess } from 'store/actions/applianceLogs';
+import { fetchLogsError, fetchLogsSuccess } from 'store/actions/logs';
 import { errorHandler } from 'store/helpers';
 import api, { logsRequest } from 'services/api';
-import { logsConstants } from 'store/actions/applianceLogs';
+import { logsConstants } from 'store/actions/logs';
 
 function* callFetchLogs(action) {
   try {

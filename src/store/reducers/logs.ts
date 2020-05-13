@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { logsConstants } from 'store/actions/applianceLogs';
+import { logsConstants } from 'store/actions/logs';
 import { defaultFetchState, defaultMeta } from 'utils/constants';
 import { updateStateOnFetch, updateStateOnCreate } from 'helpers/reducerHelpers';
 
