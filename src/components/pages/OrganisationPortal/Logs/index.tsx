@@ -5,7 +5,7 @@ import LogLayout from 'components/layouts/LogsLayout';
 import withOrganisationPortalContainer from 'components/containers/OrganisationPortalContainer';
 import { fetchAppliances, fetchParameters, resetSettingsStatus } from 'store/actions/setting';
 
-import { fetchLogs } from 'store/actions/applianceLogs';
+import { fetchLogs } from 'store/actions/logs';
 import { useSearchDebounce } from 'helpers/customHooks';
 
 interface LoggingPageProps extends OrgPortalProps {
