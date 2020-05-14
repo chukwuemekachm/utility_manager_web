@@ -1,4 +1,5 @@
 import React from 'react';
+import { action } from '@storybook/addon-actions';
 import TableContentParser from '.';
 import { TableItem } from '../Table';
 
@@ -50,7 +51,11 @@ export const TableWithHeader = () => {
     </>
   );
   return (
-    <TableContentParser headerParser={headerParser} data={data}>
+    <TableContentParser
+      handleDisplayMoreAction={action('handleDisplayMoreAction!!')}
+      headerParser={headerParser}
+      data={data}
+    >
       {contentParserFn}
     </TableContentParser>
   );

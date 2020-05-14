@@ -12,13 +12,14 @@ export type ButtonType = 'submit' | 'button' | 'reset';
 export interface ButtonProps {
   type?: ButtonType;
   children: React.ReactNode;
-  isLoading: boolean;
+  isLoading?: boolean;
   handleClick?: React.EventHandler<React.SyntheticEvent>;
   disabled: boolean;
   leftIcon?: string;
   rightIcon?: string;
   inverted?: boolean;
   leftIconColor?: string;
+  borderColor?: string;
 }
 
 function Button(props: ButtonProps): React.ReactElement<ButtonProps> {
@@ -32,13 +33,20 @@ function Button(props: ButtonProps): React.ReactElement<ButtonProps> {
     leftIcon,
     rightIcon,
     leftIconColor = BRAND_PRIMARY,
+    borderColor,
   } = props;
 
   return (
     <Button.Wrapper>
       {!isLoading ? (
         <>
-          <Button.Component inverted={disabled || inverted} type={type} onClick={handleClick} disabled={disabled}>
+          <Button.Component
+            inverted={disabled || inverted}
+            type={type}
+            onClick={handleClick}
+            disabled={disabled}
+            borderColor={borderColor}
+          >
             {leftIcon && (
               <div className="left-icon">
                 <Icon
@@ -82,7 +90,8 @@ Button.Component = styled.button<Pick<ButtonProps, 'inverted' | 'disabled'>>`
   text-align: center;
   font-size: ${fontSizes.small};
   font-weight: ${fontWeights.bold};
-  border: ${props => (props.disabled || !props.inverted ? 'none' : 'solid')} 1px ${BRAND_PRIMARY};
+  border: ${props => (props.disabled || !props.inverted ? 'none' : props.borderColor ? props.borderColor : 'solid')} 1px
+    ${BRAND_PRIMARY};
   background: ${props => (props.inverted ? BRAND_WHITE : BRAND_PRIMARY)};
   color: ${props => (props.disabled ? BRAND_WHITE : props.inverted ? BRAND_PRIMARY : BRAND_WHITE)};
   border-radius: ${convertFromPixelsToRem(3)};

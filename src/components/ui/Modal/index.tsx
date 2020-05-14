@@ -20,7 +20,9 @@ Modal.Wrapper = styled.div`
   z-index: 5;
   background-color: rgba(0, 0, 0, 0.3);
   align-items: center;
-  justify-content: center;
+  justify-content:
+
+  center;
   overflow: auto;
 `;
 export default withCreatePortal(Modal, '__MODAL__');

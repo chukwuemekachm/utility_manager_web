@@ -26,6 +26,9 @@ interface SettingsLayoutProps {
   handleChange: React.EventHandler<React.SyntheticEvent>;
   handleObjectClicked: (type: string) => ((obj: Record<string, string>) => void) | null;
   handleCreateBtnClicked: React.EventHandler<React.SyntheticEvent>;
+  displayMoreActionHandler: Function;
+  actionIndex: number;
+  inViewRef: React.RefObject<any>;
 }
 
 function objectToComponent(type: string, isHeader = false) {
@@ -38,6 +41,7 @@ function objectToComponent(type: string, isHeader = false) {
               Name
             </th>
             <th align="left">Description</th>
+            <th align="left">Actions</th>
           </>
         ) : (
           <>
@@ -55,6 +59,7 @@ function objectToComponent(type: string, isHeader = false) {
               Name
             </th>
             <th align="left">Value Type</th>
+            <th align="left">Actions</th>
           </>
         ) : (
           <>
@@ -73,6 +78,7 @@ function objectToComponent(type: string, isHeader = false) {
               Name{' '}
             </th>
             <th align="left">Symbol</th>
+            <th align="left">Actions</th>
           </>
         ) : (
           <>
@@ -100,6 +106,9 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
     fetchData,
     params,
     type,
+    displayMoreActionHandler,
+    actionIndex,
+    inViewRef,
   } = props;
   const onTableItemClick = handleObjectClicked(type) || undefined;
 
@@ -160,6 +169,9 @@ export default function SettingsPageLayout(props: SettingsLayoutProps) {
               headerParser={objectToComponent(type, true)}
               data={data}
               onClick={onTableItemClick}
+              handleDisplayMoreAction={displayMoreActionHandler}
+              indexOfAction={actionIndex}
+              refAction={inViewRef}
             >
               {objectToComponent(type)}
             </TableContentParser>

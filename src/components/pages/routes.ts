@@ -26,4 +26,9 @@ export default [
     component: withSuspense({ page: 'OrganisationPortal' }),
     exact: false,
   },
+  {
+    path: '/more',
+    component: withSuspense({ page: 'MoreAction' }),
+    exact: true,
+  },
 ];
