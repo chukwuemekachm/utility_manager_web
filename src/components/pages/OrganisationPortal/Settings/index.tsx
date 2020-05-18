@@ -62,6 +62,8 @@ function Settings(props: SettingsProps) {
   const [values, setValues] = React.useState(defaultValues);
   const [currentModal, setCurrentModal] = React.useState(0);
   const [currentWindow, setWindow] = React.useState(0);
+  const [displayActionIndex, setDisplayActionIndex] = React.useState();
+  const displayMoreActionRef = React.useRef(null);
 
   let data, type: string, fetchData;
   type = '';
@@ -82,11 +84,22 @@ function Settings(props: SettingsProps) {
   }
   const [searchValue] = useSearchDebounce(fetchData, params);
 
-  React.useEffect(function(): void {
-    resetStatus();
-    fetchApplianceCategory({ params });
-  }, []);
-
+  React.useEffect(
+    function() {
+      function handleBur() {
+        if (typeof displayActionIndex === 'number') {
+          setDisplayActionIndex(null);
+        }
+      }
+      resetStatus();
+      fetchApplianceCategory({ params });
+      window.addEventListener('click', handleBur);
+      return function(): void {
+        window.removeEventListener('click', handleBur);
+      };
+    },
+    [displayActionIndex],
+  );
   function handleTabChange(tabNumber: number): void {
     setWindow(tabNumber);
     if (tabNumber == 2 && !units.fetched && !units.fetching) {
@@ -113,7 +126,16 @@ function Settings(props: SettingsProps) {
 
     return null;
   }
-
+  /**
+   * Handles display more action
+   * @param rowIndex
+   * @returns null
+   */
+  function handleDisplayMoreAction(rowIndex): null {
+    console.log('moreAction', rowIndex);
+    setDisplayActionIndex(rowIndex);
+    return null;
+  }
   // TODO: The image here is supposed to the retrieved from organisation data in the store
   //       Also there should be a width transformation of the image as previously discussed
 
@@ -139,6 +161,9 @@ function Settings(props: SettingsProps) {
         type={type}
         handleObjectClicked={handleObjectClicked}
         handleCreateBtnClicked={toggleModal(true)}
+        displayMoreActionHandler={handleDisplayMoreAction}
+        actionIndex={displayActionIndex}
+        inViewRef={displayMoreActionRef}
         params={{
           ...params,
           searchValue: values.search,

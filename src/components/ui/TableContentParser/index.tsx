@@ -1,18 +1,35 @@
 import * as React from 'react';
-import { WHITE_SMOKE } from 'settings/__color';
+import { WHITE_SMOKE, BRAND_WHITE } from 'settings/__color';
 import styled from '@emotion/styled';
+import MoreButton from 'components/ui/MoreButton';
+import Button from 'components/ui/Button';
+import MoreActionWrap from 'components/ui/MoreActionWrap';
 
+import MoreAction from 'components/ui/MoreAction';
 interface TableContentParserProps {
+  handleDisplayMoreAction: Function;
+  indexOfAction?: number;
   data?: object[];
   children: (obj: Record<string, any>) => React.ReactNode;
   onClick?: Function;
   lastRef?: React.RefObject<any>;
+  refAction?: React.RefObject<any>;
   headerParser?: () => React.ReactNode;
   top?: string;
+  blurHandler?: React.ReactEventHandler;
 }
 
 export default function TableContentParser(props: TableContentParserProps) {
-  const { data = [], onClick, children, lastRef, headerParser, top } = props;
+  const {
+    data = [],
+    children,
+    lastRef,
+    blurHandler,
+    headerParser,
+    top,
+    handleDisplayMoreAction,
+    indexOfAction,
+  } = props;
 
   return (
     <TableContentParser.Div top={top}>
@@ -35,9 +52,19 @@ export default function TableContentParser(props: TableContentParserProps) {
               index == data.length - 1 ? (
                 <tr key={index} ref={lastRef}>
                   {children(obj)}
+                  <TableContentParser.MoreAction>
+                    <MoreButton handleClick={handleDisplayMoreAction} actionIndex={index} />
+                    {indexOfAction === index && <MoreActionWrap blurHandler={blurHandler} />}
+                  </TableContentParser.MoreAction>
                 </tr>
               ) : (
-                <tr key={index}>{children(obj)}</tr>
+                <tr key={index}>
+                  {children(obj)}
+                  <TableContentParser.MoreAction>
+                    <MoreButton handleClick={handleDisplayMoreAction} actionIndex={index} />
+                    {indexOfAction === index && <MoreActionWrap blurHandler={blurHandler} />}
+                  </TableContentParser.MoreAction>
+                </tr>
               ),
             )
           )}
@@ -72,6 +99,9 @@ TableContentParser.Div = styled.div<Pick<TableContentParserProps, 'top'>>`
     border-bottom: 1px solid rgba(224, 224, 224, 1);
     vertical-align: inherit;
   }
+  tr {
+    position: relative;
+  }
 
   th {
     position: -webkit-sticky;
@@ -81,4 +111,8 @@ TableContentParser.Div = styled.div<Pick<TableContentParserProps, 'top'>>`
     font-weight: bold;
     z-index: 1;
   }
+`;
+TableContentParser.MoreAction = styled.td`
+  width: 5px;
+  position: relative;
 `;
